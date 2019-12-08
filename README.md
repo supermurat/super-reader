@@ -1,7 +1,7 @@
 [![Build Status](https://travis-ci.org/supermurat/super-reader.svg?branch=master)](https://travis-ci.org/supermurat/super-reader)
-[![BrowserStack Status](https://automate.browserstack.com/badge.svg?badge_key=NW5WdStCU1RVVVpZOERoaGFFMnc0VWJRVlF3MVBYQ29EQWswWTJ1bmU1ST0tLTB1T3JrNmpFQWpvcDJwTGZoTHF6Snc9PQ==--d4bf8976f4d2485a4971d6606e5a72bd0559a8cb)](https://automate.browserstack.com/public-build/NW5WdStCU1RVVVpZOERoaGFFMnc0VWJRVlF3MVBYQ29EQWswWTJ1bmU1ST0tLTB1T3JrNmpFQWpvcDJwTGZoTHF6Snc9PQ==--d4bf8976f4d2485a4971d6606e5a72bd0559a8cb)
+[![BrowserStack Status](https://automate.browserstack.com/badge.svg?badge_key=dE92a1lOcnZxMG9NMll2SDIzZzlEZmxBNjNUaFBzeXQrTnFEdWRKSW1iaz0tLVZucm5qLzFtQmlWVVYwQ2VmeWtBSXc9PQ==--c37874dfcb66631639e45a22460ff76a244ba707)](https://automate.browserstack.com/public-build/dE92a1lOcnZxMG9NMll2SDIzZzlEZmxBNjNUaFBzeXQrTnFEdWRKSW1iaz0tLVZucm5qLzFtQmlWVVYwQ2VmeWtBSXc9PQ==--c37874dfcb66631639e45a22460ff76a244ba707)
 [![Coverage Status](https://coveralls.io/repos/github/supermurat/super-reader/badge.svg?branch=master)](https://coveralls.io/github/supermurat/super-reader?branch=master)
-[![Codacy Badge](https://api.codacy.com/project/badge/Grade/d8bd28c7d9e4499aa0e0cee622fe2352)](https://www.codacy.com/app/supermurat/super-reader?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=supermurat/super-reader&amp;utm_campaign=Badge_Grade)
+[![Codacy Badge](https://api.codacy.com/project/badge/Grade/b86f0a97369148a79b87818359dd0aa9)](https://www.codacy.com/manual/supermurat/super-reader?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=supermurat/super-reader&amp;utm_campaign=Badge_Grade)
 [![Angular Style Guide](https://mgechev.github.io/angular2-style-guide/images/badge.svg)](https://angular.io/styleguide)
 
 [![Dependency Status](https://david-dm.org/supermurat/super-reader.svg)](https://david-dm.org/supermurat/super-reader)
@@ -17,7 +17,10 @@
 [![commit activity](https://img.shields.io/github/commit-activity/w/supermurat/super-reader.svg)](https://github.com/supermurat/super-reader/commits/master)
 
 # super-reader
-All-In-One firebase and angular project.
+This is my personal RSS reader application. 
+If you want to use this application, 
+you can fork it on github 
+and setup your own firebase project.
 
 ## Install global dependencies
 ```sh
