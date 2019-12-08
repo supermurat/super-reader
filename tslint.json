@@ -1,0 +1,30 @@
+{
+  "rulesDirectory": [
+    "node_modules/codelyzer"
+  ],
+  "extends": [
+    "angular-tslint-rules"
+  ],
+  "rules": {
+    "component-selector": [
+      true,
+      "element",
+      ["app"],
+      "kebab-case"
+    ],
+    "directive-selector": [
+      true,
+      "attribute",
+      ["app"],
+      "camelCase"
+    ],
+    "template-i18n": [
+      true,
+      "check-text"
+    ],
+    "label-position": true,
+    "object-literal-sort-keys": false,
+    "completed-docs": true,
+    "template-cyclomatic-complexity": [true, 7]
+  }
+}

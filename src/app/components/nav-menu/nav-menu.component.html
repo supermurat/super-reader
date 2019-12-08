@@ -1,0 +1,26 @@
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
+    <div class="container">
+        <a class="navbar-brand" [routerLink]="['/home']" i18n>Super Reader</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbar-supported-content" aria-controls="navbar-supported-content" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <div class="collapse navbar-collapse" id="navbar-supported-content">
+            <ul class="navbar-nav mr-auto">
+                <li class="nav-item" [routerLinkActive]="['active']" data-toggle="collapse" data-target=".navbar-collapse.show"
+                    *ngFor="let mainMenuItem of mainMenuItems; trackBy:pageService.trackByIndex">
+                    <a class="nav-link" [routerLink]="mainMenuItem.url">
+                        <span>{{ mainMenuItem.text }}</span> <span class="sr-only" i18n>(current)</span>
+                    </a>
+                </li>
+            </ul>
+            <ul class="navbar-nav" id="lang">
+                <li class="nav-item" *ngFor="let language of languages$ | async; trackBy:pageService.trackByIndex">
+                    <a class="nav-link" [href]="language.url">
+                        <span>{{ language.languageName }}</span><span *ngIf="!language.isExist" i18n> (Home)</span>
+                    </a>
+                </li>
+            </ul>
+        </div>
+    </div>
+</nav>

@@ -1,0 +1,467 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xliff version="1.2" xmlns="urn:oasis:names:tc:xliff:document:1.2">
+  <file source-language="en" datatype="plaintext" original="ng2.template" target-language="tr">
+    <body>
+      <trans-unit id="ngb.alert.close" datatype="html">
+        <source>Close</source>
+        <target>Kapat</target>
+
+      <context-group purpose="location"><context context-type="sourcefile">../node_modules/@ng-bootstrap/ng-bootstrap/alert/alert.d.ts</context><context context-type="linenumber">3</context></context-group></trans-unit>
+      <trans-unit id="ngb.carousel.previous" datatype="html">
+        <source>Previous</source>
+        <target>Önceki</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">../node_modules/@ng-bootstrap/ng-bootstrap/carousel/carousel.d.ts</context>
+          <context context-type="linenumber">13</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="ngb.carousel.next" datatype="html">
+        <source>Next</source>
+        <target>Sonraki</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">../node_modules/@ng-bootstrap/ng-bootstrap/carousel/carousel.d.ts</context>
+          <context context-type="linenumber">17</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="ngb.datepicker.previous-month" datatype="html">
+        <source>Previous month</source>
+        <target>Önceki ay</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">../node_modules/@ng-bootstrap/ng-bootstrap/datepicker/datepicker-navigation.d.ts</context>
+          <context context-type="linenumber">4</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">../node_modules/@ng-bootstrap/ng-bootstrap/datepicker/datepicker-navigation.d.ts</context>
+          <context context-type="linenumber">5</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="ngb.datepicker.next-month" datatype="html">
+        <source>Next month</source>
+        <target>Sonraki ay</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">../node_modules/@ng-bootstrap/ng-bootstrap/datepicker/datepicker-navigation.d.ts</context>
+          <context context-type="linenumber">26</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">../node_modules/@ng-bootstrap/ng-bootstrap/datepicker/datepicker-navigation.d.ts</context>
+          <context context-type="linenumber">27</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="ngb.datepicker.select-month" datatype="html">
+        <source>Select month</source>
+        <target>Ay seç</target>
+
+
+      <context-group purpose="location"><context context-type="sourcefile">../node_modules/@ng-bootstrap/ng-bootstrap/datepicker/datepicker-navigation-select.d.ts</context><context context-type="linenumber">5</context></context-group><context-group purpose="location"><context context-type="sourcefile">../node_modules/@ng-bootstrap/ng-bootstrap/datepicker/datepicker-navigation-select.d.ts</context><context context-type="linenumber">6</context></context-group></trans-unit>
+      <trans-unit id="ngb.datepicker.select-year" datatype="html">
+        <source>Select year</source>
+        <target>Yıl seç</target>
+
+
+      <context-group purpose="location"><context context-type="sourcefile">../node_modules/@ng-bootstrap/ng-bootstrap/datepicker/datepicker-navigation-select.d.ts</context><context context-type="linenumber">13</context></context-group><context-group purpose="location"><context context-type="sourcefile">../node_modules/@ng-bootstrap/ng-bootstrap/datepicker/datepicker-navigation-select.d.ts</context><context context-type="linenumber">14</context></context-group></trans-unit>
+      <trans-unit id="ngb.pagination.first" datatype="html">
+        <source>««</source>
+        <target>««</target>
+
+      <context-group purpose="location"><context context-type="sourcefile">../node_modules/@ng-bootstrap/ng-bootstrap/pagination/pagination.d.ts</context><context context-type="linenumber">2</context></context-group></trans-unit>
+      <trans-unit id="ngb.pagination.first-aria" datatype="html">
+        <source>First</source>
+        <target>İlk</target>
+
+      <context-group purpose="location"><context context-type="sourcefile">../node_modules/@ng-bootstrap/ng-bootstrap/pagination/pagination.d.ts</context><context context-type="linenumber">14</context></context-group></trans-unit>
+      <trans-unit id="ngb.pagination.previous" datatype="html">
+        <source>«</source>
+        <target>«</target>
+
+      <context-group purpose="location"><context context-type="sourcefile">../node_modules/@ng-bootstrap/ng-bootstrap/pagination/pagination.d.ts</context><context context-type="linenumber">3</context></context-group></trans-unit>
+      <trans-unit id="ngb.pagination.previous-aria" datatype="html">
+        <source>Previous</source>
+        <target>Önceki</target>
+
+      <context-group purpose="location"><context context-type="sourcefile">../node_modules/@ng-bootstrap/ng-bootstrap/pagination/pagination.d.ts</context><context context-type="linenumber">23</context></context-group></trans-unit>
+      <trans-unit id="ngb.pagination.next" datatype="html">
+        <source>»</source>
+        <target>»</target>
+
+      <context-group purpose="location"><context context-type="sourcefile">../node_modules/@ng-bootstrap/ng-bootstrap/pagination/pagination.d.ts</context><context context-type="linenumber">4</context></context-group></trans-unit>
+      <trans-unit id="ngb.pagination.next-aria" datatype="html">
+        <source>Next</source>
+        <target>Sonraki</target>
+
+      <context-group purpose="location"><context context-type="sourcefile">../node_modules/@ng-bootstrap/ng-bootstrap/pagination/pagination.d.ts</context><context context-type="linenumber">41</context></context-group></trans-unit>
+      <trans-unit id="ngb.pagination.last" datatype="html">
+        <source>»»</source>
+        <target>»»</target>
+
+      <context-group purpose="location"><context context-type="sourcefile">../node_modules/@ng-bootstrap/ng-bootstrap/pagination/pagination.d.ts</context><context context-type="linenumber">5</context></context-group></trans-unit>
+      <trans-unit id="ngb.pagination.last-aria" datatype="html">
+        <source>Last</source>
+        <target>Son</target>
+
+      <context-group purpose="location"><context context-type="sourcefile">../node_modules/@ng-bootstrap/ng-bootstrap/pagination/pagination.d.ts</context><context context-type="linenumber">49</context></context-group></trans-unit>
+      <trans-unit id="ngb.progressbar.value" datatype="html">
+        <source><x id="INTERPOLATION" equiv-text="{{getPercentValue()}}"/>%</source>
+        <target><x id="INTERPOLATION" equiv-text="{{getPercentValue()}}"/>%</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">../node_modules/@ng-bootstrap/ng-bootstrap/progressbar/progressbar.d.ts</context>
+          <context context-type="linenumber">6</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="ngb.timepicker.increment-hours" datatype="html">
+        <source>Increment hours</source>
+        <target>Saati Arttır</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">../node_modules/@ng-bootstrap/ng-bootstrap/timepicker/timepicker.d.ts</context>
+          <context context-type="linenumber">9</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="ngb.timepicker.HH" datatype="html">
+        <source>HH</source>
+        <target>HH</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">../node_modules/@ng-bootstrap/ng-bootstrap/timepicker/timepicker.d.ts</context>
+          <context context-type="linenumber">12</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="ngb.timepicker.hours" datatype="html">
+        <source>Hours</source>
+        <target>Saatler</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">../node_modules/@ng-bootstrap/ng-bootstrap/timepicker/timepicker.d.ts</context>
+          <context context-type="linenumber">14</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="ngb.timepicker.decrement-hours" datatype="html">
+        <source>Decrement hours</source>
+        <target>Saati Azalt</target>
+
+      <context-group purpose="location"><context context-type="sourcefile">../node_modules/@ng-bootstrap/ng-bootstrap/timepicker/timepicker.d.ts</context><context context-type="linenumber">21</context></context-group></trans-unit>
+      <trans-unit id="ngb.timepicker.increment-minutes" datatype="html">
+        <source>Increment minutes</source>
+        <target>Dakikayı Arttır</target>
+
+      <context-group purpose="location"><context context-type="sourcefile">../node_modules/@ng-bootstrap/ng-bootstrap/timepicker/timepicker.d.ts</context><context context-type="linenumber">30</context></context-group></trans-unit>
+      <trans-unit id="ngb.timepicker.MM" datatype="html">
+        <source>MM</source>
+        <target>MM</target>
+
+      <context-group purpose="location"><context context-type="sourcefile">../node_modules/@ng-bootstrap/ng-bootstrap/timepicker/timepicker.d.ts</context><context context-type="linenumber">33</context></context-group></trans-unit>
+      <trans-unit id="ngb.timepicker.minutes" datatype="html">
+        <source>Minutes</source>
+        <target>Dakikalar</target>
+
+      <context-group purpose="location"><context context-type="sourcefile">../node_modules/@ng-bootstrap/ng-bootstrap/timepicker/timepicker.d.ts</context><context context-type="linenumber">35</context></context-group></trans-unit>
+      <trans-unit id="ngb.timepicker.decrement-minutes" datatype="html">
+        <source>Decrement minutes</source>
+        <target>Dakikayı Azalt</target>
+
+      <context-group purpose="location"><context context-type="sourcefile">../node_modules/@ng-bootstrap/ng-bootstrap/timepicker/timepicker.d.ts</context><context context-type="linenumber">42</context></context-group></trans-unit>
+      <trans-unit id="ngb.timepicker.increment-seconds" datatype="html">
+        <source>Increment seconds</source>
+        <target>Saniyeyi Arttır</target>
+
+      <context-group purpose="location"><context context-type="sourcefile">../node_modules/@ng-bootstrap/ng-bootstrap/timepicker/timepicker.d.ts</context><context context-type="linenumber">51</context></context-group></trans-unit>
+      <trans-unit id="ngb.timepicker.SS" datatype="html">
+        <source>SS</source>
+        <target>SS</target>
+
+      <context-group purpose="location"><context context-type="sourcefile">../node_modules/@ng-bootstrap/ng-bootstrap/timepicker/timepicker.d.ts</context><context context-type="linenumber">54</context></context-group></trans-unit>
+      <trans-unit id="ngb.timepicker.seconds" datatype="html">
+        <source>Seconds</source>
+        <target>Saniyeler</target>
+
+      <context-group purpose="location"><context context-type="sourcefile">../node_modules/@ng-bootstrap/ng-bootstrap/timepicker/timepicker.d.ts</context><context context-type="linenumber">56</context></context-group></trans-unit>
+      <trans-unit id="ngb.timepicker.decrement-seconds" datatype="html">
+        <source>Decrement seconds</source>
+        <target>Saniyeyi Azalt</target>
+
+      <context-group purpose="location"><context context-type="sourcefile">../node_modules/@ng-bootstrap/ng-bootstrap/timepicker/timepicker.d.ts</context><context context-type="linenumber">63</context></context-group></trans-unit>
+      <trans-unit id="ngb.timepicker.PM" datatype="html">
+        <source><x id="INTERPOLATION" equiv-text="{{ i18n.getAfternoonPeriod() }}"/></source>
+        <target>ÖS</target>
+
+      <context-group purpose="location"><context context-type="sourcefile">../node_modules/@ng-bootstrap/ng-bootstrap/timepicker/timepicker.d.ts</context><context context-type="linenumber">71</context></context-group></trans-unit>
+      <trans-unit id="ngb.timepicker.AM" datatype="html">
+        <source><x id="INTERPOLATION" equiv-text="{{ i18n.getMorningPeriod() }}"/></source>
+        <target>ÖÖ</target>
+
+      <context-group purpose="location"><context context-type="sourcefile">../node_modules/@ng-bootstrap/ng-bootstrap/timepicker/timepicker.d.ts</context><context context-type="linenumber">72</context></context-group></trans-unit><trans-unit id="ngb.toast.close-aria" datatype="html">
+        <source>Close</source><target state="translated">Kapat</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">../node_modules/@ng-bootstrap/ng-bootstrap/toast/toast.d.ts</context>
+          <context context-type="linenumber">8</context>
+        </context-group>
+      </trans-unit><trans-unit id="931eab494870bec5d99fbd1911ac5b08291c981c" datatype="html">
+        <source>
+    <x id="START_TAG_DIV" ctype="x-div" equiv-text="&lt;div>"/>By continuing to browse the site, you're agreeing to our use of cookies.<x id="CLOSE_TAG_DIV" ctype="x-div" equiv-text="&lt;/div>"/>
+</source><target state="translated"><x id="START_TAG_DIV" ctype="x-div" equiv-text="&lt;div>"/>Gezinmeye devam ederek, çerezleri kullanmamızı kabul ediyorsunuz.<x id="CLOSE_TAG_DIV" ctype="x-div" equiv-text="&lt;/div>"/></target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app/components/app/app.component.html</context>
+          <context context-type="linenumber">32</context>
+        </context-group>
+      </trans-unit><trans-unit id="a4cd215f32a722665a981b6ae145a58c2be86a39" datatype="html">
+        <source>Super Reader</source><target state="new"/>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app/components/nav-menu/nav-menu.component.html</context>
+          <context context-type="linenumber">3</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="eb98135e35af26a9a326ee69bd8ff104d36dd8ec" datatype="html">
+        <source>(current)</source><target state="final">(şimdiki)</target>
+
+      <context-group purpose="location"><context context-type="sourcefile">app/components/nav-menu/nav-menu.component.html</context><context context-type="linenumber">13</context></context-group><context-group purpose="location"><context context-type="sourcefile">app/components/pager/pager.component.html</context><context context-type="linenumber">12</context></context-group></trans-unit><trans-unit id="08019d56939ecb503fc298e8ea83f1acad44da4f" datatype="html">
+        <source> (Home)</source><target state="translated"> (Anasayfa)</target>
+
+      <context-group purpose="location"><context context-type="sourcefile">app/components/nav-menu/nav-menu.component.html</context><context context-type="linenumber">20</context></context-group></trans-unit>
+      <trans-unit id="ae51d565bb8279d1b9f6f74d534b076d267009e5" datatype="html">
+        <source>Page not found</source><target state="final">Sayfa bulunamadı</target>
+
+      <context-group purpose="location"><context context-type="sourcefile">app/pages/not-found/not-found.component.html</context><context context-type="linenumber">2</context></context-group></trans-unit><trans-unit id="d6cb2af5501e2df32b21a352958076920da1b188" datatype="html">
+        <source><x id="INTERPOLATION" equiv-text="{{ content.created.seconds * 1000 | date:'medium' }}"/> - <x id="INTERPOLATION_1" equiv-text="{{ content.createdBy }}"/></source><target state="new"><x id="INTERPOLATION" equiv-text="{{ content.created.seconds * 1000 | date:'medium' }}"/> - <x id="INTERPOLATION_1" equiv-text="{{ content.createdBy }}"/></target>
+
+      <context-group purpose="location"><context context-type="sourcefile">app/pages/home/home.component.html</context><context context-type="linenumber">9</context></context-group></trans-unit><trans-unit id="28ff6e82caf9645d6f918bc21ca42aa33d1e3568" datatype="html">
+        <source><x id="INTERPOLATION" equiv-text="{{ rendererText }}"/> side rendering with Firebase 🔥</source><target state="new"><x id="INTERPOLATION" equiv-text="{{ rendererText }}"/> side rendering with Firebase 🔥</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app/pages/playground/playground.component.html</context>
+          <context context-type="linenumber">2</context>
+        </context-group>
+      </trans-unit><trans-unit id="d106826fbee9f9e017fe78864b10259e1c4f46f9" datatype="html">
+        <source>Hello,</source><target state="final">Merhaba,</target>
+
+      <context-group purpose="location"><context context-type="sourcefile">app/pages/home/home.component.html</context><context context-type="linenumber">21</context></context-group></trans-unit><trans-unit id="640eec093c685babaa3265137215e3cc92ad704d" datatype="html">
+        <source>Sign Out</source><target state="final">Çıkış Yap</target>
+
+      <context-group purpose="location"><context context-type="sourcefile">app/pages/home/home.component.html</context><context context-type="linenumber">23</context></context-group></trans-unit><trans-unit id="6f21558313038c924127b3ff527b6a6ec2ec17d7" datatype="html">
+        <source>Login with Google</source><target state="final">Google ile Giriş Yap</target>
+
+      <context-group purpose="location"><context context-type="sourcefile">app/pages/home/home.component.html</context><context context-type="linenumber">28</context></context-group></trans-unit><trans-unit id="6e3c5ff3699b5e53bdfdb0d9206f34bf811e8c58" datatype="html">
+        <source>Your Name</source><target state="translated">Adınız</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app/pages/contact/contact.component.html</context>
+          <context context-type="linenumber">18</context>
+        </context-group>
+      </trans-unit><trans-unit id="308d288c59fe06075b30022a52576ca1deb155c2" datatype="html">
+        <source>Murat Demir</source><target state="translated">Murat Demir</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app/pages/contact/contact.component.html</context>
+          <context context-type="linenumber">22</context>
+        </context-group>
+      </trans-unit><trans-unit id="bf1e232fb2495a4191d24cd85aa173a37a490daf" datatype="html">
+        <source>
+                                    Please enter your full name.
+                                </source><target state="translated">
+                                    Lütfen adınızı ve soyadınızı giriniz.
+                                </target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app/pages/contact/contact.component.html</context>
+          <context context-type="linenumber">24</context>
+        </context-group>
+      </trans-unit><trans-unit id="034a53c006d8ecbed8d57b0df1786bc1834fbbac" datatype="html">
+        <source>Your E-Mail</source><target state="translated">E-Posta Adresiniz</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app/pages/contact/contact.component.html</context>
+          <context context-type="linenumber">32</context>
+        </context-group>
+      </trans-unit><trans-unit id="b1de7c04079fdb4653a291b388237bc35a8e9a75" datatype="html">
+        <source>me@gmail.com</source><target state="translated">me@gmail.com</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app/pages/contact/contact.component.html</context>
+          <context context-type="linenumber">36</context>
+        </context-group>
+      </trans-unit><trans-unit id="061e6de6b8562354b1bf9b84521f56477c5031d3" datatype="html">
+        <source>
+                                    Please enter your e-mail address. I will protect it more than facebook does...
+                                </source><target state="translated">
+                                    Lütfen e-posta adresinizi giriniz. Facebook`un koruduğundan daha iyi bir şekilde koruyacağımdan emin olabilirsiniz...
+                                </target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app/pages/contact/contact.component.html</context>
+          <context context-type="linenumber">38</context>
+        </context-group>
+      </trans-unit><trans-unit id="ccac601bf473fa28c9ac46794f1cd40542f74347" datatype="html">
+        <source>Message</source><target state="translated">Mesajınız</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app/pages/contact/contact.component.html</context>
+          <context context-type="linenumber">46</context>
+        </context-group>
+      </trans-unit><trans-unit id="7fe680a8025f9b37b9d2b722da0a48ec009ba11f" datatype="html">
+        <source>You can tell me anything you want :-)</source><target state="translated">Bana istediğiniz her şeyi anlatabilirsiniz :-)</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app/pages/contact/contact.component.html</context>
+          <context context-type="linenumber">50</context>
+        </context-group>
+      </trans-unit><trans-unit id="ad6635267de52f36b99ea275bf742b0dbb714da4" datatype="html">
+        <source>
+                                    Please enter your message. You can tell me anything you want :-)
+                                </source><target state="translated">
+                                    Lütfen mesajınızı giriniz. Bana istediğiniz her şeyi anlatabilirsiniz :-)
+                                </target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app/pages/contact/contact.component.html</context>
+          <context context-type="linenumber">52</context>
+        </context-group>
+      </trans-unit><trans-unit id="59495ad8a6e49eb2a0022e1ec9ad296964b10292" datatype="html">
+        <source>Send me a copy, too</source><target state="translated">Bir kopyasını da bana gönder</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app/pages/contact/contact.component.html</context>
+          <context context-type="linenumber">65</context>
+        </context-group>
+      </trans-unit><trans-unit id="fa67d2cc929e21b864b7c107b8b91eabfa6fef70" datatype="html">
+        <source>I have read and agree to </source><target state="translated">Okudum ve onaylıyorum : </target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app/pages/contact/contact.component.html</context>
+          <context context-type="linenumber">79</context>
+        </context-group>
+      </trans-unit><trans-unit id="773670d361292b0ce4a21dcefaf58d274edaddea" datatype="html">
+        <source>the Privacy Policy</source><target state="translated">Gizlilik Politikası</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app/pages/contact/contact.component.html</context>
+          <context context-type="linenumber">80</context>
+        </context-group>
+      </trans-unit><trans-unit id="dfd4745b109366d4a09b31c008965aa96e7be977" datatype="html">
+        <source>
+                                        We don`t like it neither, but please read and agree...
+                                    </source><target state="translated">
+                                        Bu bizimde hoşumuza gitmiyor ama lütfen okuyup onaylayınız...
+                                    </target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app/pages/contact/contact.component.html</context>
+          <context context-type="linenumber">81</context>
+        </context-group>
+      </trans-unit><trans-unit id="7d175f1b7310aecce08c1141c9ba8588b8642a99" datatype="html">
+        <source>Send Message</source><target state="translated">Mesajı Gönder</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app/pages/contact/contact.component.html</context>
+          <context context-type="linenumber">98</context>
+        </context-group>
+      </trans-unit><trans-unit id="65812d32a879e8830db8b1e73a33aeedf062b0b3" datatype="html">
+        <source>We have got your message. Thank you for your valued time.</source><target state="translated">Mesajınızı aldık. Değerli zamanınız için çok teşekkür ederiz.</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app/pages/contact/contact.component.html</context>
+          <context context-type="linenumber">105</context>
+        </context-group>
+      </trans-unit><trans-unit id="73b34d2d0553532b00f7091ede75ae150a762e8b" datatype="html">
+        <source>If you want to send a new message, </source><target state="translated">Eğer yeni bir mesaj daha göndermek istiyorsanız,</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app/pages/contact/contact.component.html</context>
+          <context context-type="linenumber">106</context>
+        </context-group>
+      </trans-unit><trans-unit id="b76aa9d8e5a20849a35f35b7381274c61c008161" datatype="html">
+        <source>please click here!</source><target state="translated">lütfen buraya tıklayınız!</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app/pages/contact/contact.component.html</context>
+          <context context-type="linenumber">107</context>
+        </context-group>
+      </trans-unit><trans-unit id="92e01809a624fd7573c136bf75fdfe03cae287c6" datatype="html">
+        <source>
+            Coming Soon...
+        </source><target state="new"/>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app/pages/dashboard/dashboard.component.html</context>
+          <context context-type="linenumber">10</context>
+        </context-group>
+      </trans-unit><trans-unit id="d0253cb27b529666fc238fb3aa7d5733940547dd" datatype="html">
+        <source>← Newest</source><target state="translated">← En Yeni</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app/components/pager/pager.component.html</context>
+          <context context-type="linenumber">3</context>
+        </context-group>
+      </trans-unit><trans-unit id="ba23a90cf4e8369fd9552aecd286cdeef2b18d0f" datatype="html">
+        <source>Oldest →</source><target state="translated">En Eski →</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app/components/pager/pager.component.html</context>
+          <context context-type="linenumber">20</context>
+        </context-group>
+      </trans-unit><trans-unit id="680d5c75b7fd8d37961083608b9fcdc4167b4c43" datatype="html">
+        <source>Previous</source><target state="translated">Önceki</target>
+
+      <context-group purpose="location"><context context-type="sourcefile">app/components/carousel/carousel.component.html</context><context context-type="linenumber">25</context></context-group></trans-unit><trans-unit id="f732c304c7433e5a83ffcd862c3dce709a0f4982" datatype="html">
+        <source>Next</source><target state="translated">Sonraki</target>
+
+      <context-group purpose="location"><context context-type="sourcefile">app/components/carousel/carousel.component.html</context><context context-type="linenumber">29</context></context-group></trans-unit>
+      <trans-unit id="701174153757adf13e7c24a248c8a873ac9f5193" datatype="html">
+        <source>Angular logo</source>
+        <target>Angular logo</target>
+
+      <context-group purpose="location"><context context-type="sourcefile">app/pages/playground/playground.component.html</context><context context-type="linenumber">3</context></context-group></trans-unit><trans-unit id="7c3d41811fe34133ef9f9739de524cdee0c1cadf" datatype="html">
+        <source>Is browser code loaded?</source><target state="final">Is browser code loaded?</target>
+
+      <context-group purpose="location"><context context-type="sourcefile">app/pages/playground/playground.component.html</context><context context-type="linenumber">6</context></context-group></trans-unit><trans-unit id="482ecf35df28e21d3372449451f43b2d3c961442" datatype="html">
+        <source>
+        <x id="START_TAG_STRONG" ctype="x-strong" equiv-text="&lt;strong>"/>Warning!<x id="CLOSE_TAG_STRONG" ctype="x-strong" equiv-text="&lt;/strong>"/> Sample alert.
+    </source><target state="translated">
+        <x id="START_TAG_STRONG" ctype="x-strong" equiv-text="&lt;strong>"/>Dikkat!<x id="CLOSE_TAG_STRONG" ctype="x-strong" equiv-text="&lt;/strong>"/> Örnek uyarı.
+    </target>
+
+      <context-group purpose="location"><context context-type="sourcefile">app/pages/playground/playground.component.html</context><context context-type="linenumber">9</context></context-group></trans-unit>
+      <trans-unit id="introductionHeader" datatype="html">
+        <source>Hello i18n!</source>
+        <target>Merhaba i18n!</target>
+
+        <note priority="1" from="description">An introduction header for this sample</note>
+        <note priority="1" from="meaning">User welcome</note>
+      <context-group purpose="location"><context context-type="sourcefile">app/pages/playground/playground.component.html</context><context context-type="linenumber">16</context></context-group></trans-unit><trans-unit id="a2bf198c006ed191bc3944c1b9532207e3b5aa2f" datatype="html">
+        <source>Today is <x id="INTERPOLATION" equiv-text="{{ today | date }}"/></source><target state="translated">Bugün günlerden <x id="INTERPOLATION" equiv-text="{{ today | date }}"/></target>
+
+      <context-group purpose="location"><context context-type="sourcefile">app/pages/playground/playground.component.html</context><context context-type="linenumber">18</context></context-group></trans-unit><trans-unit id="073960d390d01cc391f68a2ae97e3917770abe0b" datatype="html">
+        <source>Or if you prefer, <x id="INTERPOLATION" equiv-text="{{ today | date:'fullDate' }}"/></source><target state="translated">Bir başka deyişle, <x id="INTERPOLATION" equiv-text="{{ today | date:'fullDate' }}"/></target>
+
+      <context-group purpose="location"><context context-type="sourcefile">app/pages/playground/playground.component.html</context><context context-type="linenumber">19</context></context-group></trans-unit><trans-unit id="15e648b1aadd939ba431d872b15133caad241d58" datatype="html">
+        <source>Or if you prefer, <x id="INTERPOLATION" equiv-text="{{ today | date:'medium' }}"/></source><target state="translated">Ve hatta, <x id="INTERPOLATION" equiv-text="{{ today | date:'medium' }}"/></target>
+
+      <context-group purpose="location"><context context-type="sourcefile">app/pages/playground/playground.component.html</context><context context-type="linenumber">20</context></context-group></trans-unit><trans-unit id="e4d8a59dc04c3a70da4abcbd25df9ebe42287abb" datatype="html">
+        <source>The time is <x id="INTERPOLATION" equiv-text="{{ today | date:'h:mm a z' }}"/></source><target state="translated">Saat ise <x id="INTERPOLATION" equiv-text="{{ today | date:'h:mm a z' }}"/></target>
+
+      <context-group purpose="location"><context context-type="sourcefile">app/pages/playground/playground.component.html</context><context context-type="linenumber">21</context></context-group></trans-unit><trans-unit id="f5a3407c5d5e3044bea77f929dc78eef1b2545fd" datatype="html">
+        <source>The application is using the locale <x id="INTERPOLATION" equiv-text="{{ locale }}"/></source><target state="translated">Bu uygulama <x id="INTERPOLATION" equiv-text="{{ locale }}"/> dil setini kullanmaktadır</target>
+
+      <context-group purpose="location"><context context-type="sourcefile">app/pages/playground/playground.component.html</context><context context-type="linenumber">24</context></context-group></trans-unit>
+
+      <trans-unit id="ba0cc104d3d69bf669f97b8d96a4c5d8d9559aa3" datatype="html">
+        <source>I don't output any element</source>
+        <target>Herhangi bir eleman üretmiyorum</target>
+
+      <context-group purpose="location"><context context-type="sourcefile">app/pages/playground/playground.component.html</context><context context-type="linenumber">25</context></context-group></trans-unit><trans-unit id="08d4402532d6eb348cf14a6d774f2474da4aaf8d" datatype="html">
+        <source>+</source><target state="final">+</target>
+
+      <context-group purpose="location"><context context-type="sourcefile">app/pages/playground/playground.component.html</context><context context-type="linenumber">28</context></context-group></trans-unit><trans-unit id="37a0c0fffef57ba4b1fe7bf2318fc9211267286e" datatype="html">
+        <source>-</source><target state="final">-</target>
+
+      <context-group purpose="location"><context context-type="sourcefile">app/pages/playground/playground.component.html</context><context context-type="linenumber">28</context></context-group></trans-unit><trans-unit id="3944089997907e06b0be8ac4cdf1ad448c4fdaa1" datatype="html">
+        <source>Updated <x id="ICU" equiv-text="{minutes, plural, =0 {...} =1 {...} other {...}}"/></source><target state="translated">Güncelleme: <x id="ICU" equiv-text="{minutes, plural, =0 {...} =1 {...} other {...}}"/></target>
+
+      <context-group purpose="location"><context context-type="sourcefile">app/pages/playground/playground.component.html</context><context context-type="linenumber">30</context></context-group></trans-unit><trans-unit id="d21b287b4d1e079c11ad2c547d104798fb3d111e" datatype="html">
+        <source>{VAR_PLURAL, plural, =0 {just now} =1 {one minute ago} other {<x id="INTERPOLATION" equiv-text="{{ minutes }}"/> minutes ago} }</source><target state="translated">{VAR_PLURAL, plural, =0 {şimdi} =1 {1 dakika önce} other {<x id="INTERPOLATION" equiv-text="{{ minutes }}"/> dakika önce} }</target>
+
+      <context-group purpose="location"><context context-type="sourcefile">app/pages/playground/playground.component.html</context><context context-type="linenumber">30</context></context-group></trans-unit>
+
+      <trans-unit id="e37ea76f97bda09179bff45dd514d586fc783241" datatype="html">
+        <source>♂</source><target state="final">♂</target>
+
+      <context-group purpose="location"><context context-type="sourcefile">app/pages/playground/playground.component.html</context><context context-type="linenumber">32</context></context-group></trans-unit><trans-unit id="a67056c7a596774989449aad8dd898e2b32a7a22" datatype="html">
+        <source>♀</source><target state="final">♀</target>
+
+      <context-group purpose="location"><context context-type="sourcefile">app/pages/playground/playground.component.html</context><context context-type="linenumber">33</context></context-group></trans-unit><trans-unit id="dc5042b4003609f59b9787f5023328fc5c9bf2bd" datatype="html">
+        <source>⚧</source><target state="final">⚧</target>
+
+      <context-group purpose="location"><context context-type="sourcefile">app/pages/playground/playground.component.html</context><context context-type="linenumber">34</context></context-group></trans-unit><trans-unit id="1aea987749c68c472a876b26a5afd69a4f186125" datatype="html">
+        <source>Updated by <x id="ICU" equiv-text="{gender, select, male {...} female {...} other {...}}"/></source><target state="translated">Güncelleyen: <x id="ICU" equiv-text="{gender, select, male {...} female {...} other {...}}"/></target>
+
+      <context-group purpose="location"><context context-type="sourcefile">app/pages/playground/playground.component.html</context><context context-type="linenumber">36</context></context-group></trans-unit>
+
+      <trans-unit id="eff74b75ab7364b6fa888f1cbfae901aaaf02295" datatype="html">
+        <source>{VAR_SELECT, select, male {male} female {female} other {other} }</source>
+        <target>{VAR_SELECT, select, male {erkek} female {kadın} other {diğer} }</target>
+
+
+      <context-group purpose="location"><context context-type="sourcefile">app/pages/playground/playground.component.html</context><context context-type="linenumber">36</context></context-group></trans-unit>
+      <trans-unit id="3b7778a9dc93115be4a2e3a263e88f0974bb3544" datatype="html">
+        <source>Copyright © Super Reader 2019-2020</source><target state="new"/>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app/components/footer/footer.component.html</context>
+          <context context-type="linenumber">31</context>
+        </context-group>
+      </trans-unit>
+    </body>
+  </file>
+</xliff>

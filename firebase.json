@@ -1,0 +1,56 @@
+{
+  "database": {
+    "rules": "firebase/database.rules.json"
+  },
+  "firestore": {
+    "rules": "firebase/firestore.rules",
+    "indexes": "firebase/firestore.indexes.json"
+  },
+  "functions": {
+    "predeploy": []
+  },
+  "hosting": {
+    "public": "public",
+    "ignore": [
+      "firebase.json",
+      "**/.*",
+      "**/node_modules/**"
+    ],
+    "rewrites": [
+      {
+        "source": "/tr/**",
+        "destination": "/tr/index.html",
+        "type": 301
+      },
+      {
+        "source": "/en/**",
+        "destination": "/en/index.html",
+        "type": 301
+      },
+      {
+        "source": "**",
+        "destination": "/tr/index.html",
+        "type": 301
+      }
+    ],
+    "redirects": [],
+    "headers": [
+      {
+        "source": "**/*.@(eot|otf|ttf|ttc|woff|woff2|svg|ico|jpg|jpeg|gif|png|js|css|map)",
+        "headers": [
+          {
+            "key": "Access-Control-Allow-Origin",
+            "value": "*"
+          },
+          {
+            "key": "Cache-Control",
+            "value": "max-age=31536000"
+          }
+        ]
+      }
+    ]
+  },
+  "storage": {
+    "rules": "firebase/storage.rules"
+  }
+}

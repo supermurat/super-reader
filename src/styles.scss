@@ -1,0 +1,192 @@
+/* You can add global styles to this file, and also import other style files */
+@import "variables";
+
+body {
+  padding-top: 54px;
+  background-repeat: no-repeat;
+  background-position: top;
+  background-attachment: fixed;
+  background-size: cover;
+}
+
+@media (min-width: 992px) {
+  body {
+    padding-top: 56px;
+  }
+}
+
+#only-for-http-status {
+  display: none;
+}
+
+#loading-bar-spinner {
+  top: 22px !important;
+  right: 36px !important;
+}
+
+#loading-bar-spinner .spinner-icon {
+  float: right;
+}
+
+.content {
+  overflow-y: scroll;
+  max-height: 100vh;
+  width: 70vw;
+  margin: auto;
+  text-align: center;
+  padding: 1em;
+}
+
+.content::-webkit-scrollbar-track {
+  -webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.3);
+  background-color: #f5f5f5;
+}
+
+.content::-webkit-scrollbar {
+  width: 12px;
+  background-color: #f5f5f5;
+}
+
+.content::-webkit-scrollbar-thumb {
+  background-color: #f27236;
+}
+
+.content-item1 {
+  min-height: 100vh;
+}
+
+.content-item2 {
+  min-height: 50vh;
+}
+
+.content-item3 {
+  min-height: 33vh;
+}
+
+.content-item4 {
+  min-height: 25vh;
+}
+
+@keyframes fadeIn {
+  /** keep me **/
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+
+  to {
+    opacity: 1;
+  }
+}
+
+.fadeIn {
+  animation-name: fadeIn;
+}
+
+.animated {
+  animation-duration: 1s;
+  animation-fill-mode: both;
+}
+
+.card-title a:hover {
+  text-decoration: none;
+}
+
+.google-custom-search-result .gsc-tabHeader {
+  overflow: hidden !important;
+}
+
+.google-custom-search-result .gsc-control-cse .gsc-option-menu-container {
+  min-width: 120px;
+}
+
+.tag-cloud ul {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.tag-cloud ul li {
+  display: inline-block;
+  margin: 0 0 0.3em 1em;
+  padding: 0;
+}
+
+/* stylelint-disable-next-line no-descending-specificity */
+.tag-cloud ul li a {
+  position: relative;
+  display: inline-block;
+  height: 22px;
+  line-height: 19px;
+  padding: 0 1em;
+  background-color: #777;
+  border-radius: 0 3px 3px 0;
+  color: #fff;
+  font-size: 13px;
+  text-decoration: none;
+  -webkit-transition: 0.2s;
+  transition: 0.2s;
+}
+
+.tag-cloud ul li a::before {
+  position: absolute;
+  top: 0;
+  left: -11px;
+  content: '';
+  width: 0;
+  height: 0;
+  border-color: transparent #777 transparent transparent;
+  border-style: solid;
+  border-width: 11px 11px 11px 0;
+  -webkit-transition: 0.2s;
+  transition: 0.2s;
+}
+
+.tag-cloud ul li a::after {
+  position: absolute;
+  top: 50%;
+  left: 0;
+  z-index: 2;
+  display: block;
+  content: '';
+  width: 6px;
+  height: 6px;
+  margin-top: -3px;
+  background-color: #fff;
+  border-radius: 100%;
+}
+
+.tag-cloud ul li span {
+  display: block;
+  max-width: 200px;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  overflow: hidden;
+}
+
+.tag-cloud ul li a:hover {
+  background-color: #3498db;
+  color: #fff;
+}
+
+.tag-cloud ul li a:hover::before {
+  border-right-color: #3498db;
+}
+
+.privacy-policy-small {
+  height: 150px;
+  font-size: small;
+}
+
+.card-fix-width {
+  min-width: 220px;
+}
+
+.cookie-law-wrapper {
+  right: 10px !important;
+  left: auto !important;
+  bottom: 10px !important;
+  width: 280px !important;
+}

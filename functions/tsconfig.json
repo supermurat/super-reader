@@ -1,0 +1,19 @@
+{
+  "compilerOptions": {
+    "lib": ["es6", "dom"],
+    "module": "commonjs",
+    "outDir": "lib",
+    "sourceMap": true,
+    "target": "es6",
+    "typeRoots": [
+      "node_modules/@types"
+    ]
+  },
+  "compileOnSave": true,
+  "include": [
+    "./src/**/*.ts"
+  ],
+  "exclude": [
+    "**/*.spec.ts"
+  ]
+}

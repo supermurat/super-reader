@@ -1,0 +1,35 @@
+service cloud.firestore {
+  match /databases/{database}/documents {
+    match /users/{document=**} {
+      allow read, update, delete: if request.auth.uid == resource.data.uid;
+      allow create: if request.auth.uid != null;
+    }
+    match /pages_en-US/{document=**} {
+      allow read: if true;
+      allow write: if false;
+    }
+    match /pages_tr-TR/{document=**} {
+      allow read: if true;
+      allow write: if false;
+    }
+    match /messages_en-US/{document=**} {
+      allow read, update, delete: if exists(/databases/$(database)/documents/users/request.auth.uid);
+      allow create: if true;
+    }
+    match /messages_tr-TR/{document=**} {
+      allow read, update, delete: if exists(/databases/$(database)/documents/users/request.auth.uid);
+      allow create: if true;
+    }
+    match /configs/public_en-US {
+      allow read: if true;
+      allow write: if false;
+    }
+    match /configs/public_tr-TR {
+      allow read: if true;
+      allow write: if false;
+    }
+    match /{document=**} {
+      allow read, write: if false;
+    }
+  }
+}

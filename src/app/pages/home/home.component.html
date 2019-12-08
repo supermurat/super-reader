@@ -1,0 +1,39 @@
+<div class="col-12">
+    <div class="card-deck">
+        <article class="card my-4 card-fix-width" *ngFor="let content of contents$ | async; trackBy:pageService.trackByIndex">
+            <img class="card-img-top img-fluid" *ngIf="content.image" [src]="content.image.src" alt="{{ content.image.alt }}"/>
+            <div class="card-body">
+                <h2 class="card-title"><a [routerLink]="[content.routePath, content.path]">{{ content.title }}</a></h2>
+            </div>
+            <div class="card-footer text-muted pt-0 pb-1">
+                <span i18n>{{ content.created.seconds * 1000 | date:'medium' }} - {{ content.createdBy }}</span>
+            </div>
+        </article>
+    </div>
+</div>
+
+<div class="col-12">
+    <div class="card-deck">
+        <article class="card my-4 card-fix-width">
+            <div class="card-body">
+                <div *ngIf="auth.user$ | async as user; else login">
+                    <!--{{ user | json }}-->
+                    <span i18n>Hello,</span> {{ user.displayName }}
+                    <hr/>
+                    <button class="button" (click)="auth.signOut()" i18n>Sign Out</button>
+
+                </div>
+
+                <ng-template #login>
+                    <button class="button" (click)="auth.googleSignIn()" i18n>Login with Google</button>
+                </ng-template>
+            </div>
+        </article>
+    </div>
+</div>
+
+<div class="col-12">
+    <div class="card-deck">
+        <app-custom-html class="card mb-4 card-fix-width" *ngIf="customHtml" [headerCssClass]="'pt-0 pb-1'" [customHtml]="customHtml"></app-custom-html>
+    </div>
+</div>

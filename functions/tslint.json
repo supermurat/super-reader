@@ -1,0 +1,83 @@
+{
+  "extends": "tslint:all",
+  "rules": {
+    "quotemark": [true, "single", "avoid-template", "avoid-escape"],
+    "interface-name": [false],
+    "variable-name": [true, "check-format", "allow-leading-underscore"],
+    "object-literal-sort-keys": false,
+    "member-access": [false],
+    "no-console": [false],
+    "no-namespace": [false],
+    "no-submodule-imports": [false],
+    "no-any": [false],
+    "no-unsafe-any": [false],
+    "typedef": [
+      true,
+      "call-signature",
+      "property-declaration",
+      "arrow-call-signature"
+    ],
+    "comment-format": [
+      true,
+      "check-space"
+    ],
+    "no-magic-numbers": [false],
+    "newline-per-chained-call": ["error", { "ignoreChainWithDepth": 2 }],
+    "strict-type-predicates": false,
+    "strict-boolean-expressions": [
+      true,
+      "allow-null-union",
+      "allow-undefined-union",
+      "allow-string",
+      "allow-enum",
+      "allow-number",
+      "allow-mix",
+      "allow-boolean-or-undefined"
+    ],
+    "file-name-casing": [
+      true,
+      "kebab-case"
+    ],
+    "prefer-switch": [false],
+    "increment-decrement": [false],
+    "member-ordering": [
+      true,
+      "public-before-private",
+      "static-before-instance",
+      "variables-before-functions"
+    ],
+    "trailing-comma": [
+      true,
+      {
+        "multiline": "never",
+        "singleline": "never",
+        "esSpecCompliant": true
+      }
+    ],
+    "array-type": [
+      true,
+      "generic"
+    ],
+    "max-line-length": [
+      true,
+      140
+    ],
+    "arrow-parens": [
+      true,
+      "ban-single-arg-parens"
+    ],
+    "completed-docs": [
+      true,
+      "classes",
+      "enums",
+      "enum-members",
+      "functions",
+      "interfaces",
+      "methods",
+      "namespaces",
+      "properties",
+      "types",
+      "variables"
+    ]
+  }
+}

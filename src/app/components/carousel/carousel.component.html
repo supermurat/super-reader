@@ -1,0 +1,31 @@
+<!-- Carousel -->
+<div *ngIf="carouselModel && carouselModel.carouselItems.length > 0" id="carousel-main-indicators" class="carousel slide" data-ride="carousel" data-interval="10000">
+    <ol class="carousel-indicators">
+        <li data-target="#carousel-main-indicators"
+            [attr.data-slide-to]="i"
+            [ngClass]="[i == 0 ? 'active' : '']"
+            *ngFor="let carouselItem of carouselModel.carouselItems; trackBy:trackByIndex; let i = index">
+        </li>
+    </ol>
+    <div class="carousel-inner">
+        <div [ngClass]="['carousel-item', i == 0 ? 'active' : '']"
+             *ngFor="let carouselItem of carouselModel.carouselItems; trackBy:trackByIndex; let i = index">
+            <img class="d-block w-100" [src]="carouselItem.src" alt="{{ carouselItem.alt }}" />
+            <div class="carousel-caption d-none d-md-block">
+                <h1>{{ carouselItem.caption }}</h1>
+                <p>{{ carouselItem.text }}</p>
+            </div>
+            <div class="carousel-caption d-block d-md-none">
+                <h5>{{ carouselItem.caption }}</h5>
+            </div>
+        </div>
+    </div>
+    <a class="carousel-control-prev" href="#carousel-main-indicators" role="button" data-slide="prev">
+        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+        <span class="sr-only" i18n>Previous</span>
+    </a>
+    <a class="carousel-control-next" href="#carousel-main-indicators" role="button" data-slide="next">
+        <span class="carousel-control-next-icon" aria-hidden="true"></span>
+        <span class="sr-only" i18n>Next</span>
+    </a>
+</div>
