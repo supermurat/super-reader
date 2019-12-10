@@ -6,6 +6,7 @@ import * as h2p from 'html2plaintext';
 
 import { FUNCTIONS_CONFIG } from './config';
 import { JobModel } from './models/';
+import { refreshFeeds } from './jobs-feed';
 
 /** firestore instance */
 const db = admin.firestore();
@@ -62,6 +63,9 @@ export const jobRunner = functions
         let job: Promise<any>;
         if (jobData.actionKey === 'fixPublicFilesPermissions') {
             job = fixPublicFilesPermissions(snap, jobData);
+        }
+        if (jobData.actionKey === 'refreshFeeds') {
+            job = refreshFeeds(snap, jobData);
         }
         if (job !== undefined) {
             return job

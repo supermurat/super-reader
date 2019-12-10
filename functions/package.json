@@ -37,11 +37,15 @@
     "rxjs": "6.5.3",
     "tslib": "1.10.0",
     "zone.js": "0.10.2",
-    "sitemap": "5.1.0"
+    "sitemap": "5.1.0",
+    "request": "^2.88.0",
+    "feedparser": "^2.2.9",
+    "string-to-stream": "^3.0.1"
   },
   "devDependencies": {
     "@types/jasmine": "~3.5.0",
     "@types/node": "~12.12.12",
+    "@types/feedparser": "^2.2.3",
     "firebase-functions-test": "^0.1.7",
     "jasmine": "^3.5.0",
     "jasmine-core": "~3.5.0",
