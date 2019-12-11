@@ -19,7 +19,7 @@ const request = requestOrigin.defaults({
 });
 
 /** get content of feed */
-const getContentOfFeed = (mainDocData: FeedModel): Promise<FeedModel> =>
+const getContentOfFeed = async (mainDocData: FeedModel): Promise<FeedModel> =>
     new Promise((resolve, reject): void => {
         request(mainDocData.url, (error, response, body) => {
             if (!error && response.statusCode === 200) {
@@ -35,7 +35,7 @@ const getContentOfFeed = (mainDocData: FeedModel): Promise<FeedModel> =>
     });
 
 /** parse feed */
-const parseFeed = (mainDocData: FeedModel): Promise<FeedModel> =>
+const parseFeed = async (mainDocData: FeedModel): Promise<FeedModel> =>
     new Promise((resolve, reject): void => {
         console.log(mainDocData);
         const fp = new FeedParser({});
@@ -89,6 +89,9 @@ export const refreshFeeds = async (snap: DocumentSnapshot, jobData: JobModel): P
                         mainDoc.ref.set({...reason, ...{refreshedAt: new Date()}}, {merge: true})
                             .then(() => {
                                 processedDocCount++;
+                            })
+                            .catch(reason1 => {
+                                console.error(reason1);
                             });
                     });
             })))

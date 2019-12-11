@@ -2,11 +2,10 @@ import { Storage } from '@google-cloud/storage';
 import * as admin from 'firebase-admin';
 import * as functions from 'firebase-functions';
 import { DocumentSnapshot } from 'firebase-functions/lib/providers/firestore';
-import * as h2p from 'html2plaintext';
 
 import { FUNCTIONS_CONFIG } from './config';
-import { JobModel } from './models/';
 import { refreshFeeds } from './jobs-feed';
+import { JobModel } from './models/';
 
 /** firestore instance */
 const db = admin.firestore();
