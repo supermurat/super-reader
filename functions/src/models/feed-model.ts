@@ -16,6 +16,4 @@ export class FeedModel {
     lastError?: any;
     /** isHealthy */
     isHealthy?: boolean;
-    /** items */
-    items?: Array<any>;
 }

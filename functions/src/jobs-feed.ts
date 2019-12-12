@@ -8,7 +8,7 @@ import * as requestOrigin from 'request';
 import * as stringToStream from 'string-to-stream';
 
 import { FUNCTIONS_CONFIG } from './config';
-import { FeedModel, JobModel } from './models/';
+import { FeedItemModel, FeedModel, JobModel } from './models/';
 
 /** firestore instance */
 const db = admin.firestore();
@@ -17,6 +17,50 @@ const db = admin.firestore();
 const request = requestOrigin.defaults({
     headers: {'User-Agent': 'chrome'}
 });
+
+/** get document ID */
+// tslint:disable-next-line: arrow-return-shorthand
+const getDocumentID = (link: string): string => {
+    return link
+        .replace(/\//gi, '\\')
+        .split('#')[0];
+};
+
+/** clear feed item */
+const clearFeedItem = (feedItem: FeedItemModel): void => {
+    if (feedItem.description) {
+        delete feedItem.description;
+    }
+    if (feedItem['rss:description']) {
+        delete feedItem['rss:description'];
+    }
+    if (feedItem.meta) {
+        if (feedItem.meta['#ns']) {
+            delete feedItem.meta['#ns'];
+        }
+        if (feedItem.meta['#xml']) {
+            delete feedItem.meta['#xml'];
+        }
+        if (feedItem.meta['@']) {
+            delete feedItem.meta['@'];
+        }
+    }
+};
+
+/** create feed item */
+const createFeedItem = async (feedItem: FeedItemModel): Promise<FeedModel> =>
+    new Promise((resolve, reject): void => {
+        clearFeedItem(feedItem);
+        db.collection('feedItemsRaw')
+            .doc(getDocumentID(feedItem.link))
+            .set(feedItem)
+            .then(value => {
+                resolve(feedItem);
+            })
+            .catch(reason => {
+                reject(reason);
+            });
+    });
 
 /** get content of feed */
 const getContentOfFeed = async (mainDocData: FeedModel): Promise<FeedModel> =>
@@ -46,16 +90,15 @@ const parseFeed = async (mainDocData: FeedModel): Promise<FeedModel> =>
             reject({...mainDocData, ...{isHealthy: false, lastError: JSON.parse(JSON.stringify(error))}});
         });
         fp.on('end', (): void => {
-            resolve({...mainDocData, ...{isHealthy: true, items: parsedItems}});
+            resolve({...mainDocData, ...{isHealthy: true}});
         });
-        fp.on('readable', function(): Array<any> {
+        fp.on('readable', async function(): Promise<void> {
             let item;
             // tslint:disable-next-line:no-conditional-assignment
             while (item = this.read()) {
                 parsedItems.push(item);
+                await createFeedItem(item);
             }
-
-            return parsedItems;
         });
     });
 
