@@ -6,8 +6,8 @@ const FUNCTIONS_CONFIG_LOCAL = {
     supportedLanguageCodes: ['en', 'tr'],
     /** default language code to redirect; en, tr */
     defaultLanguageCode: 'tr',
-    /** do you want to cache responses? */
-    cacheResponses: false
+    /** do you want to get full content of related page of feed item ASAP? */
+    getFullContentASAP: false
 };
 
 /** Production Configs */
@@ -18,8 +18,8 @@ const FUNCTIONS_CONFIG_LIVE = {
     supportedLanguageCodes: ['en', 'tr'],
     /** default language code to redirect; en, tr */
     defaultLanguageCode: 'tr',
-    /** do you want to cache responses? */
-    cacheResponses: true
+    /** do you want to get full content of related page of feed item ASAP? */
+    getFullContentASAP: false
 };
 
 // istanbul ignore next

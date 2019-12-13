@@ -1,35 +1,37 @@
-import { Enclosure, Image, Item, Meta } from 'feedparser';
+import { Enclosure, Image, Meta } from 'feedparser';
 
 /**
  * Feed Item Model
  */
-export class FeedItemModel implements Item {
+export class FeedItemModel {
     /** author */
-    author: string;
+    author?: string;
     /** categories */
-    categories: Array<string>;
+    categories?: Array<string>;
     /** comments */
-    comments: string;
+    comments?: string;
     /** date */
-    date: Date | null;
+    date?: Date | null;
     /** description */
-    description: string;
+    description?: string;
     /** enclosures */
-    enclosures: Array<Enclosure>;
+    enclosures?: Array<Enclosure>;
     /** guid */
-    guid: string;
+    guid?: string;
     /** image */
-    image: Image;
+    image?: Image;
     /** link */
-    link: string;
+    link?: string;
     /** meta */
-    meta: Meta;
+    meta?: Meta;
     /** origlink */
-    origlink: string;
+    origlink?: string;
     /** pubdate */
-    pubdate: Date | null;
+    pubdate?: Date | null;
     /** summary */
-    summary: string;
+    summary?: string;
     /** title */
-    title: string;
+    title?: string;
+    /** full content of related page of feed item */
+    fullContent?: string;
 }
