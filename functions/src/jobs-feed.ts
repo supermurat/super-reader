@@ -50,11 +50,6 @@ const clearFeedItem = (feedItem: FeedItemModel): void => {
 /** get full content of related page of feed item */
 const getFullContentOfFeedItem = async (feedItem: FeedItemModel): Promise<string> =>
     new Promise((resolve, reject): void => {
-        if (!FUNCTIONS_CONFIG.getFullContentASAP) {
-            resolve('');
-
-            return;
-        }
         request(feedItem.link, (error, response, body) => {
             if (!error && response.statusCode === 200) {
                 resolve(body.toString());
@@ -69,25 +64,14 @@ const getFullContentOfFeedItem = async (feedItem: FeedItemModel): Promise<string
     });
 
 /** get only needed fields of feed item */
-// tslint:disable-next-line: arrow-return-shorthand
-const getFeedItem = async (feedItem: FeedItemModel): Promise<FeedItemModel> =>
-    new Promise((resolve, reject): void => {
-        getFullContentOfFeedItem(feedItem)
-            .then(fullContent => {
-                resolve({
-                    link: feedItem.link,
-                    date: feedItem.date,
-                    image: (feedItem.image && Object.keys(feedItem.image).length > 0) ? feedItem.image :
-                        ((feedItem.meta && feedItem.meta.image) ? feedItem.meta.image : undefined),
-                    summary: feedItem.summary,
-                    title: feedItem.title,
-                    fullContent
-                });
-            })
-            .catch(reason => {
-                console.error(reason);
-                reject(reason);
-            });
+const getFeedItem = (feedItem: FeedItemModel): FeedItemModel =>
+    ({
+        link: feedItem.link,
+        date: feedItem.date,
+        image: (feedItem.image && Object.keys(feedItem.image).length > 0) ? feedItem.image :
+            ((feedItem.meta && feedItem.meta.image) ? feedItem.meta.image : undefined),
+        summary: feedItem.summary,
+        title: feedItem.title
     });
 
 /** create feed item */
@@ -95,25 +79,39 @@ const createFeedItem = async (feedItemRaw: FeedItemModel): Promise<FeedModel> =>
     new Promise((resolve, reject): void => {
         clearFeedItem(feedItemRaw);
         const documentID = getDocumentID(feedItemRaw.link);
-        getFeedItem(feedItemRaw)
-            .then(feedItem => {
-                db.collection('feedItemsRaw')
+        const feedItem = getFeedItem(feedItemRaw);
+        db.collection('feedItemsRaw')
+            .doc(documentID)
+            .set(feedItemRaw)
+            .then(valueOfRaw =>
+                db.collection('feedItems')
                     .doc(documentID)
-                    .set(feedItemRaw)
-                    .then(valueOfRaw =>
-                        db.collection('feedItems')
-                            .doc(documentID)
-                            .set(feedItem)
-                            .then(valueOfItem => {
-                                resolve(feedItem);
-                            })
-                            .catch(reason => {
-                                reject(reason);
-                            }))
+                    .set(feedItem)
+                    .then(valueOfItem => {
+                        if (FUNCTIONS_CONFIG.getFullContentASAP) {
+                            getFullContentOfFeedItem(feedItem)
+                                .then(fullContent => {
+                                    db.collection('feedItemsFull')
+                                        .doc(documentID)
+                                        .set({fullContent})
+                                        .then(valueOfFull => {
+                                            resolve(feedItem);
+                                        })
+                                        .catch(reason => {
+                                            reject(reason);
+                                        });
+                                })
+                                .catch(reason => {
+                                    console.error(reason);
+                                    reject(reason);
+                                });
+                        } else {
+                            resolve(feedItem);
+                        }
+                    })
                     .catch(reason => {
                         reject(reason);
-                    });
-            })
+                    }))
             .catch(reason => {
                 reject(reason);
             });
@@ -136,23 +134,34 @@ const getContentOfFeed = async (mainDocData: FeedModel): Promise<FeedModel> =>
     });
 
 /** parse feed */
-const parseFeed = async (mainDocData: FeedModel): Promise<FeedModel> =>
+const parseFeed = async (sourceMainDocData: FeedModel, newMainDocData: FeedModel): Promise<FeedModel> =>
     new Promise((resolve, reject): void => {
-        console.log(mainDocData);
         const fp = new FeedParser({});
-        stringToStream(mainDocData.rawContent).pipe(fp);
+        stringToStream(newMainDocData.rawContent).pipe(fp);
+        const items: Array<FeedItemModel> = [];
         fp.on('error', (error): void => {
             console.error(error);
-            reject({...mainDocData, ...{isHealthy: false, lastError: JSON.parse(JSON.stringify(error))}});
+            reject({...newMainDocData, ...{isHealthy: false, lastError: JSON.parse(JSON.stringify(error))}});
         });
-        fp.on('end', (): void => {
-            resolve({...mainDocData, ...{isHealthy: true}});
+        fp.on('end', async (): Promise<void> => {
+            let i = 1;
+            for (const item of items) {
+                try {
+                    console.log(`Started : ${sourceMainDocData.url} : ${i}/${items.length} : ${item.link}`);
+                    await createFeedItem(item);
+                    console.log(`Done : ${sourceMainDocData.url} : ${i}/${items.length} : ${item.link}`);
+                    i++;
+                } catch (e) {
+                    console.error(e);
+                }
+            }
+            resolve({...newMainDocData, ...{isHealthy: true}});
         });
-        fp.on('readable', async function(): Promise<void> {
+        fp.on('readable', function(): void {
             let item;
             // tslint:disable-next-line:no-conditional-assignment
             while (item = this.read()) {
-                await createFeedItem(item);
+                items.push(item);
             }
         });
     });
@@ -175,7 +184,9 @@ export const refreshFeeds = async (snap: DocumentSnapshot, jobData: JobModel): P
                 const mainDocData = mainDoc.data() as FeedModel;
 
                 return getContentOfFeed(mainDocData)
-                    .then(parseFeed)
+                    .then(value =>
+                        parseFeed(mainDocData, value)
+                    )
                     .then(value =>
                         mainDoc.ref.set({...value, ...{refreshedAt: new Date()}}, {merge: true})
                             .then(() => {
