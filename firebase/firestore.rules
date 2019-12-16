@@ -13,11 +13,11 @@ service cloud.firestore {
       allow write: if false;
     }
     match /messages_en-US/{document=**} {
-      allow read, update, delete: if exists(/databases/$(database)/documents/users/request.auth.uid);
+      allow read, update, delete: if exists(/databases/$(database)/documents/users/$(request.auth.uid));
       allow create: if true;
     }
     match /messages_tr-TR/{document=**} {
-      allow read, update, delete: if exists(/databases/$(database)/documents/users/request.auth.uid);
+      allow read, update, delete: if exists(/databases/$(database)/documents/users/$(request.auth.uid));
       allow create: if true;
     }
     match /configs/public_en-US {
@@ -27,6 +27,14 @@ service cloud.firestore {
     match /configs/public_tr-TR {
       allow read: if true;
       allow write: if false;
+    }
+    match /feedItems/{document=**} {
+      allow read, update: if exists(/databases/$(database)/documents/users/$(request.auth.uid));
+      allow create, delete: if false;
+    }
+    match /feedItemsFull/{document=**} {
+      allow read: if exists(/databases/$(database)/documents/users/$(request.auth.uid));
+      allow create, update, delete: if false;
     }
     match /{document=**} {
       allow read, write: if false;

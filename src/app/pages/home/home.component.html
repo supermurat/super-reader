@@ -20,12 +20,12 @@
                     <!--{{ user | json }}-->
                     <span i18n>Hello,</span> {{ user.displayName }}
                     <hr/>
-                    <button class="button" (click)="auth.signOut()" i18n>Sign Out</button>
+                    <button class="btn btn-success" (click)="auth.signOut()" i18n>Sign Out</button>
 
                 </div>
 
                 <ng-template #login>
-                    <button class="button" (click)="auth.googleSignIn()" i18n>Login with Google</button>
+                    <button class="btn btn-success" (click)="auth.googleSignIn()" i18n>Login with Google</button>
                 </ng-template>
             </div>
         </article>
