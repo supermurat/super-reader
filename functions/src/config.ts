@@ -7,7 +7,7 @@ const FUNCTIONS_CONFIG_LOCAL = {
     /** default language code to redirect; en, tr */
     defaultLanguageCode: 'tr',
     /** do you want to get full content of related page of feed item ASAP? */
-    getFullContentASAP: false
+    getFullContentASAP: true
 };
 
 /** Production Configs */

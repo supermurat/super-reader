@@ -1,3 +1,4 @@
+import { ClearFullContentConfigModel } from './clear-full-content-config-model';
 /**
  * Feed Model
  */
@@ -16,4 +17,7 @@ export class FeedModel {
     lastError?: any;
     /** isHealthy */
     isHealthy?: boolean;
+
+    /** clear full content config */
+    clearFullContentConfig?: ClearFullContentConfigModel;
 }

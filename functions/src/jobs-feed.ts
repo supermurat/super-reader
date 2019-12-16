@@ -47,12 +47,62 @@ const clearFeedItem = (feedItem: FeedItemModel): void => {
     }
 };
 
+/** fix missing html tag */
+const fixMissingHtmlTag = (htmlContent: string, tag: string): string => {
+    let content = htmlContent;
+    const countOfDiv = content.split(`<${tag}`).length;
+    let countOfEndDiv = content.split(`</${tag}`).length;
+    while (countOfEndDiv < countOfDiv) {
+        content += `</${tag}>`;
+        countOfEndDiv = content.split(`</${tag}`).length;
+    }
+
+    return content;
+};
+
+/** fix missing html tags */
+const fixMissingHtmlTags = (htmlContent: string): string => {
+    let content = htmlContent;
+    content = fixMissingHtmlTag(content, 'div');
+    content = fixMissingHtmlTag(content, 'p');
+
+    return content;
+};
+
+/** clear full content */
+const clearFullContent = (sourceMainDocData: FeedModel, fullContent: string): string => {
+    let content = '';
+    if (sourceMainDocData.clearFullContentConfig.isCombineWithRegexp) {
+        for (const regexpValue of sourceMainDocData.clearFullContentConfig.combineRegexps) {
+            const m = fullContent.match(new RegExp(regexpValue.regexp, regexpValue.flags));
+            if (m) {
+                content += m.join();
+            }
+        }
+    } else {
+        content = fullContent;
+    }
+
+    if (sourceMainDocData.clearFullContentConfig.isDeleteWithRegexp) {
+        for (const regexpValue of sourceMainDocData.clearFullContentConfig.deleteRegexps) {
+            content = content.replace(new RegExp(regexpValue.regexp, regexpValue.flags), '');
+        }
+    }
+    content = fixMissingHtmlTags(content);
+
+    if (content === '') {
+        content = fullContent;
+    }
+
+    return content;
+};
+
 /** get full content of related page of feed item */
-const getFullContentOfFeedItem = async (feedItem: FeedItemModel): Promise<string> =>
+const getFullContentOfFeedItem = async (sourceMainDocData: FeedModel, feedItem: FeedItemModel): Promise<string> =>
     new Promise((resolve, reject): void => {
         request(feedItem.link, (error, response, body) => {
             if (!error && response.statusCode === 200) {
-                resolve(body.toString());
+                resolve(clearFullContent(sourceMainDocData, body.toString()));
             } else {
                 if (error) {
                     reject(error);
@@ -75,43 +125,56 @@ const getFeedItem = (feedItem: FeedItemModel): FeedItemModel =>
     });
 
 /** create feed item */
-const createFeedItem = async (feedItemRaw: FeedItemModel): Promise<FeedModel> =>
+const createFeedItem = async (sourceMainDocData: FeedModel, feedItemRaw: FeedItemModel): Promise<FeedModel> =>
     new Promise((resolve, reject): void => {
         clearFeedItem(feedItemRaw);
         const documentID = getDocumentID(feedItemRaw.link);
-        const feedItem = getFeedItem(feedItemRaw);
-        db.collection('feedItemsRaw')
+        db.collection('feedItems')
             .doc(documentID)
-            .set(feedItemRaw)
-            .then(valueOfRaw =>
-                db.collection('feedItems')
-                    .doc(documentID)
-                    .set(feedItem)
-                    .then(valueOfItem => {
-                        if (FUNCTIONS_CONFIG.getFullContentASAP) {
-                            getFullContentOfFeedItem(feedItem)
-                                .then(fullContent => {
-                                    db.collection('feedItemsFull')
-                                        .doc(documentID)
-                                        .set({fullContent})
-                                        .then(valueOfFull => {
-                                            resolve(feedItem);
-                                        })
-                                        .catch(reason => {
-                                            reject(reason);
-                                        });
+            .get()
+            .then(value => {
+                const feedItem = getFeedItem(feedItemRaw);
+                if (value.exists) {
+                    console.log(`feedItems/${documentID} is already exist!`);
+                    resolve(feedItem);
+                } else {
+                    db.collection('feedItemsRaw')
+                        .doc(documentID)
+                        .set(feedItemRaw)
+                        .then(valueOfRaw =>
+                            db.collection('feedItems')
+                                .doc(documentID)
+                                .set(feedItem)
+                                .then(valueOfItem => {
+                                    if (FUNCTIONS_CONFIG.getFullContentASAP) {
+                                        getFullContentOfFeedItem(sourceMainDocData, feedItem)
+                                            .then(fullContent => {
+                                                db.collection('feedItemsFull')
+                                                    .doc(documentID)
+                                                    .set({fullContent})
+                                                    .then(valueOfFull => {
+                                                        resolve(feedItem);
+                                                    })
+                                                    .catch(reason => {
+                                                        reject(reason);
+                                                    });
+                                            })
+                                            .catch(reason => {
+                                                console.error(reason);
+                                                reject(reason);
+                                            });
+                                    } else {
+                                        resolve(feedItem);
+                                    }
                                 })
                                 .catch(reason => {
-                                    console.error(reason);
                                     reject(reason);
-                                });
-                        } else {
-                            resolve(feedItem);
-                        }
-                    })
-                    .catch(reason => {
-                        reject(reason);
-                    }))
+                                }))
+                        .catch(reason => {
+                            reject(reason);
+                        });
+                }
+            })
             .catch(reason => {
                 reject(reason);
             });
@@ -148,7 +211,7 @@ const parseFeed = async (sourceMainDocData: FeedModel, newMainDocData: FeedModel
             for (const item of items) {
                 try {
                     console.log(`Started : ${sourceMainDocData.url} : ${i}/${items.length} : ${item.link}`);
-                    await createFeedItem(item);
+                    await createFeedItem(sourceMainDocData, item);
                     console.log(`Done : ${sourceMainDocData.url} : ${i}/${items.length} : ${item.link}`);
                     i++;
                 } catch (e) {
