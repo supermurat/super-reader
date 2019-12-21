@@ -27,7 +27,7 @@
 </main>
 <!-- /.container -->
 
-<app-footer></app-footer>
+<app-footer *ngIf="isShowFooter"></app-footer>
 
 <cookie-law #cookieLaw awsomeCloseIcon="fas fa-window-close fa-1x" i18n>
     <div class="text-monospace small">By continuing to browse the site, you're agreeing to our use of cookies.</div>

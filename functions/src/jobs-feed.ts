@@ -121,6 +121,7 @@ const getFeedItem = (feedItem: FeedItemModel): FeedItemModel =>
         image: (feedItem.image && Object.keys(feedItem.image).length > 0) ? feedItem.image :
             ((feedItem.meta && feedItem.meta.image) ? feedItem.meta.image : undefined),
         summary: feedItem.summary,
+        summaryPreview: h2p(feedItem.summary).substring(0, 256),
         title: feedItem.title
     });
 

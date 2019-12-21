@@ -1,19 +1,25 @@
 <div class="row" *ngIf="page$ | async as page">
     <!-- Page Content -->
     <div class="col-md-8 py-2">
-        <div class="content" appScrollable (scrollPosition)="scrollHandler($event)">
-            <div class="card mb-4" *ngFor="let feedItem of pagination.data | async; trackBy:pageService.trackByIndex">
-                <div class="card-body">
-                    <h2>{{ feedItem.title }}</h2>
-                    <div class="feed-item-html" *ngIf="feedItem.summary" [innerHTML]="feedItem.summary"></div>
-                </div>
+        <div class="card mb-4" *ngIf="focusedItem">
+            <div class="card-body">
+                <h2>{{ focusedItem.title }}</h2>
+                <div class="feed-item-html" *ngIf="focusedItem.summary" [innerHTML]="focusedItem.summary"></div>
             </div>
-            <p class="alert-warning" *ngIf="pagination.done | async" i18n>I ran out of items!</p>
         </div>
     </div>
 
     <!-- Sidebar Widgets Column -->
     <aside class="col-md-4 pt-2">
-        <app-side-bar></app-side-bar>
+        <div class="content" appScrollable (scrollPosition)="scrollHandler($event)">
+            <div class="card mb-4" *ngFor="let feedItem of pagination.data | async; trackBy:pageService.trackByIndex" (mouseenter)="focusedItem = feedItem">
+                <img class="card-img-top img-fluid" *ngIf="feedItem.image" [src]="feedItem.image.url" alt="{{ feedItem.image.title }}"/>
+                <div class="card-body">
+                    <h2>{{ feedItem.title }}</h2>
+                    <div class="feed-item-html" *ngIf="feedItem.summaryPreview" [innerHTML]="feedItem.summaryPreview + '...'"></div>
+                </div>
+            </div>
+            <p class="alert-warning" *ngIf="pagination.done | async" i18n>I ran out of items!</p>
+        </div>
     </aside>
 </div>

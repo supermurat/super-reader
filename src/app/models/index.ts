@@ -17,3 +17,7 @@ export * from './pager-model';
 export * from './page-model';
 export * from './user-credentials-model';
 export * from './user-model';
+export * from './feed-item-model';
+export * from './feed-model';
+export * from './clear-full-content-config-model';
+export * from './my-regexp-model';

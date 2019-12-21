@@ -4,7 +4,7 @@ import { SafeHtml } from '@angular/platform-browser';
 import { Router } from '@angular/router';
 import { Angulartics2GoogleGlobalSiteTag } from 'angulartics2/gst';
 import { Observable } from 'rxjs';
-import { ConfigModel, HttpStatusModel } from '../../models';
+import { ConfigModel, HttpStatusModel, PageBaseModel } from '../../models';
 import { AlertService, ConfigService, JsonLDService, PageService, PaginationService, SeoService } from '../../services';
 
 /**
@@ -19,6 +19,8 @@ export class AppComponent implements OnInit {
     httpStatus$: Observable<HttpStatusModel>;
     /** json-LD */
     jsonLD$: Observable<SafeHtml>;
+    /** do you want to show footer? */
+    isShowFooter = true;
 
     /** cookieLaw element */
     @ViewChild('cookieLaw', { static: false }) cookieLawEl: any;
@@ -80,5 +82,10 @@ export class AppComponent implements OnInit {
                 this.scrollHandler();
             }
         });
+
+        this.pageService.getPage()
+            .subscribe((page: PageBaseModel) => {
+                this.isShowFooter = page.i18nKey !== 'dashboard';
+            });
     }
 }

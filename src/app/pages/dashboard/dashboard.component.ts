@@ -1,7 +1,7 @@
 import { Component, Inject, LOCALE_ID, OnInit, PLATFORM_ID } from '@angular/core';
 import { AngularFirestore } from '@angular/fire/firestore';
 import { Observable } from 'rxjs';
-import { PageModel } from '../../models';
+import { FeedItemModel, PageModel } from '../../models';
 import { AlertService, PageService, PaginationService } from '../../services';
 
 /**
@@ -14,6 +14,8 @@ import { AlertService, PageService, PaginationService } from '../../services';
 export class DashboardComponent implements OnInit {
     /** current page object */
     page$: Observable<PageModel>;
+    /** focused feed item */
+    focusedItem: FeedItemModel;
 
     /**
      * constructor of DashboardComponent
