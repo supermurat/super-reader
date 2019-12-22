@@ -113,16 +113,31 @@ const getFullContentOfFeedItem = async (sourceMainDocData: FeedModel, feedItem: 
         });
     });
 
+/** get image of feed item */
+const getImageOfFeedItem = (feedItem: FeedItemModel): FeedParser.Image => {
+    const firstImage = feedItem.summary.match(/<img([\w\W]+?)(\/>|><\/[ ]?img>)/iu);
+    if (firstImage && firstImage.length === 0) {
+        return undefined;
+    }
+    const src = firstImage[0].match(/src="([\w\W]+?)"/iu);
+    const alt = firstImage[0].match(/alt="([\w\W]+?)"/iu);
+
+    return {
+        title: alt && alt.length === 2 ? alt[1] : undefined,
+        url: src && src.length === 2 ? src[1] : undefined
+    };
+};
+
 /** get only needed fields of feed item */
 const getFeedItem = (feedItem: FeedItemModel): FeedItemModel =>
     ({
         link: feedItem.link,
         date: feedItem.date,
-        image: (feedItem.image && Object.keys(feedItem.image).length > 0) ? feedItem.image :
-            ((feedItem.meta && feedItem.meta.image) ? feedItem.meta.image : undefined),
+        image: getImageOfFeedItem(feedItem),
         summary: feedItem.summary,
         summaryPreview: h2p(feedItem.summary).substring(0, 256),
-        title: feedItem.title
+        title: feedItem.title,
+        isRead: false
     });
 
 /** create feed item */

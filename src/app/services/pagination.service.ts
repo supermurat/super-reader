@@ -1,5 +1,7 @@
 import { Inject, Injectable, NgZone } from '@angular/core';
-import { AngularFirestore, AngularFirestoreCollection } from '@angular/fire/firestore';
+import { AngularFirestore, AngularFirestoreCollection, FieldPath, Query } from '@angular/fire/firestore';
+import WhereFilterOp = firebase.firestore.WhereFilterOp;
+import { CollectionReference } from '@angular/fire/firestore/interfaces';
 import { LoadingBarService } from '@ngx-loading-bar/core';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { scan, take, tap } from 'rxjs/operators';
@@ -12,13 +14,27 @@ interface QueryConfig {
     /** path to collection */
     path: string;
     /** field to orderBy */
-    field: string;
+    field: string | FieldPath | Array<string | FieldPath>;
     /** limit per query */
     limit?: number;
     /** reverse order? */
     reverse?: boolean;
     /** prepend to source? */
     prepend?: boolean;
+    /** where part of firestore query */
+    where?: WhereInterface;
+}
+
+/**
+ * where part of firestore queries
+ */
+interface WhereInterface {
+    /** string | FieldPath */
+    fieldPath: string | FieldPath;
+    /** WhereFilterOp */
+    opStr: WhereFilterOp;
+    /** value */
+    value: any;
 }
 
 /**
@@ -58,11 +74,13 @@ export class PaginationService {
      * @param field: field to orderBy
      * @param opts: options
      * @param isReset: do you want to reset before init?
+     * @param where: WhereInterface
      */
-    init(path, field, opts?, isReset?): void {
+    init(path: string, field: string | Array<string>, opts?: any, isReset?: boolean, where?: WhereInterface): void {
         this.query = {
             path,
             field,
+            where,
             limit: 2,
             reverse: false,
             prepend: false,
@@ -73,10 +91,21 @@ export class PaginationService {
         }
 
         setTimeout(() => {
-            const first = this.afs.collection(this.query.path, ref =>
-                ref
-                    .orderBy(this.query.field, this.query.reverse ? 'desc' : 'asc')
-                    .limit(this.query.limit));
+            const first = this.afs.collection(this.query.path, ref => {
+                let refVal = ref as (CollectionReference | Query);
+                if (this.query.where) {
+                    refVal = refVal.where(this.query.where.fieldPath, this.query.where.opStr, this.query.where.value);
+                }
+                if (this.query.field instanceof Array) {
+                    for (const f of this.query.field) {
+                        refVal = refVal.orderBy(f, this.query.reverse ? 'desc' : 'asc');
+                    }
+                } else {
+                    refVal = refVal.orderBy(this.query.field, this.query.reverse ? 'desc' : 'asc');
+                }
+
+                return refVal.limit(this.query.limit);
+            });
 
             this.mapAndUpdate(first);
 
@@ -93,11 +122,22 @@ export class PaginationService {
     more(): any {
         const cursor = this.getCursor();
         if (cursor) {
-            const more = this.afs.collection(this.query.path, ref =>
-                ref
-                    .orderBy(this.query.field, this.query.reverse ? 'desc' : 'asc')
-                    .limit(this.query.limit)
-                    .startAfter(cursor));
+            const more = this.afs.collection(this.query.path, ref => {
+                let refVal = ref as (CollectionReference | Query);
+                if (this.query.where) {
+                    refVal = refVal.where(this.query.where.fieldPath, this.query.where.opStr, this.query.where.value);
+                }
+                if (this.query.field instanceof Array) {
+                    for (const f of this.query.field) {
+                        refVal = refVal.orderBy(f, this.query.reverse ? 'desc' : 'asc');
+                    }
+                } else {
+                    refVal = refVal.orderBy(this.query.field, this.query.reverse ? 'desc' : 'asc');
+                }
+
+                return refVal.limit(this.query.limit)
+                    .startAfter(cursor);
+            });
             this.mapAndUpdate(more);
         } else {
             this.done.next(true);

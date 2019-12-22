@@ -12,11 +12,17 @@
     <!-- Sidebar Widgets Column -->
     <aside class="col-md-4 pt-2">
         <div class="content" appScrollable (scrollPosition)="scrollHandler($event)">
-            <div class="card mb-4" *ngFor="let feedItem of pagination.data | async; trackBy:pageService.trackByIndex" (mouseenter)="focusedItem = feedItem">
-                <img class="card-img-top img-fluid" *ngIf="feedItem.image" [src]="feedItem.image.url" alt="{{ feedItem.image.title }}"/>
-                <div class="card-body">
-                    <h2>{{ feedItem.title }}</h2>
-                    <div class="feed-item-html" *ngIf="feedItem.summaryPreview" [innerHTML]="feedItem.summaryPreview + '...'"></div>
+            <div class="card mb-4 flex-row flex-wrap" *ngFor="let feedItem of pagination.data | async; trackBy:pageService.trackByIndex" (mouseenter)="showPreview(feedItem)">
+                <div class="row no-gutters">
+                    <div class="col-auto">
+                        <img class="img-fluid" *ngIf="feedItem.image" [src]="feedItem.image.url" alt="{{ feedItem.image.title }}"/>
+                    </div>
+                    <div class="col">
+                        <div class="card-block px-2">
+                            <h6 class="card-title">{{ feedItem.title }}</h6>
+                            <div class="feed-item-html card-text small" *ngIf="feedItem.summaryPreview" [innerHTML]="feedItem.summaryPreview + '...'"></div>
+                        </div>
+                    </div>
                 </div>
             </div>
             <p class="alert-warning" *ngIf="pagination.done | async" i18n>I ran out of items!</p>

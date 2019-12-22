@@ -39,7 +39,11 @@ export class DashboardComponent implements OnInit {
     ngOnInit(): void {
         this.page$ = this.pageService.getPageFromFirestore(PageModel, 'pages', this.pageService.getRoutePathName());
 
-        this.pagination.init('feedItems', 'date', {limit: 5, reverse: true, prepend: false});
+        this.pagination.init(
+            'feedItems', ['isRead', 'date'], {limit: 5, reverse: true, prepend: false}, undefined,
+            {
+                fieldPath: 'isRead', opStr: '<=', value: false
+            });
     }
 
     /**
@@ -51,4 +55,13 @@ export class DashboardComponent implements OnInit {
             this.pagination.more();
         }
     }
+
+    /**
+     * show feed item preview
+     * @param feedItem: FeedItemModel
+     */
+    showPreview(feedItem: FeedItemModel): void {
+        this.focusedItem = feedItem;
+    }
+
 }

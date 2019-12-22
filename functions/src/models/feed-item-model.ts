@@ -36,4 +36,6 @@ export class FeedItemModel {
     title?: string;
     /** full content of related page of feed item */
     fullContent?: string;
+    /** is read? */
+    isRead?: boolean;
 }
