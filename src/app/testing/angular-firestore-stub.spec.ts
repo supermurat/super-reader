@@ -8,6 +8,60 @@ import {
     getSortedArrayByNumberKey
 } from './helpers.spec';
 
+const orderBy = (fieldPath, tDataParam: Array<any>, limitNumberValueParam: number): any => {
+    let limitNumberValue = limitNumberValueParam;
+    let tData = getSortedArrayByNumberKey(tDataParam, fieldPath);
+    let tDataSnap = getFirestoreSnap(tData);
+
+    return {
+        orderBy(fieldPath1): any {
+            const retVal = orderBy(fieldPath1, tData, limitNumberValue);
+            limitNumberValue = retVal.limitNumberValue;
+            delete retVal.limitNumberValue;
+
+            return retVal;
+        },
+        limit(limitNumber): any {
+            limitNumberValue = limitNumber;
+
+            return {
+                startAfter(startAfterDoc): any {
+                    tData = getArrayStartAfterByDocument(tData, startAfterDoc);
+                    tData = tData.slice(0, limitNumber);
+                    tDataSnap = getFirestoreSnap(tData);
+
+                    return {
+                        snapshotChanges(): any {
+                            return from([tDataSnap]);
+                        }
+                    };
+                },
+                snapshotChanges(): any {
+                    tData = tData.slice(0, limitNumber);
+                    tDataSnap = getFirestoreSnap(tData);
+
+                    return from([tDataSnap]);
+                }
+            };
+        },
+        startAt(startAtValue): any {
+            tData = getArrayStartByNumberField(tData, fieldPath, startAtValue);
+            tDataSnap = getFirestoreSnap(tData);
+
+            return {
+                limit(limitNumber): any {
+                    limitNumberValue = limitNumber;
+                    tData = tData.slice(0, limitNumber);
+                    tDataSnap = getFirestoreSnap(tData);
+
+                    return {fieldPath};
+                }
+            };
+        },
+        limitNumberValue
+    };
+};
+
 const angularFirestoreStubEmpty = {
     doc(testData: any, path: string): any {
         const tData = getDataByPath(testData, path);
@@ -34,54 +88,24 @@ const angularFirestoreStubEmpty = {
         if (queryFn) {
             queryFn({
                 orderBy(fieldPath): any {
-                    tData = getSortedArrayByNumberKey(tData, fieldPath);
-                    tDataSnap = getFirestoreSnap(tData);
+                    const retVal = orderBy(fieldPath, tData, limitNumberValue);
+                    limitNumberValue = retVal.limitNumberValue;
+                    delete retVal.limitNumberValue;
 
-                    return {
-                        limit(limitNumber): any {
-                            limitNumberValue = limitNumber;
-
-                            return {
-                                startAfter(startAfterDoc): any {
-                                    tData = getArrayStartAfterByDocument(tData, startAfterDoc);
-                                    tData = tData.slice(0, limitNumber);
-                                    tDataSnap = getFirestoreSnap(tData);
-
-                                    return {
-                                        snapshotChanges(): any {
-                                            return from([tDataSnap]);
-                                        }
-                                    };
-                                },
-                                snapshotChanges(): any {
-                                    tData = tData.slice(0, limitNumber);
-                                    tDataSnap = getFirestoreSnap(tData);
-
-                                    return from([tDataSnap]);
-                                }
-                            };
-                        },
-                        startAt(startAtValue): any {
-                            tData = getArrayStartByNumberField(tData, fieldPath, startAtValue);
-                            tDataSnap = getFirestoreSnap(tData);
-
-                            return {
-                                limit(limitNumber): any {
-                                    limitNumberValue = limitNumber;
-                                    tData = tData.slice(0, limitNumber);
-                                    tDataSnap = getFirestoreSnap(tData);
-
-                                    return {fieldPath};
-                                }
-                            };
-                        }
-                    };
+                    return retVal;
                 },
                 where(fieldPath, opStr, value): any {
                     tData = getArrayWhereByField(tData, fieldPath, opStr, value);
                     tDataSnap = getFirestoreSnap(tData);
 
                     return {
+                        orderBy(fieldPath1): any {
+                            const retVal = orderBy(fieldPath1, tData, limitNumberValue);
+                            limitNumberValue = retVal.limitNumberValue;
+                            delete retVal.limitNumberValue;
+
+                            return retVal;
+                        },
                         limit(limitNumber): any {
                             limitNumberValue = limitNumber;
 

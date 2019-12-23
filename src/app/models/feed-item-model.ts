@@ -2,6 +2,8 @@
  * Feed Item Model
  */
 export class FeedItemModel {
+    /** firestore id */
+    id?: string;
     /** author */
     author?: string;
     /** categories */

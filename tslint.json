@@ -25,6 +25,6 @@
     "label-position": true,
     "object-literal-sort-keys": false,
     "completed-docs": true,
-    "template-cyclomatic-complexity": [true, 7]
+    "template-cyclomatic-complexity": [true, 14]
   }
 }

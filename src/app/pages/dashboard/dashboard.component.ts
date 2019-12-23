@@ -23,6 +23,7 @@ export class DashboardComponent implements OnInit {
      * @param pageService: PageService
      * @param afs: AngularFirestore
      * @param alert: AlertService
+     * @param pagination: PaginationService
      * @param locale: LOCALE_ID
      */
     constructor(@Inject(PLATFORM_ID) private readonly platformId: string,
@@ -57,10 +58,47 @@ export class DashboardComponent implements OnInit {
     }
 
     /**
+     * update feed item
+     * @param feedItem: FeedItemModel
+     * @param newData: FeedItemModel
+     */
+    updateFeedItem(feedItem: FeedItemModel, newData: FeedItemModel): void {
+        this.afs.collection('feedItems')
+            .doc(feedItem.id)
+            .set(newData, {merge: true})
+            .then(value => {
+                Object.keys(newData)
+                    .forEach(key => {
+                        feedItem[key] = newData[key];
+                    });
+            })
+            .catch(reason => {
+                this.alert.error(reason);
+            });
+    }
+
+    /**
+     * mark feed item as read
+     * @param feedItem: FeedItemModel
+     */
+    markAsRead(feedItem: FeedItemModel): void {
+        this.updateFeedItem(feedItem, {isRead: true});
+    }
+
+    /**
+     * mark feed item as unread
+     * @param feedItem: FeedItemModel
+     */
+    markAsUnRead(feedItem: FeedItemModel): void {
+        this.updateFeedItem(feedItem, {isRead: false});
+    }
+
+    /**
      * show feed item preview
      * @param feedItem: FeedItemModel
      */
     showPreview(feedItem: FeedItemModel): void {
+        // this.markAsRead(feedItem);
         this.focusedItem = feedItem;
     }
 

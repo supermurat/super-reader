@@ -2,8 +2,14 @@
     <!-- Page Content -->
     <div class="col-md-8 py-2">
         <div class="card mb-4" *ngIf="focusedItem">
+            <div class="card-header">
+                <button class="btn ml-3 mt-1 btn-sm float-right" *ngIf="focusedItem.isRead" (click)="markAsUnRead(focusedItem)"
+                        title="Mark As Unread"><i class="far fa-fw fa-registered fa-lg"></i></button>
+                <button class="btn ml-3 mt-1 btn-sm float-right" *ngIf="!focusedItem.isRead" (click)="markAsRead(focusedItem)"
+                        title="Mark As Read"><i class="fas fa-fw fa-registered fa-lg"></i></button>
+            </div>
             <div class="card-body">
-                <h2>{{ focusedItem.title }}</h2>
+                <h2 class="card-title">{{ focusedItem.title }}</h2>
                 <div class="feed-item-html" *ngIf="focusedItem.summary" [innerHTML]="focusedItem.summary"></div>
             </div>
         </div>
