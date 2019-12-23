@@ -38,6 +38,8 @@ export class FeedItemModel {
     fullContent?: string;
     /** is read? */
     isRead?: boolean;
+    /** tags */
+    tags?: Array<string>;
 }
 
 // tslint:disable:completed-docs

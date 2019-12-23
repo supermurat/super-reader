@@ -55,8 +55,7 @@ export const jobRunner = functions
     // .runWith({ memory: '1GB', timeoutSeconds: 120 })
     .firestore
     .document('jobs/{jobId}')
-    // tslint:disable-next-line:promise-function-async
-    .onCreate((snap, context) => {
+    .onCreate(async (snap, context) => {
         console.log('jobRunner is started');
         const jobData = snap.data() as JobModel;
         let job: Promise<any>;
@@ -81,4 +80,27 @@ export const jobRunner = functions
         }
 
         return Promise.resolve();
+    });
+
+/** scheduled job runner function */
+export const scheduledJobRunner = functions
+    // .region('europe-west1')
+    // .runWith({ memory: '1GB', timeoutSeconds: 120 })
+    .pubsub
+    .schedule('every 30 minutes')
+    .onRun(async context => {
+        console.log('scheduledJobRunner is started');
+        const job = refreshFeeds(undefined, {limit: 10});
+
+        return job
+            .then(value => {
+                console.log(value);
+
+                return value;
+            })
+            .catch(err => {
+                console.error('functions.onRun', err);
+
+                return err;
+            });
     });

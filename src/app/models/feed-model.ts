@@ -17,6 +17,8 @@ export class FeedModel {
     lastError?: any;
     /** isHealthy */
     isHealthy?: boolean;
+    /** tags */
+    tags?: Array<string>;
 
     /** clear full content config */
     clearFullContentConfig?: ClearFullContentConfigModel;

@@ -116,20 +116,23 @@ const getFullContentOfFeedItem = async (sourceMainDocData: FeedModel, feedItem: 
 /** get image of feed item */
 const getImageOfFeedItem = (feedItem: FeedItemModel): FeedParser.Image => {
     const firstImage = feedItem.summary.match(/<img([\w\W]+?)(\/>|><\/[ ]?img>)/iu);
-    if (firstImage && firstImage.length === 0) {
-        return undefined;
+    if (!firstImage || firstImage.length === 0) {
+        // tslint:disable-next-line:no-null-keyword
+        return null;
     }
     const src = firstImage[0].match(/src="([\w\W]+?)"/iu);
     const alt = firstImage[0].match(/alt="([\w\W]+?)"/iu);
 
     return {
-        title: alt && alt.length === 2 ? alt[1] : undefined,
-        url: src && src.length === 2 ? src[1] : undefined
+        // tslint:disable-next-line:no-null-keyword
+        title: alt && alt.length === 2 ? alt[1] : null,
+        // tslint:disable-next-line:no-null-keyword
+        url: src && src.length === 2 ? src[1] : null
     };
 };
 
 /** get only needed fields of feed item */
-const getFeedItem = (feedItem: FeedItemModel): FeedItemModel =>
+const getFeedItem = (sourceMainDocData: FeedModel, feedItem: FeedItemModel): FeedItemModel =>
     ({
         link: feedItem.link,
         date: feedItem.date,
@@ -137,7 +140,8 @@ const getFeedItem = (feedItem: FeedItemModel): FeedItemModel =>
         summary: feedItem.summary,
         summaryPreview: h2p(feedItem.summary).substring(0, 256),
         title: feedItem.title,
-        isRead: false
+        isRead: false,
+        tags: sourceMainDocData.tags
     });
 
 /** create feed item */
@@ -149,7 +153,7 @@ const createFeedItem = async (sourceMainDocData: FeedModel, feedItemRaw: FeedIte
             .doc(documentID)
             .get()
             .then(value => {
-                const feedItem = getFeedItem(feedItemRaw);
+                const feedItem = getFeedItem(sourceMainDocData, feedItemRaw);
                 if (value.exists) {
                     console.log(`feedItems/${documentID} is already exist!`);
                     resolve(feedItem);
@@ -283,10 +287,14 @@ export const refreshFeeds = async (snap: DocumentSnapshot, jobData: JobModel): P
                             });
                     });
             })))
-        .then(async values =>
-            snap.ref.set({result: `Count of processed feeds: ${processedDocCount}`}, {merge: true})
-                .then(() =>
-                    Promise.resolve(`refreshFeeds is finished. Count of processed feeds: ${processedDocCount}`)
-                )
-        );
+        .then(async values => {
+            if (snap) {
+                return snap.ref.set({result: `Count of processed feeds: ${processedDocCount}`}, {merge: true})
+                    .then(() =>
+                        Promise.resolve(`refreshFeeds is finished. Count of processed feeds: ${processedDocCount}`)
+                    );
+            }
+
+            return Promise.resolve(`refreshFeeds is finished. Count of processed feeds: ${processedDocCount}`);
+        });
 };
