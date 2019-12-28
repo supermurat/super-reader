@@ -257,7 +257,7 @@ export const refreshFeeds = async (snap: DocumentSnapshot, jobData: JobModel): P
         jobData.limit = 10;
     }
     const query = db.collection('feeds')
-        ; // .where('type', '==', 'rss');
+        .where('isActive', '==', true);
 
     return query
         .limit(jobData.limit)
@@ -265,6 +265,12 @@ export const refreshFeeds = async (snap: DocumentSnapshot, jobData: JobModel): P
         .then(async mainDocsSnapshot =>
             Promise.all(mainDocsSnapshot.docs.map(async mainDoc => {
                 const mainDocData = mainDoc.data() as FeedModel;
+
+                if (mainDocData.refreshPeriod && mainDocData.refreshedAt &&
+                    (mainDocData.refreshedAt.seconds * 1000) + (mainDocData.refreshPeriod * 1000 * 60) > new Date().getTime()) {
+                    // skip to refresh feed
+                    return Promise.resolve();
+                }
 
                 return getContentOfFeed(mainDocData)
                     .then(value =>

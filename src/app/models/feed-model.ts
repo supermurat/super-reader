@@ -17,6 +17,10 @@ export class FeedModel {
     lastError?: any;
     /** isHealthy */
     isHealthy?: boolean;
+    /** isActive */
+    isActive?: boolean;
+    /** refresh period in minute */
+    refreshPeriod?: number;
     /** tags */
     tags?: Array<string>;
 
