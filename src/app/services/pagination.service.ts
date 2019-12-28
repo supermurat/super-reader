@@ -23,6 +23,8 @@ interface QueryConfig {
     prepend?: boolean;
     /** where part of firestore query */
     where?: WhereInterface;
+    /** second where part of firestore query */
+    where2?: WhereInterface;
 }
 
 /**
@@ -76,11 +78,13 @@ export class PaginationService {
      * @param isReset: do you want to reset before init?
      * @param where: WhereInterface
      */
-    init(path: string, field: string | Array<string>, opts?: any, isReset?: boolean, where?: WhereInterface): void {
+    init(path: string, field: string | Array<string>, opts?: any, isReset?: boolean,
+         where?: WhereInterface, where2?: WhereInterface): void {
         this.query = {
             path,
             field,
             where,
+            where2,
             limit: 2,
             reverse: false,
             prepend: false,
@@ -95,6 +99,9 @@ export class PaginationService {
                 let refVal = ref as (CollectionReference | Query);
                 if (this.query.where) {
                     refVal = refVal.where(this.query.where.fieldPath, this.query.where.opStr, this.query.where.value);
+                }
+                if (this.query.where2) {
+                    refVal = refVal.where(this.query.where2.fieldPath, this.query.where2.opStr, this.query.where2.value);
                 }
                 if (this.query.field instanceof Array) {
                     for (const f of this.query.field) {
@@ -126,6 +133,9 @@ export class PaginationService {
                 let refVal = ref as (CollectionReference | Query);
                 if (this.query.where) {
                     refVal = refVal.where(this.query.where.fieldPath, this.query.where.opStr, this.query.where.value);
+                }
+                if (this.query.where2) {
+                    refVal = refVal.where(this.query.where2.fieldPath, this.query.where2.opStr, this.query.where2.value);
                 }
                 if (this.query.field instanceof Array) {
                     for (const f of this.query.field) {

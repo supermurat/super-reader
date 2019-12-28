@@ -21,3 +21,4 @@ export * from './feed-item-model';
 export * from './feed-model';
 export * from './clear-full-content-config-model';
 export * from './my-regexp-model';
+export * from './taxonomy-model';

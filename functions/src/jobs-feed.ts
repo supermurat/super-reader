@@ -18,10 +18,16 @@ const request = requestOrigin.defaults({
     headers: {'User-Agent': 'chrome'}
 });
 
+/** get link of feed item */
+// tslint:disable-next-line: arrow-return-shorthand
+const getLink = (feedItem: FeedItemModel): string => {
+    return feedItem.origlink ? feedItem.origlink : feedItem.link;
+};
+
 /** get document ID */
 // tslint:disable-next-line: arrow-return-shorthand
-const getDocumentID = (link: string): string => {
-    return link
+const getDocumentID = (feedItem: FeedItemModel): string => {
+    return getLink(feedItem)
         .replace(/\//gi, '\\')
         .split('#')[0];
 };
@@ -72,18 +78,36 @@ const fixMissingHtmlTags = (htmlContent: string): string => {
 /** clear full content */
 const clearFullContent = (sourceMainDocData: FeedModel, fullContent: string): string => {
     let content = '';
-    if (sourceMainDocData.clearFullContentConfig.isCombineWithRegexp) {
+    if (sourceMainDocData.clearFullContentConfig.combineRegexps.length > 0) {
         for (const regexpValue of sourceMainDocData.clearFullContentConfig.combineRegexps) {
             const m = fullContent.match(new RegExp(regexpValue.regexp, regexpValue.flags));
             if (m) {
-                content += m.join();
+                let contentSub = '';
+                if (regexpValue.clearFullContentConfig && regexpValue.clearFullContentConfig.combineRegexps &&
+                    regexpValue.clearFullContentConfig.combineRegexps.length > 0) {
+                    for (const regexpValueSub of regexpValue.clearFullContentConfig.combineRegexps) {
+                        const mSub = m.join().match(new RegExp(regexpValueSub.regexp, regexpValueSub.flags));
+                        if (mSub) {
+                            contentSub += mSub.join();
+                        }
+                    }
+                } else {
+                    contentSub += m.join();
+                }
+                if (regexpValue.clearFullContentConfig && regexpValue.clearFullContentConfig.deleteRegexps &&
+                    regexpValue.clearFullContentConfig.deleteRegexps.length > 0) {
+                    for (const regexpValueSub of regexpValue.clearFullContentConfig.deleteRegexps) {
+                        contentSub = contentSub.replace(new RegExp(regexpValueSub.regexp, regexpValueSub.flags), '');
+                    }
+                }
+                content += contentSub;
             }
         }
     } else {
         content = fullContent;
     }
 
-    if (sourceMainDocData.clearFullContentConfig.isDeleteWithRegexp) {
+    if (sourceMainDocData.clearFullContentConfig.deleteRegexps.length > 0) {
         for (const regexpValue of sourceMainDocData.clearFullContentConfig.deleteRegexps) {
             content = content.replace(new RegExp(regexpValue.regexp, regexpValue.flags), '');
         }
@@ -134,7 +158,7 @@ const getImageOfFeedItem = (feedItem: FeedItemModel): FeedParser.Image => {
 /** get only needed fields of feed item */
 const getFeedItem = (sourceMainDocData: FeedModel, feedItem: FeedItemModel): FeedItemModel =>
     ({
-        link: feedItem.link,
+        link: getLink(feedItem),
         date: feedItem.date,
         image: getImageOfFeedItem(feedItem),
         summary: feedItem.summary,
@@ -148,7 +172,7 @@ const getFeedItem = (sourceMainDocData: FeedModel, feedItem: FeedItemModel): Fee
 const createFeedItem = async (sourceMainDocData: FeedModel, feedItemRaw: FeedItemModel): Promise<FeedModel> =>
     new Promise((resolve, reject): void => {
         clearFeedItem(feedItemRaw);
-        const documentID = getDocumentID(feedItemRaw.link);
+        const documentID = getDocumentID(feedItemRaw);
         db.collection('feedItems')
             .doc(documentID)
             .get()
@@ -266,7 +290,11 @@ export const refreshFeeds = async (snap: DocumentSnapshot, jobData: JobModel): P
             Promise.all(mainDocsSnapshot.docs.map(async mainDoc => {
                 const mainDocData = mainDoc.data() as FeedModel;
 
-                if (mainDocData.refreshPeriod && mainDocData.refreshedAt &&
+                if (jobData.customData && jobData.customData.url && jobData.customData.url !== mainDocData.url) {
+                    return Promise.resolve();
+                }
+
+                if (!jobData.overwrite && mainDocData.refreshPeriod && mainDocData.refreshedAt &&
                     (mainDocData.refreshedAt.seconds * 1000) + (mainDocData.refreshPeriod * 1000 * 60) > new Date().getTime()) {
                     // skip to refresh feed
                     return Promise.resolve();

@@ -1,7 +1,7 @@
 import { Component, Inject, LOCALE_ID, OnInit, PLATFORM_ID } from '@angular/core';
 import { AngularFirestore } from '@angular/fire/firestore';
 import { Observable } from 'rxjs';
-import { FeedItemModel, PageModel } from '../../models';
+import { FeedItemModel, PageModel, TaxonomyModel } from '../../models';
 import { AlertService, PageService, PaginationService } from '../../services';
 
 /**
@@ -16,6 +16,8 @@ export class DashboardComponent implements OnInit {
     page$: Observable<PageModel>;
     /** focused feed item */
     focusedItem: FeedItemModel;
+    /** tag list */
+    tagList$: Observable<Array<TaxonomyModel>>;
 
     /**
      * constructor of DashboardComponent
@@ -39,12 +41,32 @@ export class DashboardComponent implements OnInit {
      */
     ngOnInit(): void {
         this.page$ = this.pageService.getPageFromFirestore(PageModel, 'pages', this.pageService.getRoutePathName());
+        this.tagList$ = this.afs.collection<TaxonomyModel>('tags', ref => ref)
+            .valueChanges();
+        this.loadByTag({id: 'all'});
+    }
 
-        this.pagination.init(
-            'feedItems', ['isRead', 'date'], {limit: 5, reverse: true, prepend: false}, undefined,
-            {
-                fieldPath: 'isRead', opStr: '<=', value: false
-            });
+    /**
+     * load page content by tag
+     * @param tag: TaxonomyModel
+     */
+    loadByTag(tag: TaxonomyModel): void {
+        if (tag.id === 'all') {
+            this.pagination.init(
+                'feedItems', ['isRead', 'date'], {limit: 5, reverse: true, prepend: false}, undefined,
+                {
+                    fieldPath: 'isRead', opStr: '<=', value: false
+                });
+        } else {
+            this.pagination.init(
+                'feedItems', ['isRead', 'tags', 'date'], {limit: 5, reverse: true, prepend: false}, undefined,
+                {
+                    fieldPath: 'isRead', opStr: '<=', value: false
+                },
+                {
+                    fieldPath: 'tags', opStr: 'array-contains', value: tag.title
+                });
+        }
     }
 
     /**
@@ -91,6 +113,21 @@ export class DashboardComponent implements OnInit {
      */
     markAsUnRead(feedItem: FeedItemModel): void {
         this.updateFeedItem(feedItem, {isRead: false});
+    }
+
+    /**
+     * load full content of feed item
+     * @param feedItem: FeedItemModel
+     */
+    loadFullContent(feedItem: FeedItemModel): void {
+        this.afs.collection('feedItemsFull')
+            .doc(feedItem.id)
+            .get()
+            .subscribe(value => {
+                if (value.exists) {
+                    feedItem.fullContent = value.data().fullContent;
+                }
+            });
     }
 
     /**
