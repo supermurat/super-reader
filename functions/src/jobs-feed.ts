@@ -246,6 +246,48 @@ const getFeedItem = (sourceMainDocData: FeedModel, feedItem: FeedItemModel): Fee
         tags: getTagsOfFeedItem(sourceMainDocData, feedItem)
     });
 
+/** create raw feed item */
+const createRawFeedItem = async (sourceMainDocData: FeedModel, feedItemRaw: FeedItemModel, documentID: string): Promise<FeedItemModel> =>
+    new Promise((resolve, reject): void => {
+        if (FUNCTIONS_CONFIG.keepRawFeedItems) {
+            db.collection('feedItemsRaw')
+                .doc(documentID)
+                .set(feedItemRaw)
+                .then(valueOfRaw => {
+                    resolve(feedItemRaw);
+                })
+                .catch(reason => {
+                    reject(reason);
+                });
+        } else {
+            resolve(undefined);
+        }
+    });
+
+/** create full feed item */
+const createFullFeedItem = async (sourceMainDocData: FeedModel, feedItem: FeedItemModel, documentID: string): Promise<FeedItemModel> =>
+    new Promise((resolve, reject): void => {
+        if (FUNCTIONS_CONFIG.getFullContentASAP && sourceMainDocData.isGetFullContentASAP) {
+            getFullContentOfFeedItem(sourceMainDocData, feedItem)
+                .then(fullContent => {
+                    db.collection('feedItemsFull')
+                        .doc(documentID)
+                        .set({fullContent})
+                        .then(valueOfFull => {
+                            resolve({fullContent});
+                        })
+                        .catch(reason => {
+                            reject(reason);
+                        });
+                })
+                .catch(reason => {
+                    reject(reason);
+                });
+        } else {
+            resolve(undefined);
+        }
+    });
+
 /** create feed item */
 const createFeedItem = async (sourceMainDocData: FeedModel, feedItemRaw: FeedItemModel): Promise<FeedModel> =>
     new Promise((resolve, reject): void => {
@@ -260,38 +302,16 @@ const createFeedItem = async (sourceMainDocData: FeedModel, feedItemRaw: FeedIte
                     console.log(`feedItems/${documentID} is already exist!`);
                     resolve(feedItem);
                 } else {
-                    db.collection('feedItemsRaw')
+                    db.collection('feedItems')
                         .doc(documentID)
-                        .set(feedItemRaw)
-                        .then(valueOfRaw =>
-                            db.collection('feedItems')
-                                .doc(documentID)
-                                .set(feedItem)
-                                .then(valueOfItem => {
-                                    if (FUNCTIONS_CONFIG.getFullContentASAP && sourceMainDocData.isGetFullContentASAP) {
-                                        getFullContentOfFeedItem(sourceMainDocData, feedItem)
-                                            .then(fullContent => {
-                                                db.collection('feedItemsFull')
-                                                    .doc(documentID)
-                                                    .set({fullContent})
-                                                    .then(valueOfFull => {
-                                                        resolve(feedItem);
-                                                    })
-                                                    .catch(reason => {
-                                                        reject(reason);
-                                                    });
-                                            })
-                                            .catch(reason => {
-                                                console.error(reason);
-                                                reject(reason);
-                                            });
-                                    } else {
-                                        resolve(feedItem);
-                                    }
-                                })
-                                .catch(reason => {
-                                    reject(reason);
-                                }))
+                        .set(feedItem)
+                        .then(result =>
+                            createFullFeedItem(sourceMainDocData, feedItem, documentID))
+                        .then(result =>
+                            createRawFeedItem(sourceMainDocData, feedItemRaw, documentID))
+                        .then(result => {
+                            resolve(feedItem);
+                        })
                         .catch(reason => {
                             reject(reason);
                         });

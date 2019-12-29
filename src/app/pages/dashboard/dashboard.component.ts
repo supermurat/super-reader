@@ -53,13 +53,13 @@ export class DashboardComponent implements OnInit {
     loadByTag(tag: TaxonomyModel): void {
         if (tag.id === 'all') {
             this.pagination.init(
-                'feedItems', ['isRead', 'date'], {limit: 5, reverse: true, prepend: false}, undefined,
+                'feedItems', ['isRead', 'date'], {limit: 10, reverse: true, prepend: false}, undefined,
                 {
                     fieldPath: 'isRead', opStr: '<=', value: false
                 });
         } else {
             this.pagination.init(
-                'feedItems', ['isRead', 'tags', 'date'], {limit: 5, reverse: true, prepend: false}, undefined,
+                'feedItems', ['isRead', 'tags', 'date'], {limit: 10, reverse: true, prepend: false}, undefined,
                 {
                     fieldPath: 'isRead', opStr: '<=', value: false
                 },
@@ -122,7 +122,7 @@ export class DashboardComponent implements OnInit {
     loadFullContent(feedItem: FeedItemModel): void {
         this.afs.collection('feedItemsFull')
             .doc(feedItem.id)
-            .get()
+            .get() // .get({source: 'server'}) // to disable cache
             .subscribe(value => {
                 if (value.exists) {
                     feedItem.fullContent = value.data().fullContent;

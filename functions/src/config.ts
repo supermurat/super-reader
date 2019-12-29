@@ -7,7 +7,9 @@ const FUNCTIONS_CONFIG_LOCAL = {
     /** default language code to redirect; en, tr */
     defaultLanguageCode: 'tr',
     /** do you want to get full content of related page of feed item ASAP? */
-    getFullContentASAP: true
+    getFullContentASAP: true,
+    /** do you want to keep raw feed items? */
+    keepRawFeedItems: false
 };
 
 /** Production Configs */
@@ -19,7 +21,9 @@ const FUNCTIONS_CONFIG_LIVE = {
     /** default language code to redirect; en, tr */
     defaultLanguageCode: 'tr',
     /** do you want to get full content of related page of feed item ASAP? */
-    getFullContentASAP: true
+    getFullContentASAP: true,
+    /** do you want to keep raw feed items? */
+    keepRawFeedItems: false
 };
 
 // istanbul ignore next

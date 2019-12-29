@@ -65,7 +65,7 @@ import { CustomHtmlComponent } from './widgets/custom-html/custom-html.component
         NgbModule,
 
         AngularFireModule.initializeApp(environment.firebase),
-        AngularFirestoreModule.enablePersistence(),
+        // AngularFirestoreModule.enablePersistence(), // will enable cache
         AngularFirestoreModule, // imports firebase/firestore, only needed for database features
         AngularFireAuthModule, // imports firebase/auth, only needed for auth features,
         AngularFireStorageModule, // imports firebase/storage only needed for storage features
