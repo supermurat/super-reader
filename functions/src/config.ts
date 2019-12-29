@@ -19,7 +19,7 @@ const FUNCTIONS_CONFIG_LIVE = {
     /** default language code to redirect; en, tr */
     defaultLanguageCode: 'tr',
     /** do you want to get full content of related page of feed item ASAP? */
-    getFullContentASAP: false
+    getFullContentASAP: true
 };
 
 // istanbul ignore next

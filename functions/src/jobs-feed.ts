@@ -127,10 +127,11 @@ const clearFullContent = (sourceMainDocData: FeedModel, fullContent: string): st
                         contentSub += m.join();
                     }
                 }
-                if (regexpValue.clearFullContentConfig && regexpValue.clearFullContentConfig.deleteRegexps &&
-                    regexpValue.clearFullContentConfig.deleteRegexps.length > 0) {
-                    for (const regexpValueSub of regexpValue.clearFullContentConfig.deleteRegexps) {
-                        contentSub = contentSub.replace(new RegExp(regexpValueSub.regexp, regexpValueSub.flags), '');
+                if (regexpValue.clearFullContentConfig && regexpValue.clearFullContentConfig.replaceRegexps &&
+                    regexpValue.clearFullContentConfig.replaceRegexps.length > 0) {
+                    for (const regexpValueSub of regexpValue.clearFullContentConfig.replaceRegexps) {
+                        contentSub = contentSub.replace(
+                            new RegExp(regexpValueSub.regexp, regexpValueSub.flags), regexpValueSub.replaceWith);
                     }
                 }
                 content += contentSub;
@@ -140,9 +141,9 @@ const clearFullContent = (sourceMainDocData: FeedModel, fullContent: string): st
         content = fullContent;
     }
 
-    if (sourceMainDocData.clearFullContentConfig.deleteRegexps.length > 0) {
-        for (const regexpValue of sourceMainDocData.clearFullContentConfig.deleteRegexps) {
-            content = content.replace(new RegExp(regexpValue.regexp, regexpValue.flags), '');
+    if (sourceMainDocData.clearFullContentConfig.replaceRegexps.length > 0) {
+        for (const regexpValue of sourceMainDocData.clearFullContentConfig.replaceRegexps) {
+            content = content.replace(new RegExp(regexpValue.regexp, regexpValue.flags), regexpValue.replaceWith);
         }
     }
     content = fixMissingHtmlTags(content);
@@ -169,10 +170,10 @@ const clearSummaryContent = (sourceMainDocData: FeedModel, fullContent: string):
         content = fullContent;
     }
 
-    if (sourceMainDocData.clearSummaryContentConfig && sourceMainDocData.clearSummaryContentConfig.deleteRegexps &&
-        sourceMainDocData.clearSummaryContentConfig.deleteRegexps.length > 0) {
-        for (const regexpValue of sourceMainDocData.clearSummaryContentConfig.deleteRegexps) {
-            content = content.replace(new RegExp(regexpValue.regexp, regexpValue.flags), '');
+    if (sourceMainDocData.clearSummaryContentConfig && sourceMainDocData.clearSummaryContentConfig.replaceRegexps &&
+        sourceMainDocData.clearSummaryContentConfig.replaceRegexps.length > 0) {
+        for (const regexpValue of sourceMainDocData.clearSummaryContentConfig.replaceRegexps) {
+            content = content.replace(new RegExp(regexpValue.regexp, regexpValue.flags), regexpValue.replaceWith);
         }
     }
     content = fixMissingHtmlTags(content);
@@ -267,7 +268,7 @@ const createFeedItem = async (sourceMainDocData: FeedModel, feedItemRaw: FeedIte
                                 .doc(documentID)
                                 .set(feedItem)
                                 .then(valueOfItem => {
-                                    if (FUNCTIONS_CONFIG.getFullContentASAP) {
+                                    if (FUNCTIONS_CONFIG.getFullContentASAP && sourceMainDocData.isGetFullContentASAP) {
                                         getFullContentOfFeedItem(sourceMainDocData, feedItem)
                                             .then(fullContent => {
                                                 db.collection('feedItemsFull')

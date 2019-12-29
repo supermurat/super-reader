@@ -16,4 +16,6 @@ export class MyRegExpModel {
     tag?: string;
     /** field */
     field?: string;
+    /** replace with */
+    replaceWith?: string;
 }

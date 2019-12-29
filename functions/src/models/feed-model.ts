@@ -21,6 +21,8 @@ export class FeedModel {
     isHealthy?: boolean;
     /** isActive */
     isActive?: boolean;
+    /** do you want to get full content as soon as possible */
+    isGetFullContentASAP?: boolean;
     /** refresh period in minute */
     refreshPeriod?: number;
     /** tags */
