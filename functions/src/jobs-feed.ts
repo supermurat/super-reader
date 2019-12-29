@@ -154,6 +154,36 @@ const clearFullContent = (sourceMainDocData: FeedModel, fullContent: string): st
     return content;
 };
 
+/** clear summary content */
+const clearSummaryContent = (sourceMainDocData: FeedModel, fullContent: string): string => {
+    let content = '';
+    if (sourceMainDocData.clearSummaryContentConfig && sourceMainDocData.clearSummaryContentConfig.combineRegexps &&
+        sourceMainDocData.clearSummaryContentConfig.combineRegexps.length > 0) {
+        for (const regexpValue of sourceMainDocData.clearSummaryContentConfig.combineRegexps) {
+            const m = fullContent.match(new RegExp(regexpValue.regexp, regexpValue.flags));
+            if (m) {
+                content += m.join();
+            }
+        }
+    } else {
+        content = fullContent;
+    }
+
+    if (sourceMainDocData.clearSummaryContentConfig && sourceMainDocData.clearSummaryContentConfig.deleteRegexps &&
+        sourceMainDocData.clearSummaryContentConfig.deleteRegexps.length > 0) {
+        for (const regexpValue of sourceMainDocData.clearSummaryContentConfig.deleteRegexps) {
+            content = content.replace(new RegExp(regexpValue.regexp, regexpValue.flags), '');
+        }
+    }
+    content = fixMissingHtmlTags(content);
+
+    if (content === '') {
+        content = fullContent;
+    }
+
+    return content;
+};
+
 /** get full content of related page of feed item */
 const getFullContentOfFeedItem = async (sourceMainDocData: FeedModel, feedItem: FeedItemModel): Promise<string> =>
     new Promise((resolve, reject): void => {
@@ -188,17 +218,31 @@ const getImageOfFeedItem = (feedItem: FeedItemModel): FeedParser.Image => {
     };
 };
 
+/** get tags of feed item */
+const getTagsOfFeedItem = (sourceMainDocData: FeedModel, feedItem: FeedItemModel): Array<string> => {
+    const dynamicTags  = [...[], ...sourceMainDocData.tags];
+    if (sourceMainDocData.tagRules && sourceMainDocData.tagRules.length > 0) {
+        for (const tagRule of sourceMainDocData.tagRules) {
+            if (feedItem[tagRule.field].match(new RegExp(tagRule.regexp, tagRule.flags))) {
+                dynamicTags.push(tagRule.tag);
+            }
+        }
+    }
+
+    return dynamicTags;
+};
+
 /** get only needed fields of feed item */
 const getFeedItem = (sourceMainDocData: FeedModel, feedItem: FeedItemModel): FeedItemModel =>
     ({
         link: getLink(feedItem),
         date: feedItem.date,
         image: getImageOfFeedItem(feedItem),
-        summary: feedItem.summary,
+        summary: clearSummaryContent(sourceMainDocData, feedItem.summary),
         summaryPreview: h2p(feedItem.summary).substring(0, 256),
         title: feedItem.title,
         isRead: false,
-        tags: sourceMainDocData.tags
+        tags: getTagsOfFeedItem(sourceMainDocData, feedItem)
     });
 
 /** create feed item */

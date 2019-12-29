@@ -1,4 +1,6 @@
 import { ClearFullContentConfigModel } from './clear-full-content-config-model';
+import { MyRegExpModel } from './my-regexp-model';
+
 /**
  * Feed Model
  */
@@ -26,4 +28,8 @@ export class FeedModel {
 
     /** clear full content config */
     clearFullContentConfig?: ClearFullContentConfigModel;
+    /** clear summary content config */
+    clearSummaryContentConfig?: ClearFullContentConfigModel;
+    /** tag rule regexps */
+    tagRules?: Array<MyRegExpModel>;
 }

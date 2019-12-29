@@ -12,4 +12,8 @@ export class MyRegExpModel {
     clearFullContentConfig?: ClearFullContentConfigModel;
     /** custom action config array to do */
     actions?: Array<string>;
+    /** tag */
+    tag?: string;
+    /** field */
+    field?: string;
 }

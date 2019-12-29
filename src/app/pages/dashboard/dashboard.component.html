@@ -2,13 +2,15 @@
     <!-- Page Content -->
     <div class="col-md-8 py-2">
         <div class="card mb-4" *ngIf="focusedItem">
-            <div class="card-header">
-                <button class="btn ml-3 mt-1 btn-sm float-right" *ngIf="focusedItem.isRead" (click)="markAsUnRead(focusedItem)"
-                        title="Mark As Unread"><i class="far fa-fw fa-registered fa-lg"></i></button>
-                <button class="btn ml-3 mt-1 btn-sm float-right" *ngIf="!focusedItem.isRead" (click)="markAsRead(focusedItem)"
-                        title="Mark As Read"><i class="fas fa-fw fa-registered fa-lg"></i></button>
-                <button class="btn ml-3 mt-1 btn-sm float-right" (click)="loadFullContent(focusedItem)"
+            <div class="card-header text-right">
+                <a class="btn ml-3 mt-1 btn-sm" [href]="focusedItem.link" target="_blank"
+                        title="Open in New Tab"><i class="fas fa-fw fa-external-link-alt fa-lg"></i></a>
+                <button class="btn ml-3 mt-1 btn-sm" (click)="loadFullContent(focusedItem)"
                         title="Load Full Content"><i class="fas fa-fw fa-cloud-download-alt fa-lg"></i></button>
+                <button class="btn ml-3 mt-1 btn-sm" *ngIf="focusedItem.isRead" (click)="markAsUnRead(focusedItem)"
+                        title="Mark As Unread"><i class="far fa-fw fa-registered fa-lg"></i></button>
+                <button class="btn ml-3 mt-1 btn-sm" *ngIf="!focusedItem.isRead" (click)="markAsRead(focusedItem)"
+                        title="Mark As Read"><i class="fas fa-fw fa-registered fa-lg"></i></button>
             </div>
             <div class="card-body content">
                 <div *ngIf="!focusedItem.fullContent">

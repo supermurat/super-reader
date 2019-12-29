@@ -135,7 +135,7 @@ export class DashboardComponent implements OnInit {
      * @param feedItem: FeedItemModel
      */
     showPreview(feedItem: FeedItemModel): void {
-        // this.markAsRead(feedItem);
+        this.markAsRead(feedItem);
         this.focusedItem = feedItem;
     }
 
