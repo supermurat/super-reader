@@ -64,7 +64,7 @@ export class DashboardComponent implements OnInit {
                     fieldPath: 'isRead', opStr: '<=', value: false
                 },
                 {
-                    fieldPath: 'tags', opStr: 'array-contains', value: tag.title
+                    fieldPath: 'tags', opStr: 'array-contains', value: tag.id
                 });
         }
     }

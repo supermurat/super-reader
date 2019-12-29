@@ -10,4 +10,6 @@ export class MyRegExpModel {
     flags: string;
     /** clear full content config */
     clearFullContentConfig?: ClearFullContentConfigModel;
+    /** custom action config array to do */
+    actions?: Array<string>;
 }

@@ -87,7 +87,7 @@ export const scheduledJobRunner = functions
     // .region('europe-west1')
     // .runWith({ memory: '1GB', timeoutSeconds: 120 })
     .pubsub
-    .schedule('every 30 minutes')
+    .schedule('every 10 minutes')
     .onRun(async context => {
         console.log('scheduledJobRunner is started');
         const job = refreshFeeds(undefined, {limit: 10});

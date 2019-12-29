@@ -75,6 +75,31 @@ const fixMissingHtmlTags = (htmlContent: string): string => {
     return content;
 };
 
+/** do RegExp action */
+const doRegExpAction = (actions: Array<string>, source: string): string => {
+    let content = '';
+    let sourceJSON: any;
+
+    try {
+        for (const action of actions) {
+            if (action.startsWith('toJSON')) {
+                sourceJSON = JSON.parse(source);
+            } else if (action.startsWith('foreach:') && sourceJSON) {
+                const acts = action.toString().split(';');
+                for (const item of sourceJSON[acts[0].replace('foreach:', '')]) {
+                    if (acts.length > 0 && acts[1].startsWith('get:')) {
+                        content += item[acts[1].replace('get:', '')];
+                    }
+                }
+            }
+        }
+    } catch (e) {
+        console.error(e);
+    }
+
+    return content;
+};
+
 /** clear full content */
 const clearFullContent = (sourceMainDocData: FeedModel, fullContent: string): string => {
     let content = '';
@@ -88,11 +113,19 @@ const clearFullContent = (sourceMainDocData: FeedModel, fullContent: string): st
                     for (const regexpValueSub of regexpValue.clearFullContentConfig.combineRegexps) {
                         const mSub = m.join().match(new RegExp(regexpValueSub.regexp, regexpValueSub.flags));
                         if (mSub) {
-                            contentSub += mSub.join();
+                            if (regexpValueSub.actions && regexpValueSub.actions.length > 0) {
+                                contentSub += doRegExpAction(regexpValueSub.actions, mSub.join());
+                            } else {
+                                contentSub += mSub.join();
+                            }
                         }
                     }
                 } else {
-                    contentSub += m.join();
+                    if (regexpValue.actions && regexpValue.actions.length > 0) {
+                        contentSub += doRegExpAction(regexpValue.actions, m.join());
+                    } else {
+                        contentSub += m.join();
+                    }
                 }
                 if (regexpValue.clearFullContentConfig && regexpValue.clearFullContentConfig.deleteRegexps &&
                     regexpValue.clearFullContentConfig.deleteRegexps.length > 0) {
