@@ -27,6 +27,9 @@ const routes: Routes = [
         path: 'dashboard', component: DashboardComponent
     },
     {
+        path: 'pano', component: DashboardComponent
+    },
+    {
         path: 'http-404', component: NotFoundComponent
     },
     {

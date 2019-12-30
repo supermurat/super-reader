@@ -1,7 +1,5 @@
-import { Storage } from '@google-cloud/storage';
 import * as FeedParser from 'feedparser';
 import * as admin from 'firebase-admin';
-import * as functions from 'firebase-functions';
 import { DocumentSnapshot } from 'firebase-functions/lib/providers/firestore';
 import * as h2p from 'html2plaintext';
 import * as requestOrigin from 'request';
@@ -100,6 +98,16 @@ const doRegExpAction = (actions: Array<string>, source: string): string => {
     return content;
 };
 
+/** fix target of links */
+const fixLinks = (fullContent: string): string => {
+    let content = fullContent;
+    content = content.replace(new RegExp(/ target="[a-zA-Z0-9-+]*"/gui), '');
+    content = content.replace(new RegExp(/ target='[a-zA-Z0-9-+]*'/gui), '');
+    content = content.replace(new RegExp(/\<a /gui), '<a target="_blank" ');
+
+    return content;
+};
+
 /** clear full content */
 const clearFullContent = (sourceMainDocData: FeedModel, fullContent: string): string => {
     let content = '';
@@ -152,7 +160,7 @@ const clearFullContent = (sourceMainDocData: FeedModel, fullContent: string): st
         content = fullContent;
     }
 
-    return content;
+    return fixLinks(content);
 };
 
 /** clear summary content */
@@ -182,7 +190,7 @@ const clearSummaryContent = (sourceMainDocData: FeedModel, fullContent: string):
         content = fullContent;
     }
 
-    return content;
+    return fixLinks(content);
 };
 
 /** get full content of related page of feed item */

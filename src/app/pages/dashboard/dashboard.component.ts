@@ -17,7 +17,7 @@ export class DashboardComponent implements OnInit {
     /** focused feed item */
     focusedItem: FeedItemModel;
     /** tag list */
-    tagList$: Observable<Array<TaxonomyModel>>;
+    tagList: Array<TaxonomyModel>;
 
     /**
      * constructor of DashboardComponent
@@ -41,9 +41,48 @@ export class DashboardComponent implements OnInit {
      */
     ngOnInit(): void {
         this.page$ = this.pageService.getPageFromFirestore(PageModel, 'pages', this.pageService.getRoutePathName());
-        this.tagList$ = this.afs.collection<TaxonomyModel>('tags', ref => ref)
-            .valueChanges();
+        this.loadTags();
         this.loadByTag({id: 'all'});
+    }
+
+    /**
+     * load tags
+     */
+    loadTags(): void {
+        this.afs.collection<TaxonomyModel>('tags', ref => ref)
+            .valueChanges()
+            .subscribe(tagList => {
+                this.tagList = tagList;
+                this.tagList.forEach(tag => {
+                    if (tag.id === 'all') {
+                        this.afs.collection<FeedItemModel>('feedItems', ref =>
+                            ref
+                                .where('isRead', '<=', false)
+                                .orderBy('isRead', 'desc')
+                                .orderBy('date', 'desc')
+                                .limit(10))
+                            .valueChanges()
+                            .subscribe(value => {
+                                tag.countOfUnread = value.length;
+                            });
+                    } else {
+                        tag.countOfUnread = 0;
+                        this.afs.collection<FeedItemModel>('feedItems', ref =>
+                            ref
+                                .where('isRead', '<=', false)
+                                .where('tags', 'array-contains', tag.id)
+                                .orderBy('isRead', 'desc')
+                                .orderBy('tags', 'desc')
+                                .orderBy('date', 'desc')
+                                .limit(10)
+                        )
+                            .valueChanges()
+                            .subscribe(value => {
+                                tag.countOfUnread = value.length;
+                            });
+                    }
+                });
+            });
     }
 
     /**
@@ -126,6 +165,8 @@ export class DashboardComponent implements OnInit {
             .subscribe(value => {
                 if (value.exists) {
                     feedItem.fullContent = value.data().fullContent;
+                } else {
+                    this.alert.error('There is no full content for this feed item.');
                 }
             });
     }

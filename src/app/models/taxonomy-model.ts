@@ -6,4 +6,6 @@ export class TaxonomyModel {
     id?: string;
     /** title of tag */
     title?: string;
+    /** count of unread feed items */
+    countOfUnread?: number;
 }
