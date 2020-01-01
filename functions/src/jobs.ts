@@ -4,7 +4,7 @@ import * as functions from 'firebase-functions';
 import { DocumentSnapshot } from 'firebase-functions/lib/providers/firestore';
 
 import { FUNCTIONS_CONFIG } from './config';
-import { refreshFeeds } from './jobs-feed';
+import { clearOldRssFeedItems, refreshFeeds } from './jobs-feed';
 import { JobModel } from './models/';
 
 /** firestore instance */
@@ -65,6 +65,9 @@ export const jobRunner = functions
         if (jobData.actionKey === 'refreshFeeds') {
             job = refreshFeeds(snap, jobData);
         }
+        if (jobData.actionKey === 'clearOldRssFeedItems') {
+            job = clearOldRssFeedItems(snap, jobData);
+        }
         if (job !== undefined) {
             return job
                 .then(value => {
@@ -82,15 +85,38 @@ export const jobRunner = functions
         return Promise.resolve();
     });
 
-/** scheduled job runner function */
-export const scheduledJobRunner = functions
+/** scheduled job runner function to refresh feeds */
+export const scheduledJobRunnerRefreshFeeds = functions
     // .region('europe-west1')
     // .runWith({ memory: '1GB', timeoutSeconds: 120 })
     .pubsub
     .schedule('every 10 minutes')
     .onRun(async context => {
-        console.log('scheduledJobRunner is started');
+        console.log('scheduledJobRunnerRefreshFeeds is started');
         const job = refreshFeeds(undefined, {limit: 10});
+
+        return job
+            .then(value => {
+                console.log(value);
+
+                return value;
+            })
+            .catch(err => {
+                console.error('functions.onRun', err);
+
+                return err;
+            });
+    });
+
+/** scheduled job runner function to clear old rss feed items */
+export const scheduledJobRunnerClearOldRssFeedItems = functions
+    // .region('europe-west1')
+    // .runWith({ memory: '1GB', timeoutSeconds: 120 })
+    .pubsub
+    .schedule('0 0 * * 0')
+    .onRun(async context => {
+        console.log('scheduledJobRunnerClearOldRssFeedItems is started');
+        const job = clearOldRssFeedItems(undefined, {limit: 10});
 
         return job
             .then(value => {

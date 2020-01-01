@@ -258,6 +258,7 @@ const getFeedItem = (sourceMainDocData: FeedModel, feedItem: FeedItemModel): Fee
         summaryPreview: h2p(feedItem.summary).substring(0, 256),
         title: feedItem.title,
         isRead: false,
+        isKept: false,
         tags: getTagsOfFeedItem(sourceMainDocData, feedItem)
     });
 
@@ -448,4 +449,34 @@ export const refreshFeeds = async (snap: DocumentSnapshot, jobData: JobModel): P
 
             return Promise.resolve(`refreshFeeds is finished. Count of processed feeds: ${processedDocCount}`);
         });
+};
+
+/** clear old rss feed items */
+export const clearOldRssFeedItems = async (snap: DocumentSnapshot, jobData: JobModel): Promise<any> => {
+    console.log('clearOldRssFeeds is started');
+    let processedDocCount = 0;
+    const eraDate = new Date();
+    eraDate.setDate(Number(eraDate.getDate()) - Number(30)); // add days
+    if (!jobData.limit) {
+        jobData.limit = 5000;
+    }
+
+    return db.collection('feedItems')
+        .where('isKept', '==', false)
+        .where('isRead', '==', true)
+        .where('date', '>', eraDate)
+        .limit(jobData.limit)
+        .get()
+        .then(async mainDocsSnapshot =>
+            Promise.all(mainDocsSnapshot.docs.map(async mainDoc =>
+                mainDoc.ref.delete()
+                    .then(() => {
+                        processedDocCount++;
+                    }))))
+        .then(async values =>
+            snap.ref.set({result: `Count of processed documents: ${processedDocCount}`}, {merge: true})
+                .then(() =>
+                    Promise.resolve(`clearOldRssFeeds is finished. Count of processed documents: ${processedDocCount}`)
+                )
+        );
 };

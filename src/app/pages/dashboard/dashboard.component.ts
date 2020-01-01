@@ -139,22 +139,6 @@ export class DashboardComponent implements OnInit {
     }
 
     /**
-     * mark feed item as read
-     * @param feedItem: FeedItemModel
-     */
-    markAsRead(feedItem: FeedItemModel): void {
-        this.updateFeedItem(feedItem, {isRead: true});
-    }
-
-    /**
-     * mark feed item as unread
-     * @param feedItem: FeedItemModel
-     */
-    markAsUnRead(feedItem: FeedItemModel): void {
-        this.updateFeedItem(feedItem, {isRead: false});
-    }
-
-    /**
      * load full content of feed item
      * @param feedItem: FeedItemModel
      */
@@ -176,18 +160,21 @@ export class DashboardComponent implements OnInit {
      * @param feedItem: FeedItemModel
      */
     showPreview(feedItem: FeedItemModel): void {
-        this.markAsRead(feedItem);
-        this.focusedItem = feedItem;
-        if (isPlatformBrowser(this.platformId)) {
-            const scrollToTop = window.setInterval(() => {
-                const pos = document.getElementById('focused-item-body').scrollTop;
-                if (pos > 0) {
-                    document.getElementById('focused-item-body')
-                        .scrollTo(0, pos - 60); // how far to scroll on each step
-                } else {
-                    window.clearInterval(scrollToTop);
-                }
-            }, 16);
+        if (!this.focusedItem || this.focusedItem.link !== feedItem.link) {
+            this.updateFeedItem(feedItem, {isRead: true});
+            this.focusedItem = feedItem;
+            this.focusedItem.tagList = this.tagList.filter(tag => this.focusedItem.tags.indexOf(tag.id) > -1);
+            if (isPlatformBrowser(this.platformId)) {
+                const scrollToTop = window.setInterval(() => {
+                    const pos = document.getElementById('focused-item-body').scrollTop;
+                    if (pos > 0) {
+                        document.getElementById('focused-item-body')
+                            .scrollTo(0, pos - 60); // how far to scroll on each step
+                    } else {
+                        window.clearInterval(scrollToTop);
+                    }
+                }, 16);
+            }
         }
     }
 

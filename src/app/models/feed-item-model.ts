@@ -1,3 +1,5 @@
+import { TaxonomyModel } from './taxonomy-model';
+
 /**
  * Feed Item Model
  */
@@ -11,7 +13,7 @@ export class FeedItemModel {
     /** comments */
     comments?: string;
     /** date */
-    date?: Date | null;
+    date?: any = {seconds: undefined};
     /** description */
     description?: string;
     /** enclosures */
@@ -27,7 +29,7 @@ export class FeedItemModel {
     /** origlink */
     origlink?: string;
     /** pubdate */
-    pubdate?: Date | null;
+    pubdate?: any = {seconds: undefined};
     /** summary */
     summary?: string;
     /** summary preview */
@@ -38,8 +40,12 @@ export class FeedItemModel {
     fullContent?: string;
     /** is read? */
     isRead?: boolean;
+    /** is kept? */
+    isKept?: boolean;
     /** tags */
     tags?: Array<string>;
+    /** tag list */
+    tagList?: Array<TaxonomyModel>;
 }
 
 // tslint:disable:completed-docs

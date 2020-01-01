@@ -38,6 +38,8 @@ export class FeedItemModel {
     fullContent?: string;
     /** is read? */
     isRead?: boolean;
+    /** is kept? */
+    isKept?: boolean;
     /** tags */
     tags?: Array<string>;
 }
