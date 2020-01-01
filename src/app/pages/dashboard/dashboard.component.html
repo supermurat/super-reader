@@ -2,13 +2,13 @@
     <!-- Sidebar Widgets Column -->
     <aside class="col-md-4 pt-2">
         <div class="card mb-2">
-            <div class="card-body">
+            <div class="card-body pt-1 pb-0">
                 <div class="row">
                     <div class="tag-cloud">
                         <ul>
                             <li *ngFor="let tag of tagList; trackBy:pageService.trackByIndex">
                                 <a (click)="loadByTag(tag)">
-                                    <span>{{ tag.title }} ({{ tag.countOfUnread != undefined ? tag.countOfUnread + '+' : '?' }})</span>
+                                    <span>{{ tag.title }} ({{ tag.countOfUnreadText != undefined ? tag.countOfUnreadText: '?' }})</span>
                                 </a>
                             </li>
                         </ul>
@@ -16,7 +16,7 @@
                 </div>
             </div>
         </div>
-        <div class="content" appScrollable (scrollPosition)="scrollHandler($event)">
+        <div class="content content-preview" appScrollable (scrollPosition)="scrollHandler($event)">
             <div class="card mb-4 flex-row flex-wrap" *ngFor="let feedItem of pagination.data | async; trackBy:pageService.trackByIndex" (mouseenter)="showPreview(feedItem)">
                 <div class="row no-gutters">
                     <div class="col-auto">
@@ -36,8 +36,8 @@
 
     <!-- Page Content -->
     <div class="col-md-8 py-2">
-        <div class="card mb-4" *ngIf="focusedItem">
-            <div class="card-header text-right">
+        <div class="card" *ngIf="focusedItem">
+            <div class="card-header text-right p-0">
                 <a class="btn ml-3 mt-1 btn-sm" [href]="focusedItem.link" target="_blank"
                         title="Open in New Tab"><i class="fas fa-fw fa-external-link-alt fa-lg"></i></a>
                 <button class="btn ml-3 mt-1 btn-sm" (click)="loadFullContent(focusedItem)"
@@ -47,7 +47,7 @@
                 <button class="btn ml-3 mt-1 btn-sm" *ngIf="!focusedItem.isRead" (click)="markAsRead(focusedItem)"
                         title="Mark As Read"><i class="fas fa-fw fa-registered fa-lg"></i></button>
             </div>
-            <div class="card-body content">
+            <div id="focused-item-body" class="card-body content content-full">
                 <div *ngIf="!focusedItem.fullContent">
                     <h2 class="card-title">{{ focusedItem.title }}</h2>
                     <div class="feed-item-html" [innerHTML]="focusedItem.summary ? focusedItem.summary : focusedItem.summaryPreview"></div>

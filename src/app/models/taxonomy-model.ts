@@ -7,5 +7,5 @@ export class TaxonomyModel {
     /** title of tag */
     title?: string;
     /** count of unread feed items */
-    countOfUnread?: number;
+    countOfUnreadText?: string;
 }

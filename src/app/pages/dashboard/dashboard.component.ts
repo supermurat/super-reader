@@ -1,3 +1,4 @@
+import { isPlatformBrowser } from '@angular/common';
 import { Component, Inject, LOCALE_ID, OnInit, PLATFORM_ID } from '@angular/core';
 import { AngularFirestore } from '@angular/fire/firestore';
 import { Observable } from 'rxjs';
@@ -63,10 +64,9 @@ export class DashboardComponent implements OnInit {
                                 .limit(10))
                             .valueChanges()
                             .subscribe(value => {
-                                tag.countOfUnread = value.length;
+                                tag.countOfUnreadText = `${value.length}+`;
                             });
                     } else {
-                        tag.countOfUnread = 0;
                         this.afs.collection<FeedItemModel>('feedItems', ref =>
                             ref
                                 .where('isRead', '<=', false)
@@ -78,7 +78,7 @@ export class DashboardComponent implements OnInit {
                         )
                             .valueChanges()
                             .subscribe(value => {
-                                tag.countOfUnread = value.length;
+                                tag.countOfUnreadText = `${value.length}+`;
                             });
                     }
                 });
@@ -178,6 +178,17 @@ export class DashboardComponent implements OnInit {
     showPreview(feedItem: FeedItemModel): void {
         this.markAsRead(feedItem);
         this.focusedItem = feedItem;
+        if (isPlatformBrowser(this.platformId)) {
+            const scrollToTop = window.setInterval(() => {
+                const pos = document.getElementById('focused-item-body').scrollTop;
+                if (pos > 0) {
+                    document.getElementById('focused-item-body')
+                        .scrollTo(0, pos - 60); // how far to scroll on each step
+                } else {
+                    window.clearInterval(scrollToTop);
+                }
+            }, 16);
+        }
     }
 
 }

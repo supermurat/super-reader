@@ -64,11 +64,18 @@ const fixMissingHtmlTag = (htmlContent: string, tag: string): string => {
     return content;
 };
 
-/** fix missing html tags */
-const fixMissingHtmlTags = (htmlContent: string): string => {
+/** fix html */
+const fixHtml = (htmlContent: string): string => {
     let content = htmlContent;
     content = fixMissingHtmlTag(content, 'div');
     content = fixMissingHtmlTag(content, 'p');
+
+    const images = content.match(/<img([\w\W]+?)(\/>|><\/[ ]?img>)/gui);
+    for (const imgPart of images) {
+        if (imgPart.indexOf(' src=') === -1) {
+            content = content.replace(imgPart, imgPart.replace(' data-src-orig=', ' src='));
+        }
+    }
 
     return content;
 };
@@ -103,7 +110,7 @@ const fixLinks = (fullContent: string): string => {
     let content = fullContent;
     content = content.replace(new RegExp(/ target="[a-zA-Z0-9-+]*"/gui), '');
     content = content.replace(new RegExp(/ target='[a-zA-Z0-9-+]*'/gui), '');
-    content = content.replace(new RegExp(/\<a /gui), '<a target="_blank" ');
+    content = content.replace(new RegExp(/<a /gui), '<a target="_blank" ');
 
     return content;
 };
@@ -154,7 +161,7 @@ const clearFullContent = (sourceMainDocData: FeedModel, fullContent: string): st
             content = content.replace(new RegExp(regexpValue.regexp, regexpValue.flags), regexpValue.replaceWith);
         }
     }
-    content = fixMissingHtmlTags(content);
+    content = fixHtml(content);
 
     if (content === '') {
         content = fullContent;
@@ -184,7 +191,7 @@ const clearSummaryContent = (sourceMainDocData: FeedModel, fullContent: string):
             content = content.replace(new RegExp(regexpValue.regexp, regexpValue.flags), regexpValue.replaceWith);
         }
     }
-    content = fixMissingHtmlTags(content);
+    content = fixHtml(content);
 
     if (content === '') {
         content = fullContent;
@@ -410,12 +417,16 @@ export const refreshFeeds = async (snap: DocumentSnapshot, jobData: JobModel): P
                     .then(value =>
                         parseFeed(mainDocData, value)
                     )
-                    .then(value =>
-                        mainDoc.ref.set({...value, ...{refreshedAt: new Date()}}, {merge: true})
+                    .then(async value => {
+                        if (!FUNCTIONS_CONFIG.keepRawFeedItems) {
+                            delete value.rawContent;
+                        }
+
+                        return mainDoc.ref.set({...value, ...{refreshedAt: new Date()}}, {merge: true})
                             .then(() => {
                                 processedDocCount++;
-                            })
-                    )
+                            });
+                    })
                     .catch(reason => {
                         console.error(reason);
                         mainDoc.ref.set({...reason, ...{refreshedAt: new Date()}}, {merge: true})
