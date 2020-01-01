@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
-import { NavigationStart, Router } from '@angular/router';
+import { CanDeactivate, NavigationStart, Router } from '@angular/router';
 import { Observable, Subject } from 'rxjs';
+import { environment } from '../../environments/environment';
 
 /**
  * Alert Service
@@ -57,5 +58,31 @@ export class AlertService {
      */
     getMessage(): Observable<any> {
         return this.subject.asObservable();
+    }
+}
+
+/**
+ * Component Can Deactivate interface
+ */
+export interface ComponentCanDeactivate {
+    /**
+     * can deactivate?
+     */
+    canDeactivate(): boolean | Observable<boolean>;
+}
+
+/**
+ * Pending Changes Guard
+ */
+@Injectable()
+export class PendingChangesGuard implements CanDeactivate<ComponentCanDeactivate> {
+    /**
+     * can deactivate?
+     */
+    canDeactivate(component: ComponentCanDeactivate): boolean | Observable<boolean> {
+        // if there are no pending changes, just allow deactivation; else confirm first
+        return component.canDeactivate() ?
+            true :
+            confirm('Are you sure you want to go? You may not continue from where you left.');
     }
 }

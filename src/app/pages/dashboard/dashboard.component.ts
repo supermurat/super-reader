@@ -1,9 +1,10 @@
 import { isPlatformBrowser } from '@angular/common';
-import { Component, Inject, LOCALE_ID, OnInit, PLATFORM_ID } from '@angular/core';
+import { Component, HostListener, Inject, LOCALE_ID, OnInit, PLATFORM_ID } from '@angular/core';
 import { AngularFirestore } from '@angular/fire/firestore';
 import { Observable } from 'rxjs';
+import { environment } from '../../../environments/environment';
 import { FeedItemModel, PageModel, TaxonomyModel } from '../../models';
-import { AlertService, PageService, PaginationService } from '../../services';
+import { AlertService, ComponentCanDeactivate, PageService, PaginationService } from '../../services';
 
 /**
  * Dashboard Component
@@ -12,7 +13,7 @@ import { AlertService, PageService, PaginationService } from '../../services';
     selector: 'app-dashboard',
     templateUrl: './dashboard.component.html'
 })
-export class DashboardComponent implements OnInit {
+export class DashboardComponent implements OnInit, ComponentCanDeactivate  {
     /** current page object */
     page$: Observable<PageModel>;
     /** focused feed item */
@@ -46,6 +47,14 @@ export class DashboardComponent implements OnInit {
         this.loadByTag({id: 'all'});
     }
 
+    // @HostListener allows us to also guard against browser refresh, close, etc.
+    /**
+     * can deactivate component?
+     */
+    @HostListener('window:beforeunload') canDeactivate(): Observable<boolean> | boolean {
+        return !environment.production;
+    }
+
     /**
      * load tags
      */
@@ -64,7 +73,7 @@ export class DashboardComponent implements OnInit {
                                 .limit(10))
                             .valueChanges()
                             .subscribe(value => {
-                                tag.countOfUnreadText = `${value.length}+`;
+                                tag.countOfUnreadText = value.length > 9 ? `${value.length}+` : `${value.length}`;
                             });
                     } else {
                         this.afs.collection<FeedItemModel>('feedItems', ref =>
@@ -78,7 +87,7 @@ export class DashboardComponent implements OnInit {
                         )
                             .valueChanges()
                             .subscribe(value => {
-                                tag.countOfUnreadText = `${value.length}+`;
+                                tag.countOfUnreadText = value.length > 9 ? `${value.length}+` : `${value.length}`;
                             });
                     }
                 });

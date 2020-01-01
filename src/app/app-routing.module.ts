@@ -5,6 +5,7 @@ import { DashboardComponent } from './pages/dashboard/dashboard.component';
 import { HomeComponent } from './pages/home/home.component';
 import { NotFoundComponent } from './pages/not-found/not-found.component';
 import { PlaygroundComponent } from './pages/playground/playground.component';
+import { PendingChangesGuard } from './services';
 
 const routes: Routes = [
     // region home paths
@@ -24,10 +25,10 @@ const routes: Routes = [
         path: 'playground', component: PlaygroundComponent
     },
     {
-        path: 'dashboard', component: DashboardComponent
+        path: 'dashboard', component: DashboardComponent, canDeactivate: [PendingChangesGuard]
     },
     {
-        path: 'pano', component: DashboardComponent
+        path: 'pano', component: DashboardComponent, canDeactivate: [PendingChangesGuard]
     },
     {
         path: 'http-404', component: NotFoundComponent

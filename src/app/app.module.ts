@@ -32,7 +32,7 @@ import { NotFoundComponent } from './pages/not-found/not-found.component';
 import { PlaygroundComponent } from './pages/playground/playground.component';
 import {
     AlertService, AuthService, CarouselService, ConfigService, JsonLDService,
-    PagerService, PageService, PaginationService, SeoService
+    PagerService, PageService, PaginationService, PendingChangesGuard, SeoService
 } from './services';
 import { CustomHtmlComponent } from './widgets/custom-html/custom-html.component';
 
@@ -88,6 +88,7 @@ import { CustomHtmlComponent } from './widgets/custom-html/custom-html.component
         CarouselService,
         PageService,
         ConfigService,
+        PendingChangesGuard,
         {provide: APP_CONFIG, useValue: APP_DI_CONFIG},
         {provide: FirestoreSettingsToken, useValue: {}}
     ],
