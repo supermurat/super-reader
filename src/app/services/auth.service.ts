@@ -74,9 +74,27 @@ export class AuthService {
      * sign in with google
      */
     async googleSignIn(): Promise<void> {
-        const provider = new auth.GoogleAuthProvider();
+        const credential = await this.afAuth.auth.signInWithPopup(new auth.GoogleAuthProvider());
 
-        return this.oAuthLogin(provider)
+        return this.updateUserData(credential.user)
+            .then(value => {
+                this.router.navigate(['/', this.locale === 'tr-TR' ? 'pano' : 'dashboard'])
+                    .catch(// istanbul ignore next
+                        reason => {
+                            this.alert.error(reason);
+                        });
+            });
+    }
+
+    /**
+     * sign in with email and password
+     * @param email: email address
+     * @param password: password
+     */
+    async emailAndPasswordSignIn(email: string, password: string): Promise<void> {
+        const credential = await this.afAuth.auth.signInWithEmailAndPassword(email, password);
+
+        return this.updateUserData(credential.user)
             .then(value => {
                 this.router.navigate(['/', this.locale === 'tr-TR' ? 'pano' : 'dashboard'])
                     .catch(// istanbul ignore next
@@ -93,16 +111,6 @@ export class AuthService {
         await this.afAuth.auth.signOut();
 
         return this.router.navigate(['/']);
-    }
-
-    /**
-     * attempt to login
-     * @param provider: Firebase Auth Provider
-     */
-    private async oAuthLogin(provider): Promise<void> {
-        const credential = await this.afAuth.auth.signInWithPopup(provider);
-
-        return this.updateUserData(credential.user);
     }
 
     /**

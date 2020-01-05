@@ -1,6 +1,6 @@
 <div class="row" *ngIf="page$ | async as page">
     <!-- Sidebar Widgets Column -->
-    <aside class="col-md-4 pt-2">
+    <aside class="col-md-4 col-sm-12 pt-2">
         <div class="card mb-2">
             <div class="card-body pt-1 pb-0">
                 <div class="row">
@@ -30,13 +30,13 @@
                     </div>
                 </div>
             </div>
-            <p class="alert-warning" *ngIf="pagination.done | async" i18n>I ran out of items!</p>
+            <p class="alert-warning" *ngIf="pagination.done | async" i18n>We ran out of items!</p>
         </div>
     </aside>
 
     <!-- Page Content -->
-    <div class="col-md-8 py-2">
-        <div class="card" *ngIf="focusedItem">
+    <div class="col-md-8 col-sm-12 py-2" *ngIf="focusedItem">
+        <div class="card">
             <div class="card-header p-0">
                 <div class="float-left">
                     <a class="btn ml-3 mt-1 btn-sm" [href]="focusedItem.link" target="_blank"
@@ -59,6 +59,10 @@
                     <button class="btn ml-3 mt-1 btn-sm" *ngIf="!focusedItem.isKept"
                             (click)="updateFeedItem(focusedItem, {isKept: true})"
                             title="Keep Me Forever"><i class="far fa-fw fa-save fa-lg"></i></button>
+
+                    <button class="btn ml-3 mt-1 btn-sm text-danger"
+                            (click)="focusedItem = undefined"
+                            title="Close"><i class="fa fa-fw fa-times fa-lg"></i></button>
                 </div>
             </div>
             <div id="focused-item-body" class="card-body content content-full">

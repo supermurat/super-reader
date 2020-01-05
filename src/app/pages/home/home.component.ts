@@ -19,6 +19,11 @@ export class HomeComponent implements OnInit {
     contents$: Observable<Array<PageBaseModel>>;
     /** primary custom html widget */
     customHtml: CustomHtmlModel;
+    /** primary custom html widget */
+    loginData: any = {
+        email: '',
+        password: ''
+    };
 
     /**
      * constructor of HomeComponent
