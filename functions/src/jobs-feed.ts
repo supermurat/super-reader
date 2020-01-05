@@ -22,10 +22,31 @@ const getLink = (feedItem: FeedItemModel): string => {
     return feedItem.origlink ? feedItem.origlink : feedItem.link;
 };
 
+/** get date of feed item */
+// tslint:disable-next-line: arrow-return-shorthand
+const getDateOfItem = (feedItem: FeedItemModel): Date => {
+    // tslint:disable-next-line: strict-comparisons
+    if (feedItem.date > new Date ('1970')) {
+        return feedItem.date;
+    }
+    // tslint:disable-next-line: strict-comparisons
+    if (feedItem.pubdate > new Date ('1970')) {
+        return feedItem.pubdate;
+    }
+    // tslint:disable-next-line: strict-comparisons
+    if (feedItem['rss:pubdate'] && feedItem['rss:pubdate']['#'] && new Date(feedItem['rss:pubdate']['#']) > new Date ('1970')) {
+        return new Date(feedItem['rss:pubdate']['#']);
+    }
+
+    return new Date();
+};
+
 /** get document ID */
 // tslint:disable-next-line: arrow-return-shorthand
 const getDocumentID = (feedItem: FeedItemModel): string => {
     return getLink(feedItem)
+        .match(/[\w\d\:\-\+//.\\\#]*/gi)
+        .join('')
         .replace(/\//gi, '\\')
         .split('#')[0];
 };
@@ -71,9 +92,11 @@ const fixHtml = (htmlContent: string): string => {
     content = fixMissingHtmlTag(content, 'p');
 
     const images = content.match(/<img([\w\W]+?)(\/>|><\/[ ]?img>)/gui);
-    for (const imgPart of images) {
-        if (imgPart.indexOf(' src=') === -1) {
-            content = content.replace(imgPart, imgPart.replace(' data-src-orig=', ' src='));
+    if (images && images.length > 0) {
+        for (const imgPart of images) {
+            if (imgPart.indexOf(' src=') === -1) {
+                content = content.replace(imgPart, imgPart.replace(' data-src-orig=', ' src='));
+            }
         }
     }
 
@@ -252,7 +275,7 @@ const getTagsOfFeedItem = (sourceMainDocData: FeedModel, feedItem: FeedItemModel
 const getFeedItem = (sourceMainDocData: FeedModel, feedItem: FeedItemModel): FeedItemModel =>
     ({
         link: getLink(feedItem),
-        date: feedItem.date,
+        date: getDateOfItem(feedItem),
         image: getImageOfFeedItem(feedItem),
         summary: clearSummaryContent(sourceMainDocData, feedItem.summary),
         summaryPreview: h2p(feedItem.summary).substring(0, 256),
@@ -263,12 +286,13 @@ const getFeedItem = (sourceMainDocData: FeedModel, feedItem: FeedItemModel): Fee
     });
 
 /** create raw feed item */
-const createRawFeedItem = async (sourceMainDocData: FeedModel, feedItemRaw: FeedItemModel, documentID: string): Promise<FeedItemModel> =>
+const createRawFeedItem = async (sourceMainDocData: FeedModel, feedItemRaw: FeedItemModel, documentID: string,
+                                 force?: boolean): Promise<FeedItemModel> =>
     new Promise((resolve, reject): void => {
-        if (FUNCTIONS_CONFIG.keepRawFeedItems) {
+        if (FUNCTIONS_CONFIG.keepRawFeedItems || force) {
             db.collection('feedItemsRaw')
                 .doc(documentID)
-                .set(feedItemRaw)
+                .set(JSON.parse(JSON.stringify(feedItemRaw)))
                 .then(valueOfRaw => {
                     resolve(feedItemRaw);
                 })
@@ -368,12 +392,26 @@ const parseFeed = async (sourceMainDocData: FeedModel, newMainDocData: FeedModel
             let i = 1;
             for (const item of items) {
                 try {
-                    console.log(`Started : ${sourceMainDocData.url} : ${i}/${items.length} : ${item.link}`);
+                    console.log(`Started : ${i}/${items.length} : ${item.link}`);
                     await createFeedItem(sourceMainDocData, item);
-                    console.log(`Done : ${sourceMainDocData.url} : ${i}/${items.length} : ${item.link}`);
+                    console.log(`Done : ${i}/${items.length} : ${item.link}`);
                     i++;
                 } catch (e) {
                     console.error(e);
+                    try {
+                        const documentID = getDocumentID(item);
+                        await createRawFeedItem(
+                            sourceMainDocData,
+                            {...item, ...{
+                                error: {
+                                    message: e.message,
+                                    stack: e.stack
+                                }
+                            }},
+                            documentID, true);
+                    } catch (e2) {
+                        console.error(e2);
+                    }
                 }
             }
             resolve({...newMainDocData, ...{isHealthy: true}});

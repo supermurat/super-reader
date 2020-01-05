@@ -193,14 +193,14 @@
         </context-group>
       </trans-unit><trans-unit id="931eab494870bec5d99fbd1911ac5b08291c981c" datatype="html">
         <source>
-    <x id="START_TAG_DIV" ctype="x-div" equiv-text="&lt;div>"/>By continuing to browse the site, you're agreeing to our use of cookies.<x id="CLOSE_TAG_DIV" ctype="x-div" equiv-text="&lt;/div>"/>
-</source><target state="translated"><x id="START_TAG_DIV" ctype="x-div" equiv-text="&lt;div>"/>Gezinmeye devam ederek, çerezleri kullanmamızı kabul ediyorsunuz.<x id="CLOSE_TAG_DIV" ctype="x-div" equiv-text="&lt;/div>"/></target>
+    <x id="START_TAG_DIV" ctype="x-div" equiv-text="&lt;div&gt;"/>By continuing to browse the site, you're agreeing to our use of cookies.<x id="CLOSE_TAG_DIV" ctype="x-div" equiv-text="&lt;/div&gt;"/>
+</source><target state="translated"><x id="START_TAG_DIV" ctype="x-div" equiv-text="&lt;div&gt;"/>Gezinmeye devam ederek, çerezleri kullanmamızı kabul ediyorsunuz.<x id="CLOSE_TAG_DIV" ctype="x-div" equiv-text="&lt;/div&gt;"/></target>
         <context-group purpose="location">
           <context context-type="sourcefile">app/components/app/app.component.html</context>
           <context context-type="linenumber">32</context>
         </context-group>
       </trans-unit><trans-unit id="a4cd215f32a722665a981b6ae145a58c2be86a39" datatype="html">
-        <source>Super Reader</source><target state="new"/>
+        <source>Super Reader</source><target state="translated">Süper Okuyucu</target>
         <context-group purpose="location">
           <context context-type="sourcefile">app/components/nav-menu/nav-menu.component.html</context>
           <context context-type="linenumber">3</context>
@@ -220,7 +220,7 @@
         <source><x id="INTERPOLATION" equiv-text="{{ content.created.seconds * 1000 | date:'medium' }}"/> - <x id="INTERPOLATION_1" equiv-text="{{ content.createdBy }}"/></source><target state="new"><x id="INTERPOLATION" equiv-text="{{ content.created.seconds * 1000 | date:'medium' }}"/> - <x id="INTERPOLATION_1" equiv-text="{{ content.createdBy }}"/></target>
 
       <context-group purpose="location"><context context-type="sourcefile">app/pages/home/home.component.html</context><context context-type="linenumber">9</context></context-group></trans-unit><trans-unit id="6765b4c916060f6bc42d9bb69e80377dbcb5e4e9" datatype="html">
-        <source>Login</source><target state="new"/>
+        <source>Login</source><target state="translated">Giriş Yap</target>
         <context-group purpose="location">
           <context context-type="sourcefile">app/pages/home/home.component.html</context>
           <context context-type="linenumber">18</context>
@@ -242,7 +242,7 @@
         <source>Sign Out</source><target state="final">Çıkış Yap</target>
 
       <context-group purpose="location"><context context-type="sourcefile">app/pages/home/home.component.html</context><context context-type="linenumber">24</context></context-group></trans-unit><trans-unit id="6d3b88a3ae6ff3d987f86395605397ec736dee9c" datatype="html">
-        <source>E-Mail</source><target state="new"/>
+        <source>E-Mail</source><target state="translated">E-Posta</target>
         <context-group purpose="location">
           <context context-type="sourcefile">app/pages/home/home.component.html</context>
           <context context-type="linenumber">33</context>
@@ -250,13 +250,13 @@
       </trans-unit><trans-unit id="5561cdc9c5b3030eb566ea1ab3a8c593080179b0" datatype="html">
         <source>
                                             Please enter your E-mail
-                                        </source><target state="new"/>
+                                        </source><target state="translated">Lütfen e-posta adresinizi giriniz</target>
         <context-group purpose="location">
           <context context-type="sourcefile">app/pages/home/home.component.html</context>
           <context context-type="linenumber">38</context>
         </context-group>
       </trans-unit><trans-unit id="c32ef07f8803a223a83ed17024b38e8d82292407" datatype="html">
-        <source>Password</source><target state="new"/>
+        <source>Password</source><target state="translated">Şifre</target>
         <context-group purpose="location">
           <context context-type="sourcefile">app/pages/home/home.component.html</context>
           <context context-type="linenumber">46</context>
@@ -264,7 +264,7 @@
       </trans-unit><trans-unit id="763e720c612f5d33df2b13f37a83064038fac563" datatype="html">
         <source>
                                             Please enter your password
-                                        </source><target state="new"/>
+                                        </source><target state="translated">Lütfen şifrenizi giriniz</target>
         <context-group purpose="location">
           <context context-type="sourcefile">app/pages/home/home.component.html</context>
           <context context-type="linenumber">51</context>
@@ -388,7 +388,7 @@
           <context context-type="linenumber">107</context>
         </context-group>
       </trans-unit><trans-unit id="cf6678af080747bcd914e58c48e91290531f8402" datatype="html">
-        <source>We ran out of items!</source><target state="new"/>
+        <source>We ran out of items!</source><target state="translated">Başka madde kalmadı!</target>
         <context-group purpose="location">
           <context context-type="sourcefile">app/pages/dashboard/dashboard.component.html</context>
           <context context-type="linenumber">33</context>
@@ -421,9 +421,9 @@
 
       <context-group purpose="location"><context context-type="sourcefile">app/pages/playground/playground.component.html</context><context context-type="linenumber">6</context></context-group></trans-unit><trans-unit id="482ecf35df28e21d3372449451f43b2d3c961442" datatype="html">
         <source>
-        <x id="START_TAG_STRONG" ctype="x-strong" equiv-text="&lt;strong>"/>Warning!<x id="CLOSE_TAG_STRONG" ctype="x-strong" equiv-text="&lt;/strong>"/> Sample alert.
+        <x id="START_TAG_STRONG" ctype="x-strong" equiv-text="&lt;strong&gt;"/>Warning!<x id="CLOSE_TAG_STRONG" ctype="x-strong" equiv-text="&lt;/strong&gt;"/> Sample alert.
     </source><target state="translated">
-        <x id="START_TAG_STRONG" ctype="x-strong" equiv-text="&lt;strong>"/>Dikkat!<x id="CLOSE_TAG_STRONG" ctype="x-strong" equiv-text="&lt;/strong>"/> Örnek uyarı.
+        <x id="START_TAG_STRONG" ctype="x-strong" equiv-text="&lt;strong&gt;"/>Dikkat!<x id="CLOSE_TAG_STRONG" ctype="x-strong" equiv-text="&lt;/strong&gt;"/> Örnek uyarı.
     </target>
 
       <context-group purpose="location"><context context-type="sourcefile">app/pages/playground/playground.component.html</context><context context-type="linenumber">9</context></context-group></trans-unit>
@@ -489,7 +489,7 @@
 
       <context-group purpose="location"><context context-type="sourcefile">app/pages/playground/playground.component.html</context><context context-type="linenumber">36</context></context-group></trans-unit>
       <trans-unit id="3b7778a9dc93115be4a2e3a263e88f0974bb3544" datatype="html">
-        <source>Copyright © Super Reader 2019-2020</source><target state="new"/>
+        <source>Copyright © Super Reader 2019-2020</source><target state="translated">Copyright © Super Reader 2019-2020</target>
         <context-group purpose="location">
           <context context-type="sourcefile">app/components/footer/footer.component.html</context>
           <context context-type="linenumber">31</context>
