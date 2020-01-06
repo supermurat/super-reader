@@ -51,8 +51,11 @@ const getDocumentID = (feedItem: FeedItemModel): string => {
         .split('#')[0];
 };
 
-/** clear feed item */
-const clearFeedItem = (feedItem: FeedItemModel): void => {
+/** clear and fix feed item */
+const clearAndFixFeedItem = (feedItem: FeedItemModel): void => {
+    if (!feedItem.summary) {
+        feedItem.summary = (feedItem['content:encoded'] && feedItem['content:encoded']['#']) ? feedItem['content:encoded']['#'] : '';
+    }
     if (feedItem.description) {
         delete feedItem.description;
     }
@@ -246,14 +249,14 @@ const getImageOfFeedItem = (feedItem: FeedItemModel): FeedParser.Image => {
         // tslint:disable-next-line:no-null-keyword
         return null;
     }
-    const src = firstImage[0].match(/src="([\w\W]+?)"/iu);
-    const alt = firstImage[0].match(/alt="([\w\W]+?)"/iu);
+    const src = firstImage[0].match(/src=(["'])([\w\W]+?)(["'])/iu);
+    const alt = firstImage[0].match(/alt=(["'])([\w\W]+?)(["'])/iu);
 
     return {
         // tslint:disable-next-line:no-null-keyword
-        title: alt && alt.length === 2 ? alt[1] : null,
+        title: alt && alt.length === 4 && alt[0].indexOf('""') === -1 && alt[0].indexOf("''") === -1 ? alt[2] : null,
         // tslint:disable-next-line:no-null-keyword
-        url: src && src.length === 2 ? src[1] : null
+        url: src && src.length === 4 ? src[2] : null
     };
 };
 
@@ -292,7 +295,7 @@ const createRawFeedItem = async (sourceMainDocData: FeedModel, feedItemRaw: Feed
         if (FUNCTIONS_CONFIG.keepRawFeedItems || force) {
             db.collection('feedItemsRaw')
                 .doc(documentID)
-                .set(JSON.parse(JSON.stringify(feedItemRaw)))
+                .set(JSON.parse(JSON.stringify(feedItemRaw)), {merge: true})
                 .then(valueOfRaw => {
                     resolve(feedItemRaw);
                 })
@@ -312,7 +315,7 @@ const createFullFeedItem = async (sourceMainDocData: FeedModel, feedItem: FeedIt
                 .then(fullContent => {
                     db.collection('feedItemsFull')
                         .doc(documentID)
-                        .set({fullContent})
+                        .set({fullContent}, {merge: true})
                         .then(valueOfFull => {
                             resolve({fullContent});
                         })
@@ -329,22 +332,22 @@ const createFullFeedItem = async (sourceMainDocData: FeedModel, feedItem: FeedIt
     });
 
 /** create feed item */
-const createFeedItem = async (sourceMainDocData: FeedModel, feedItemRaw: FeedItemModel): Promise<FeedModel> =>
+const createFeedItem = async (sourceMainDocData: FeedModel, feedItemRaw: FeedItemModel, overwrite: boolean): Promise<FeedModel> =>
     new Promise((resolve, reject): void => {
-        clearFeedItem(feedItemRaw);
+        clearAndFixFeedItem(feedItemRaw);
         const documentID = getDocumentID(feedItemRaw);
         db.collection('feedItems')
             .doc(documentID)
             .get()
             .then(value => {
                 const feedItem = getFeedItem(sourceMainDocData, feedItemRaw);
-                if (value.exists) {
+                if (value.exists && !overwrite) {
                     console.log(`feedItems/${documentID} is already exist!`);
                     resolve(feedItem);
                 } else {
                     db.collection('feedItems')
                         .doc(documentID)
-                        .set(feedItem)
+                        .set(feedItem, {merge: true})
                         .then(result =>
                             createFullFeedItem(sourceMainDocData, feedItem, documentID))
                         .then(result =>
@@ -379,7 +382,7 @@ const getContentOfFeed = async (mainDocData: FeedModel): Promise<FeedModel> =>
     });
 
 /** parse feed */
-const parseFeed = async (sourceMainDocData: FeedModel, newMainDocData: FeedModel): Promise<FeedModel> =>
+const parseFeed = async (sourceMainDocData: FeedModel, newMainDocData: FeedModel, overwrite: boolean): Promise<FeedModel> =>
     new Promise((resolve, reject): void => {
         const fp = new FeedParser({});
         stringToStream(newMainDocData.rawContent).pipe(fp);
@@ -393,7 +396,7 @@ const parseFeed = async (sourceMainDocData: FeedModel, newMainDocData: FeedModel
             for (const item of items) {
                 try {
                     console.log(`Started : ${i}/${items.length} : ${item.link}`);
-                    await createFeedItem(sourceMainDocData, item);
+                    await createFeedItem(sourceMainDocData, item, overwrite);
                     console.log(`Done : ${i}/${items.length} : ${item.link}`);
                     i++;
                 } catch (e) {
@@ -454,7 +457,7 @@ export const refreshFeeds = async (snap: DocumentSnapshot, jobData: JobModel): P
 
                 return getContentOfFeed(mainDocData)
                     .then(value =>
-                        parseFeed(mainDocData, value)
+                        parseFeed(mainDocData, value, jobData.overwrite)
                     )
                     .then(async value => {
                         if (!FUNCTIONS_CONFIG.keepRawFeedItems) {
