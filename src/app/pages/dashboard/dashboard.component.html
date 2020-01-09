@@ -6,7 +6,7 @@
                 <div class="row">
                     <div class="tag-cloud">
                         <ul>
-                            <li *ngFor="let tag of tagList; trackBy:pageService.trackByIndex">
+                            <li [ngClass]="[tag?.id == focusedTag?.id ? 'active' : '']" *ngFor="let tag of tagList; trackBy:pageService.trackByIndex">
                                 <a (click)="loadByTag(tag)">
                                     <span>{{ tag.title }} ({{ tag.countOfUnreadText != undefined ? tag.countOfUnreadText: '?' }})</span>
                                 </a>
@@ -17,7 +17,7 @@
             </div>
         </div>
         <div class="content content-preview" appScrollable (scrollPosition)="scrollHandler($event)">
-            <div class="card mb-4 flex-row flex-wrap" *ngFor="let feedItem of pagination.data | async; trackBy:pageService.trackByIndex" (mouseenter)="showPreview(feedItem)">
+            <div [ngClass]="['card mb-4 flex-row flex-wrap', feedItem.isRead ? 'text-muted' : 'text-dark border-dark']" *ngFor="let feedItem of pagination.data | async; trackBy:pageService.trackByIndex" (mouseenter)="showPreview(feedItem)">
                 <div class="row no-gutters">
                     <div class="col-auto">
                         <img class="img-fluid" *ngIf="feedItem.image" [src]="feedItem.image.url" alt="{{ feedItem.image.title }}"/>
@@ -36,13 +36,22 @@
 
     <!-- Page Content -->
     <div class="col-md-8 col-sm-12 py-2" *ngIf="focusedItem">
-        <div class="card">
+        <div [ngClass]="['card', focusedItem.isRead ? '' : 'border-dark']">
             <div class="card-header p-0">
                 <div class="float-left">
                     <a class="btn ml-3 mt-1 btn-sm" [href]="focusedItem.link" target="_blank"
                        title="Open in New Tab"><i class="fas fa-fw fa-external-link-alt fa-lg"></i></a>
                     <button class="btn ml-3 mt-1 btn-sm" (click)="loadFullContent(focusedItem)"
                             title="Load Full Content"><i class="fas fa-fw fa-cloud-download-alt fa-lg"></i></button>
+                </div>
+
+                <div class="float-left ml-5">
+                    <button class="btn ml-5 mt-1 px-4 py-0 btn-outline-secondary btn-sm" (mouseenter)="scrollContent(-1)" (mouseleave)="stopScrollContent()"
+                            title="Scroll Up"><i class="fas fa-fw fa-arrow-up fa-lg"></i></button>
+                    <button class="btn ml-3 mt-1 px-4 py-0 btn-outline-secondary btn-sm" (mouseenter)="scrollContent(1)" (mouseleave)="stopScrollContent()"
+                            title="Scroll Down"><i class="fas fa-fw fa-arrow-down fa-lg"></i></button>
+                    <button class="btn ml-3 mt-1 px-4 py-0 btn-outline-secondary btn-sm" (mouseenter)="scrollContent(8)" (mouseleave)="stopScrollContent()"
+                            title="Scroll Down Faster"><i class="fas fa-fw fa-arrow-down fa-lg"></i></button>
                 </div>
 
                 <div class="float-right">
@@ -75,7 +84,17 @@
                 </div>
             </div>
             <div class="card-footer py-0">
-                {{ focusedItem.date.seconds * 1000 | date: 'medium' }}
+                <div class="float-left">
+                    {{ focusedItem.date.seconds * 1000 | date: 'medium' }}
+                </div>
+                <div class="float-left">
+                    <button class="btn ml-5 mt-0 px-4 py-0 btn-outline-secondary btn-sm" (mouseenter)="scrollContent(-4)" (mouseleave)="stopScrollContent()"
+                            title="Scroll Up"><i class="fas fa-fw fa-arrow-up fa-lg"></i></button>
+                    <button class="btn ml-3 mt-0 px-4 py-0 btn-outline-secondary btn-sm" (mouseenter)="scrollContent(4)" (mouseleave)="stopScrollContent()"
+                            title="Scroll Down"><i class="fas fa-fw fa-arrow-down fa-lg"></i></button>
+                    <button class="btn ml-3 mt-0 px-4 py-0 btn-outline-secondary btn-sm" (mouseenter)="scrollContent(8)" (mouseleave)="stopScrollContent()"
+                            title="Scroll Down Faster"><i class="fas fa-fw fa-arrow-down fa-lg"></i></button>
+                </div>
                 <div class="tag-cloud float-right mt-1 mb-0">
                     <ul>
                         <li *ngFor="let tag of focusedItem.tagList; trackBy:pageService.trackByIndex">

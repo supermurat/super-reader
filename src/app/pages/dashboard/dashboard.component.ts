@@ -18,8 +18,12 @@ export class DashboardComponent implements OnInit, ComponentCanDeactivate  {
     page$: Observable<PageModel>;
     /** focused feed item */
     focusedItem: FeedItemModel;
+    /** focused tag */
+    focusedTag: TaxonomyModel;
     /** tag list */
     tagList: Array<TaxonomyModel>;
+    /** scroll interval */
+    scrollInterval: any;
 
     /**
      * constructor of DashboardComponent
@@ -99,6 +103,7 @@ export class DashboardComponent implements OnInit, ComponentCanDeactivate  {
      * @param tag: TaxonomyModel
      */
     loadByTag(tag: TaxonomyModel): void {
+        this.focusedTag = tag;
         if (tag.id === 'all') {
             this.pagination.init(
                 'feedItems', ['isRead', 'date'], {limit: 10, reverse: true, prepend: false}, undefined,
@@ -184,6 +189,34 @@ export class DashboardComponent implements OnInit, ComponentCanDeactivate  {
                     }
                 }, 16);
             }
+        }
+    }
+
+    /**
+     * scroll up or down content
+     * @param factor: scroll factor
+     */
+    scrollContent(factor: number): void {
+        if (isPlatformBrowser(this.platformId)) {
+            this.scrollInterval = window.setInterval(() => {
+                const pos = document.getElementById('focused-item-body').scrollTop;
+                const scrollHeight = document.getElementById('focused-item-body').scrollHeight;
+                if (pos > -1 && pos < scrollHeight) {
+                    document.getElementById('focused-item-body')
+                        .scrollTo(0, pos + (factor)); // how far to scroll on each step
+                } else {
+                    window.clearInterval(this.scrollInterval);
+                }
+            }, 16);
+        }
+    }
+
+    /**
+     * stop scroll up or down content
+     */
+    stopScrollContent(): void {
+        if (isPlatformBrowser(this.platformId) && this.scrollInterval) {
+            window.clearInterval(this.scrollInterval);
         }
     }
 
