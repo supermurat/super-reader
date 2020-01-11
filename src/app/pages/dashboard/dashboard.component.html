@@ -17,7 +17,7 @@
             </div>
         </div>
         <div class="content content-preview" appScrollable (scrollPosition)="scrollHandler($event)">
-            <div [ngClass]="['card mb-4 flex-row flex-wrap', feedItem.isRead ? 'text-muted' : 'text-dark border-dark']" *ngFor="let feedItem of pagination.data | async; trackBy:pageService.trackByIndex" (mouseenter)="showPreview(feedItem)">
+            <div [ngClass]="['card mb-4 flex-row flex-wrap', feedItem.isRead ? 'text-muted' : 'text-dark border-dark']" *ngFor="let feedItem of pagination.data | async; trackBy:pageService.trackByIndex" (mouseenter)="showPreview(feedItem)" (click)="showPreview(feedItem, true)">
                 <div class="row no-gutters">
                     <div class="col-auto">
                         <img class="img-fluid" *ngIf="feedItem.image" [src]="feedItem.image.url" alt="{{ feedItem.image.title }}"/>
@@ -46,12 +46,14 @@
                 </div>
 
                 <div class="float-left ml-5">
-                    <button class="btn ml-5 mt-1 px-4 py-0 btn-outline-secondary btn-sm" (mouseenter)="scrollContent(-1)" (mouseleave)="stopScrollContent()"
+                    <button class="btn ml-5 mt-1 px-3 py-0 btn-outline-secondary btn-sm" (mouseenter)="scrollContent(-2)" (mouseleave)="stopScrollContent()"
                             title="Scroll Up"><i class="fas fa-fw fa-arrow-up fa-lg"></i></button>
-                    <button class="btn ml-3 mt-1 px-4 py-0 btn-outline-secondary btn-sm" (mouseenter)="scrollContent(1)" (mouseleave)="stopScrollContent()"
+                    <button class="btn ml-0 mt-1 px-2 py-0 btn-outline-secondary btn-sm" (mouseenter)="scrollContent(2)" (mouseleave)="stopScrollContent()"
                             title="Scroll Down"><i class="fas fa-fw fa-arrow-down fa-lg"></i></button>
-                    <button class="btn ml-3 mt-1 px-4 py-0 btn-outline-secondary btn-sm" (mouseenter)="scrollContent(8)" (mouseleave)="stopScrollContent()"
+                    <button class="btn ml-0 mt-1 px-2 py-0 btn-outline-secondary btn-sm" (mouseenter)="scrollContent(4)" (mouseleave)="stopScrollContent()"
                             title="Scroll Down Faster"><i class="fas fa-fw fa-arrow-down fa-lg"></i></button>
+                    <button class="btn ml-0 mt-1 px-2 py-0 btn-outline-secondary btn-sm" (mouseenter)="scrollContent(6)" (mouseleave)="stopScrollContent()"
+                            title="Scroll Down More Faster"><i class="fas fa-fw fa-arrow-down fa-lg"></i></button>
                 </div>
 
                 <div class="float-right">
@@ -86,14 +88,6 @@
             <div class="card-footer py-0">
                 <div class="float-left">
                     {{ focusedItem.date.seconds * 1000 | date: 'medium' }}
-                </div>
-                <div class="float-left">
-                    <button class="btn ml-5 mt-0 px-4 py-0 btn-outline-secondary btn-sm" (mouseenter)="scrollContent(-4)" (mouseleave)="stopScrollContent()"
-                            title="Scroll Up"><i class="fas fa-fw fa-arrow-up fa-lg"></i></button>
-                    <button class="btn ml-3 mt-0 px-4 py-0 btn-outline-secondary btn-sm" (mouseenter)="scrollContent(4)" (mouseleave)="stopScrollContent()"
-                            title="Scroll Down"><i class="fas fa-fw fa-arrow-down fa-lg"></i></button>
-                    <button class="btn ml-3 mt-0 px-4 py-0 btn-outline-secondary btn-sm" (mouseenter)="scrollContent(8)" (mouseleave)="stopScrollContent()"
-                            title="Scroll Down Faster"><i class="fas fa-fw fa-arrow-down fa-lg"></i></button>
                 </div>
                 <div class="tag-cloud float-right mt-1 mb-0">
                     <ul>

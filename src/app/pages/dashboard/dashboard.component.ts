@@ -173,8 +173,8 @@ export class DashboardComponent implements OnInit, ComponentCanDeactivate  {
      * show feed item preview
      * @param feedItem: FeedItemModel
      */
-    showPreview(feedItem: FeedItemModel): void {
-        if (!this.focusedItem || this.focusedItem.link !== feedItem.link) {
+    showPreview(feedItem: FeedItemModel, force?: boolean): void {
+        if (!this.focusedItem || (this.focusedItem.link !== feedItem.link && (!this.focusedItem.fullContent || force))) {
             this.updateFeedItem(feedItem, {isRead: true});
             this.focusedItem = feedItem;
             this.focusedItem.tagList = this.tagList.filter(tag => this.focusedItem.tags.indexOf(tag.id) > -1);
@@ -207,7 +207,7 @@ export class DashboardComponent implements OnInit, ComponentCanDeactivate  {
                 } else {
                     window.clearInterval(this.scrollInterval);
                 }
-            }, 16);
+            }, 10);
         }
     }
 
