@@ -28,6 +28,12 @@ body {
   float: right;
 }
 
+.dashboard-page {
+  height: 92vh;
+  overflow: hidden;
+  display: block;
+}
+
 .content {
   overflow-y: scroll;
   max-height: 83vh;
@@ -35,7 +41,7 @@ body {
 }
 
 .content-preview {
-  max-height: 83vh;
+  max-height: 86vh;
 }
 
 .content-full {
@@ -99,6 +105,10 @@ body {
   min-width: 120px;
 }
 
+.tag-cloud {
+  width: 100%;
+}
+
 .tag-cloud ul {
   margin: 0;
   padding: 0;
@@ -106,9 +116,14 @@ body {
 }
 
 .tag-cloud ul li {
-  display: inline-block;
+  display: none;
   margin: 0 0 0.3em 1em;
   padding: 0;
+}
+
+.tag-cloud ul li.active,
+.tag-cloud-hover ul li {
+  display: inline-block;
 }
 
 /* stylelint-disable-next-line no-descending-specificity */

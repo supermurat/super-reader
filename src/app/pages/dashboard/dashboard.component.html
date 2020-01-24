@@ -1,10 +1,10 @@
 <div class="row" *ngIf="page$ | async as page">
     <!-- Sidebar Widgets Column -->
-    <aside class="col-md-4 col-sm-12 pt-2">
+    <aside [ngClass]="['col-md-4 col-sm-12 pt-2', focusedItem ? 'd-none d-sm-block' : '']">
         <div class="card mb-2">
             <div class="card-body pt-1 pb-0">
                 <div class="row">
-                    <div class="tag-cloud">
+                    <div [ngClass]="tagCloudClass" (mouseover)="tagCloudClass='tag-cloud tag-cloud-hover'" (mouseout)="tagCloudClass='tag-cloud'">
                         <ul>
                             <li [ngClass]="[tag?.id == focusedTag?.id ? 'active' : '']" *ngFor="let tag of tagList; trackBy:pageService.trackByIndex">
                                 <a (click)="loadByTag(tag)">
@@ -45,7 +45,7 @@
                             title="Load Full Content"><i class="fas fa-fw fa-cloud-download-alt fa-lg"></i></button>
                 </div>
 
-                <div class="float-left ml-5">
+                <div class="float-left ml-5 d-none d-sm-block">
                     <button class="btn ml-5 mt-1 px-3 py-0 btn-outline-secondary btn-sm" (mouseenter)="scrollContent(-2)" (mouseleave)="stopScrollContent()"
                             title="Scroll Up"><i class="fas fa-fw fa-arrow-up fa-lg"></i></button>
                     <button class="btn ml-0 mt-1 px-2 py-0 btn-outline-secondary btn-sm" (mouseenter)="scrollContent(2)" (mouseleave)="stopScrollContent()"

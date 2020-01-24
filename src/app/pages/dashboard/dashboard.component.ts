@@ -1,5 +1,5 @@
 import { isPlatformBrowser } from '@angular/common';
-import { Component, HostListener, Inject, LOCALE_ID, OnInit, PLATFORM_ID } from '@angular/core';
+import { Component, HostBinding, HostListener, Inject, LOCALE_ID, OnInit, PLATFORM_ID } from '@angular/core';
 import { AngularFirestore } from '@angular/fire/firestore';
 import { Observable } from 'rxjs';
 import { environment } from '../../../environments/environment';
@@ -14,6 +14,9 @@ import { AlertService, ComponentCanDeactivate, PageService, PaginationService } 
     templateUrl: './dashboard.component.html'
 })
 export class DashboardComponent implements OnInit, ComponentCanDeactivate  {
+    /** class of page */
+    @HostBinding('class') class = 'dashboard-page';
+
     /** current page object */
     page$: Observable<PageModel>;
     /** focused feed item */
@@ -24,6 +27,8 @@ export class DashboardComponent implements OnInit, ComponentCanDeactivate  {
     tagList: Array<TaxonomyModel>;
     /** scroll interval */
     scrollInterval: any;
+    /** css class of tag-cloud */
+    tagCloudClass = 'tag-cloud';
 
     /**
      * constructor of DashboardComponent
