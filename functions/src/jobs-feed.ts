@@ -141,6 +141,15 @@ const fixLinks = (fullContent: string): string => {
     return content;
 };
 
+/** fix images */
+const fixImages = (fullContent: string): string => {
+    let content = fullContent;
+    content = content.replace(new RegExp(/.jpg\?quality=[0-9]*&amp;strip=info&amp;w=[0-9]*/gui), '.jpg');
+    content = content.replace(new RegExp(/.jpg\?resize=[0-9]*/gui), '.jpg');
+
+    return content;
+};
+
 /** clear full content */
 const clearFullContent = (sourceMainDocData: FeedModel, fullContent: string): string => {
     let content = '';
@@ -187,13 +196,15 @@ const clearFullContent = (sourceMainDocData: FeedModel, fullContent: string): st
             content = content.replace(new RegExp(regexpValue.regexp, regexpValue.flags), regexpValue.replaceWith);
         }
     }
-    content = fixHtml(content);
 
     if (content === '') {
         content = fullContent;
     }
+    content = fixHtml(content);
+    content = fixLinks(content);
+    content = fixImages(content);
 
-    return fixLinks(content);
+    return content;
 };
 
 /** clear summary content */

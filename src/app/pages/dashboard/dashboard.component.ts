@@ -53,7 +53,7 @@ export class DashboardComponent implements OnInit, ComponentCanDeactivate  {
     ngOnInit(): void {
         this.page$ = this.pageService.getPageFromFirestore(PageModel, 'pages', this.pageService.getRoutePathName());
         this.loadTags();
-        this.loadByTag({id: 'all'});
+        this.loadByTag({id: 'asap'});
     }
 
     // @HostListener allows us to also guard against browser refresh, close, etc.
@@ -77,8 +77,8 @@ export class DashboardComponent implements OnInit, ComponentCanDeactivate  {
                         this.afs.collection<FeedItemModel>('feedItems', ref =>
                             ref
                                 .where('isRead', '<=', false)
-                                .orderBy('isRead', 'desc')
-                                .orderBy('date', 'desc')
+                                .orderBy('isRead', 'asc')
+                                .orderBy('date', 'asc')
                                 .limit(10))
                             .valueChanges()
                             .subscribe(value => {
@@ -89,9 +89,9 @@ export class DashboardComponent implements OnInit, ComponentCanDeactivate  {
                             ref
                                 .where('isRead', '<=', false)
                                 .where('tags', 'array-contains', tag.id)
-                                .orderBy('isRead', 'desc')
-                                .orderBy('tags', 'desc')
-                                .orderBy('date', 'desc')
+                                .orderBy('isRead', 'asc')
+                                .orderBy('tags', 'asc')
+                                .orderBy('date', 'asc')
                                 .limit(10)
                         )
                             .valueChanges()
@@ -111,13 +111,13 @@ export class DashboardComponent implements OnInit, ComponentCanDeactivate  {
         this.focusedTag = tag;
         if (tag.id === 'all') {
             this.pagination.init(
-                'feedItems', ['isRead', 'date'], {limit: 10, reverse: true, prepend: false}, undefined,
+                'feedItems', ['isRead', 'date'], {limit: 10, reverse: false, prepend: false}, undefined,
                 {
                     fieldPath: 'isRead', opStr: '<=', value: false
                 });
         } else {
             this.pagination.init(
-                'feedItems', ['isRead', 'tags', 'date'], {limit: 10, reverse: true, prepend: false}, undefined,
+                'feedItems', ['isRead', 'tags', 'date'], {limit: 10, reverse: false, prepend: false}, undefined,
                 {
                     fieldPath: 'isRead', opStr: '<=', value: false
                 },

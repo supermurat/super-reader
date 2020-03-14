@@ -13,13 +13,12 @@ import { CookieLawModule } from 'angular2-cookie-law';
 import { APP_CONFIG, APP_UNIT_TEST_CONFIG } from '../app-config';
 import { AlertComponent } from '../components/alert/alert.component';
 import { FooterComponent } from '../components/footer/footer.component';
-import { PagerComponent } from '../components/pager/pager.component';
 import { SideBarComponent } from '../components/side-bar/side-bar.component';
 import { ScrollableDirective } from '../directives';
 import { NotFoundComponent } from '../pages/not-found/not-found.component';
 import {
     AlertService, AuthService, CarouselService, ConfigService, JsonLDService,
-    PagerService, PageService, PaginationService, SeoService
+    PageService, PaginationService, SeoService
 } from '../services';
 import { CustomHtmlComponent } from '../widgets/custom-html/custom-html.component';
 import { ActivatedRouteStub } from './activated-route-stub.spec';
@@ -38,7 +37,6 @@ export const activatedRouteStub = new ActivatedRouteStub();
         ScrollableDirective,
         FooterComponent,
         SideBarComponent,
-        PagerComponent,
         CustomHtmlComponent
     ],
     exports: [
@@ -47,7 +45,6 @@ export const activatedRouteStub = new ActivatedRouteStub();
         ScrollableDirective,
         FooterComponent,
         SideBarComponent,
-        PagerComponent,
         CustomHtmlComponent,
         FormsModule,
         LoadingBarModule,
@@ -68,7 +65,6 @@ export const activatedRouteStub = new ActivatedRouteStub();
         JsonLDService,
         AuthService,
         PaginationService,
-        PagerService,
         CarouselService,
         PageService,
         ConfigService,

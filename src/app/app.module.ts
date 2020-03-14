@@ -22,7 +22,6 @@ import { AppComponent } from './components/app/app.component';
 import { CarouselComponent } from './components/carousel/carousel.component';
 import { FooterComponent } from './components/footer/footer.component';
 import { NavMenuComponent } from './components/nav-menu/nav-menu.component';
-import { PagerComponent } from './components/pager/pager.component';
 import { SideBarComponent } from './components/side-bar/side-bar.component';
 import { ScrollableDirective } from './directives';
 import { ContactComponent } from './pages/contact/contact.component';
@@ -32,7 +31,7 @@ import { NotFoundComponent } from './pages/not-found/not-found.component';
 import { PlaygroundComponent } from './pages/playground/playground.component';
 import {
     AlertService, AuthService, CarouselService, ConfigService, JsonLDService,
-    PagerService, PageService, PaginationService, PendingChangesGuard, SeoService
+    PageService, PaginationService, PendingChangesGuard, SeoService
 } from './services';
 import { CustomHtmlComponent } from './widgets/custom-html/custom-html.component';
 
@@ -50,7 +49,6 @@ import { CustomHtmlComponent } from './widgets/custom-html/custom-html.component
         ScrollableDirective,
         FooterComponent,
         SideBarComponent,
-        PagerComponent,
         CarouselComponent,
         CustomHtmlComponent,
         ContactComponent,
@@ -84,7 +82,6 @@ import { CustomHtmlComponent } from './widgets/custom-html/custom-html.component
         JsonLDService,
         AuthService,
         PaginationService,
-        PagerService,
         CarouselService,
         PageService,
         ConfigService,
