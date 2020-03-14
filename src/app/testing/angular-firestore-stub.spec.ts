@@ -99,6 +99,43 @@ const angularFirestoreStubEmpty = {
                     tDataSnap = getFirestoreSnap(tData);
 
                     return {
+                        where(fieldPath2, opStr2, value2): any {
+                            tData = getArrayWhereByField(tData, fieldPath2, opStr2, value2);
+                            tDataSnap = getFirestoreSnap(tData);
+
+                            return {
+                                orderBy(fieldPath1): any {
+                                    const retVal = orderBy(fieldPath1, tData, limitNumberValue);
+                                    limitNumberValue = retVal.limitNumberValue;
+                                    delete retVal.limitNumberValue;
+
+                                    return retVal;
+                                },
+                                limit(limitNumber): any {
+                                    limitNumberValue = limitNumber;
+
+                                    return {
+                                        startAfter(startAfterDoc): any {
+                                            tData = getArrayStartAfterByDocument(tData, startAfterDoc);
+                                            tData = tData.slice(0, limitNumber);
+                                            tDataSnap = getFirestoreSnap(tData);
+
+                                            return {
+                                                snapshotChanges(): any {
+                                                    return from([tDataSnap]);
+                                                }
+                                            };
+                                        },
+                                        snapshotChanges(): any {
+                                            tData = tData.slice(0, limitNumber);
+                                            tDataSnap = getFirestoreSnap(tData);
+
+                                            return from([tDataSnap]);
+                                        }
+                                    };
+                                }
+                            };
+                        },
                         orderBy(fieldPath1): any {
                             const retVal = orderBy(fieldPath1, tData, limitNumberValue);
                             limitNumberValue = retVal.limitNumberValue;
