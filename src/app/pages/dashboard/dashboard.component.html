@@ -16,7 +16,7 @@
                 </div>
             </div>
         </div>
-        <div class="content content-preview" appScrollable (scrollPosition)="scrollHandler($event)">
+        <div id="item-list-body" class="content content-preview" appScrollable (scrollPosition)="scrollHandler($event)">
             <div [ngClass]="['card mb-4 flex-row flex-wrap', feedItem.isRead ? 'text-muted' : 'text-dark border-dark']" *ngFor="let feedItem of pagination.data | async; trackBy:pageService.trackByIndex" (mouseenter)="showPreview(feedItem)" (click)="showPreview(feedItem, true)">
                 <div class="row no-gutters">
                     <div class="col-auto">

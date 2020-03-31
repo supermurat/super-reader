@@ -125,6 +125,19 @@ export class DashboardComponent implements OnInit, ComponentCanDeactivate  {
                     fieldPath: 'tags', opStr: 'array-contains', value: tag.id
                 });
         }
+        if (document.getElementById('item-list-body')) {
+            if (isPlatformBrowser(this.platformId)) {
+                const scrollToTop = window.setInterval(() => {
+                    const pos = document.getElementById('item-list-body').scrollTop;
+                    if (pos > 0) {
+                        document.getElementById('item-list-body')
+                            .scrollTo(0, pos - 60); // how far to scroll on each step
+                    } else {
+                        window.clearInterval(scrollToTop);
+                    }
+                }, 16);
+            }
+        }
     }
 
     /**
