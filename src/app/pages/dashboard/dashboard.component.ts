@@ -181,6 +181,12 @@ export class DashboardComponent implements OnInit, ComponentCanDeactivate  {
             .subscribe(value => {
                 if (value.exists) {
                     feedItem.fullContent = value.data().fullContent;
+                    window.setTimeout(() => {
+                        this.fixImageSizes();
+                    }, 500);
+                    window.setTimeout(() => {
+                        this.fixImageSizes();
+                    }, 5000);
                 } else {
                     this.alert.error('There is no full content for this feed item.');
                 }
@@ -190,23 +196,15 @@ export class DashboardComponent implements OnInit, ComponentCanDeactivate  {
     /**
      * show feed item preview
      * @param feedItem: FeedItemModel
+     * @param force: force to preview
      */
     showPreview(feedItem: FeedItemModel, force?: boolean): void {
         if (!this.focusedItem || (this.focusedItem.link !== feedItem.link && (!this.focusedItem.fullContent || force))) {
             this.updateFeedItem(feedItem, {isRead: true});
             this.focusedItem = feedItem;
             this.focusedItem.tagList = this.tagList.filter(tag => this.focusedItem.tags.indexOf(tag.id) > -1);
-            if (isPlatformBrowser(this.platformId)) {
-                const scrollToTop = window.setInterval(() => {
-                    const pos = document.getElementById('focused-item-body').scrollTop;
-                    if (pos > 0) {
-                        document.getElementById('focused-item-body')
-                            .scrollTo(0, pos - 60); // how far to scroll on each step
-                    } else {
-                        window.clearInterval(scrollToTop);
-                    }
-                }, 16);
-            }
+            document.getElementById('focused-item-body')
+                .scrollTo(0, 0);
         }
     }
 
@@ -215,6 +213,7 @@ export class DashboardComponent implements OnInit, ComponentCanDeactivate  {
      * @param factor: scroll factor
      */
     scrollContent(factor: number): void {
+        this.stopScrollContent();
         if (isPlatformBrowser(this.platformId)) {
             this.scrollInterval = window.setInterval(() => {
                 const pos = document.getElementById('focused-item-body').scrollTop;
@@ -225,7 +224,7 @@ export class DashboardComponent implements OnInit, ComponentCanDeactivate  {
                 } else {
                     window.clearInterval(this.scrollInterval);
                 }
-            }, 10);
+            }, 16);
         }
     }
 
@@ -235,6 +234,21 @@ export class DashboardComponent implements OnInit, ComponentCanDeactivate  {
     stopScrollContent(): void {
         if (isPlatformBrowser(this.platformId) && this.scrollInterval) {
             window.clearInterval(this.scrollInterval);
+        }
+    }
+
+    /**
+     * fix image sizes
+     */
+    fixImageSizes(): void {
+        const itemBody = document.getElementById('focused-item-body');
+        const images = itemBody.getElementsByTagName('img');
+        // tslint:disable-next-line:prefer-for-of
+        for (let i = 0; i < images.length; i++) {
+            while (images[i].height > itemBody.clientHeight - 60) {
+                images[i].style.height = `${images[i].height - (images[i].height / 100)}px`;
+                images[i].style.width = `${images[i].width - (images[i].width / 100)}px`;
+            }
         }
     }
 

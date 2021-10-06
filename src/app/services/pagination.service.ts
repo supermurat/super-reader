@@ -77,6 +77,7 @@ export class PaginationService {
      * @param opts: options
      * @param isReset: do you want to reset before init?
      * @param where: WhereInterface
+     * @param where2: WhereInterface
      */
     init(path: string, field: string | Array<string>, opts?: any, isReset?: boolean,
          where?: WhereInterface, where2?: WhereInterface): void {
