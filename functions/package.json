@@ -1,7 +1,7 @@
 {
   "name": "functions",
   "engines": {
-    "node": "12"
+    "node": "10"
   },
   "scripts": {
     "lint": "tslint --project tsconfig.json",
