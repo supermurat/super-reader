@@ -28,7 +28,7 @@
     "cors": "2.8.5",
     "dotenv": "8.2.0",
     "firebase": "7.5.0",
-    "grpc": "~1.24.2",
+    "grpc": "~1.24.11",
     "helmet": "3.21.2",
     "helmet-csp": "2.9.4",
     "html2plaintext": "2.1.2",
