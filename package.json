@@ -87,7 +87,7 @@
     "classlist.js": "1.1.20150312",
     "core-js": "3.4.2",
     "firebase": "7.5.0",
-    "grpc": "~1.24.2",
+    "grpc": "~1.24.11",
     "protractor": "5.4.2",
     "rxjs": "6.5.3",
     "tslib": "1.10.0",
