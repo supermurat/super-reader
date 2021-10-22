@@ -29,6 +29,10 @@ export class DashboardComponent implements OnInit, ComponentCanDeactivate  {
     scrollInterval: any;
     /** css class of tag-cloud */
     tagCloudClass = 'tag-cloud';
+    /** scrolled imaged index */
+    scrolledImageIndex: 0;
+    /** image elements in content */
+    images: HTMLCollectionOf<HTMLImageElement> = undefined;
 
     /**
      * constructor of DashboardComponent
@@ -203,6 +207,8 @@ export class DashboardComponent implements OnInit, ComponentCanDeactivate  {
             this.updateFeedItem(feedItem, {isRead: true});
             this.focusedItem = feedItem;
             this.focusedItem.tagList = this.tagList.filter(tag => this.focusedItem.tags.indexOf(tag.id) > -1);
+            this.images = undefined;
+            this.scrolledImageIndex = 0;
             document.getElementById('focused-item-body')
                 .scrollTo(0, 0);
         }
@@ -215,16 +221,16 @@ export class DashboardComponent implements OnInit, ComponentCanDeactivate  {
     scrollContent(factor: number): void {
         this.stopScrollContent();
         if (isPlatformBrowser(this.platformId)) {
+            this.getImages();
             this.scrollInterval = window.setInterval(() => {
-                const pos = document.getElementById('focused-item-body').scrollTop;
-                const scrollHeight = document.getElementById('focused-item-body').scrollHeight;
-                if (pos > -1 && pos < scrollHeight) {
+                if ((factor >= 0 && this.images.length > this.scrolledImageIndex + 1) ||
+                    (factor < 0 && this.scrolledImageIndex > 0)) {
+                    const nextImage = this.images[this.scrolledImageIndex + (factor >= 0 ? 1 : -1)];
                     document.getElementById('focused-item-body')
-                        .scrollTo(0, pos + (factor)); // how far to scroll on each step
-                } else {
-                    window.clearInterval(this.scrollInterval);
+                        .scrollTo(0, nextImage.offsetTop - 40);
+                    this.scrolledImageIndex += (factor >= 0 ? 1 : -1);
                 }
-            }, 16);
+            }, factor < 0 ? factor * -1 : factor);
         }
     }
 
@@ -238,16 +244,26 @@ export class DashboardComponent implements OnInit, ComponentCanDeactivate  {
     }
 
     /**
+     * get images
+     */
+    getImages(): void {
+        if (!this.images) {
+            const itemBody = document.getElementById('focused-item-body');
+            this.images = itemBody.getElementsByTagName('img');
+        }
+    }
+
+    /**
      * fix image sizes
      */
     fixImageSizes(): void {
+        this.getImages();
         const itemBody = document.getElementById('focused-item-body');
-        const images = itemBody.getElementsByTagName('img');
         // tslint:disable-next-line:prefer-for-of
-        for (let i = 0; i < images.length; i++) {
-            while (images[i].height > itemBody.clientHeight - 60) {
-                images[i].style.height = `${images[i].height - (images[i].height / 100)}px`;
-                images[i].style.width = `${images[i].width - (images[i].width / 100)}px`;
+        for (let i = 0; i < this.images.length; i++) {
+            while (this.images[i].height > itemBody.clientHeight - 60) {
+                this.images[i].style.height = `${this.images[i].height - (this.images[i].height / 100)}px`;
+                this.images[i].style.width = `${this.images[i].width - (this.images[i].width / 100)}px`;
             }
         }
     }
