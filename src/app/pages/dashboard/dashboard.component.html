@@ -1,22 +1,29 @@
 <div class="row" *ngIf="page$ | async as page">
     <!-- Sidebar Widgets Column -->
     <aside [ngClass]="['col-md-4 col-sm-12 pt-2', focusedItem ? 'd-none d-sm-block' : '']">
-        <div class="card mb-2">
-            <div class="card-body pt-1 pb-0">
-                <div class="row">
-                    <div [ngClass]="tagCloudClass" (mouseover)="tagCloudClass='tag-cloud tag-cloud-hover'" (mouseout)="tagCloudClass='tag-cloud'">
-                        <ul>
-                            <li [ngClass]="[tag?.id == focusedTag?.id ? 'active' : '']" *ngFor="let tag of tagList; trackBy:pageService.trackByIndex">
-                                <a (click)="loadByTag(tag)">
-                                    <span>{{ tag.title }} ({{ tag.countOfUnreadText != undefined ? tag.countOfUnreadText: '?' }})</span>
-                                </a>
-                            </li>
-                        </ul>
+        <div class="float-right">
+            <button class="btn btn-sm btn-primary tag-cloud-collapse-btn" type="button" data-toggle="collapse" data-target="#collapse-tags" aria-expanded="false" aria-controls="collapseTags">
+                {{ focusedTag.title ? focusedTag.title : focusedTag.id }}
+            </button>
+        </div>
+        <div class="collapse mt-4" id="collapse-tags">
+            <div class="card">
+                <div class="card-body pt-1 pb-0">
+                    <div class="row">
+                        <div class="tag-cloud">
+                            <ul>
+                                <li [ngClass]="[tag?.id == focusedTag?.id ? 'active' : '']" *ngFor="let tag of tagList; trackBy:pageService.trackByIndex">
+                                    <a (click)="loadByTag(tag)">
+                                        <span>{{ tag.title }} ({{ tag.countOfUnreadText != undefined ? tag.countOfUnreadText: '?' }})</span>
+                                    </a>
+                                </li>
+                            </ul>
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
-        <div id="item-list-body" class="content content-preview" appScrollable (scrollPosition)="scrollHandler($event)">
+        <div id="item-list-body" class="content content-preview mt-4" appScrollable (scrollPosition)="scrollHandler($event)">
             <div [ngClass]="['card mb-4 flex-row flex-wrap', feedItem.isRead ? 'text-muted' : 'text-dark border-dark']" *ngFor="let feedItem of pagination.data | async; trackBy:pageService.trackByIndex" (mouseenter)="showPreview(feedItem)" (click)="showPreview(feedItem, true)">
                 <div class="row no-gutters">
                     <div class="col-auto">

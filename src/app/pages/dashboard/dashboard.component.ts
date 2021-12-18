@@ -27,8 +27,6 @@ export class DashboardComponent implements OnInit, ComponentCanDeactivate  {
     tagList: Array<TaxonomyModel>;
     /** scroll interval */
     scrollInterval: any;
-    /** css class of tag-cloud */
-    tagCloudClass = 'tag-cloud';
     /** scrolled imaged index */
     scrolledImageIndex: 0;
     /** image elements in content */
@@ -77,6 +75,9 @@ export class DashboardComponent implements OnInit, ComponentCanDeactivate  {
             .subscribe(tagList => {
                 this.tagList = tagList;
                 this.tagList.forEach(tag => {
+                    if (this.focusedTag.id === tag.id) {
+                        this.focusedTag = tag;
+                    }
                     if (tag.id === 'all') {
                         this.afs.collection<FeedItemModel>('feedItems', ref =>
                             ref
@@ -209,8 +210,10 @@ export class DashboardComponent implements OnInit, ComponentCanDeactivate  {
             this.focusedItem.tagList = this.tagList.filter(tag => this.focusedItem.tags.indexOf(tag.id) > -1);
             this.images = undefined;
             this.scrolledImageIndex = 0;
-            document.getElementById('focused-item-body')
-                .scrollTo(0, 0);
+            if (document.getElementById('focused-item-body')) {
+                document.getElementById('focused-item-body')
+                    .scrollTo(0, 0);
+            }
         }
     }
 
