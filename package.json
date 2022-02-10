@@ -125,7 +125,7 @@
     "karma-mocha-reporter": "~2.2.5",
     "karma-scss-preprocessor": "4.0.0",
     "ngx-i18nsupport": "~0.17.1",
-    "node-sass": "~4.13.0",
+    "node-sass": "~7.0.0",
     "popper.js": "~1.16.0",
     "remark-cli": "~7.0.1",
     "remark-lint": "~6.0.5",
