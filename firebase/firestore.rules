@@ -36,6 +36,9 @@ service cloud.firestore {
       allow read: if exists(/databases/$(database)/documents/users/$(request.auth.uid));
       allow create, update, delete: if false;
     }
+    match /feedItemsToGetFullContent/{document=**} {
+      allow create, update, read, delete: if exists(/databases/$(database)/documents/users/$(request.auth.uid));
+    }
     match /tags/{document=**} {
       allow read, update: if exists(/databases/$(database)/documents/users/$(request.auth.uid));
       allow create, delete: if false;
