@@ -525,11 +525,51 @@ export const clearOldRssFeedItems = async (snap: DocumentSnapshot, jobData: JobM
                     .then(() => {
                         processedDocCount++;
                     }))))
-        .then(async values =>
-            snap.ref.set({result: `Count of processed documents: ${processedDocCount}`}, {merge: true})
-                .then(() =>
-                    Promise.resolve(`clearOldRssFeeds is finished. Count of processed documents: ${processedDocCount}`)
-                )
+        .then(async values => {
+                if (snap) {
+                    return snap.ref.set({result: `Count of processed documents: ${processedDocCount}`}, {merge: true})
+                        .then(() =>
+                            Promise.resolve(`clearOldRssFeeds is finished. Count of processed documents: ${processedDocCount}`)
+                        );
+                }
+
+                return Promise.resolve();
+            }
+        );
+};
+
+/** clear feed items */
+export const clearFeedItems = async (snap: DocumentSnapshot, jobData: JobModel): Promise<any> => {
+    console.log('clearOldRssFeeds is started');
+    let processedDocCount = 0;
+    const eraDate = new Date();
+    eraDate.setDate(Number(eraDate.getDate()) - Number(jobData.customData.days)); // add days
+    if (!jobData.limit) {
+        jobData.limit = 5000;
+    }
+
+    return db.collection('feedItems')
+        .where('isKept', '==', false)
+        .where('isRead', '==', jobData.customData.isRead)
+        .where('date', '>', eraDate)
+        .limit(jobData.limit)
+        .get()
+        .then(async mainDocsSnapshot =>
+            Promise.all(mainDocsSnapshot.docs.map(async mainDoc =>
+                mainDoc.ref.delete()
+                    .then(() => {
+                        processedDocCount++;
+                    }))))
+        .then(async values => {
+                if (snap) {
+                    return snap.ref.set({result: `Count of processed documents: ${processedDocCount}`}, {merge: true})
+                        .then(() =>
+                            Promise.resolve(`clearOldRssFeeds is finished. Count of processed documents: ${processedDocCount}`)
+                        );
+                }
+
+                return Promise.resolve();
+            }
         );
 };
 

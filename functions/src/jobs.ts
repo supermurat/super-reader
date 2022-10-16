@@ -4,7 +4,7 @@ import * as functions from 'firebase-functions';
 import { DocumentSnapshot } from 'firebase-functions/lib/providers/firestore';
 
 import { FUNCTIONS_CONFIG } from './config';
-import { clearOldRssFeedItems, refreshFeeds } from './jobs-feed';
+import { clearFeedItems, clearOldRssFeedItems, refreshFeeds } from './jobs-feed';
 import { JobModel } from './models/';
 
 /** firestore instance */
@@ -67,6 +67,9 @@ export const jobRunner = functions
         }
         if (jobData.actionKey === 'clearOldRssFeedItems') {
             job = clearOldRssFeedItems(snap, jobData);
+        }
+        if (jobData.actionKey === 'clearFeedItems') {
+            job = clearFeedItems(snap, jobData);
         }
         if (job !== undefined) {
             return job
