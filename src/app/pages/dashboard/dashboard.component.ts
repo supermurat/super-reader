@@ -202,12 +202,16 @@ export class DashboardComponent implements OnInit, ComponentCanDeactivate  {
             .subscribe(value => {
                 if (value.exists) {
                     feedItem.fullContent = value.data().fullContent;
-                    window.setTimeout(() => {
-                        this.fixImageSizes();
-                    }, 500);
-                    window.setTimeout(() => {
-                        this.fixImageSizes();
-                    }, 5000);
+                    if (feedItem.fullContent && feedItem.fullContent.length > 0) {
+                        window.setTimeout(() => {
+                            this.fixImageSizes();
+                        }, 500);
+                        window.setTimeout(() => {
+                            this.fixImageSizes();
+                        }, 5000);
+                    } else {
+                        this.getFullContentOfFeedItem(feedItem);
+                    }
                 } else {
                     this.getFullContentOfFeedItem(feedItem);
                 }
