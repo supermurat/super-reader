@@ -116,7 +116,7 @@ export const scheduledJobRunnerClearOldRssFeedItems = functions
     .schedule('0 0 * * 0')
     .onRun(async context => {
         console.log('scheduledJobRunnerClearOldRssFeedItems is started');
-        const job = clearOldRssFeedItems(undefined, {limit: 10});
+        const job = clearOldRssFeedItems(undefined, {});
 
         return job
             .then(value => {

@@ -2,7 +2,8 @@ import * as admin from 'firebase-admin';
 import * as functions from 'firebase-functions';
 
 import { sendMail } from './helpers';
-import { ContactModel, PrivateConfigModel } from './models';
+import { createFullFeedItemAgain } from './jobs-feed';
+import { ContactModel, FeedItemModel, PrivateConfigModel } from './models';
 
 /** firestore instance */
 const db = admin.firestore();
@@ -123,6 +124,26 @@ export const newMessageTr = functions
     // tslint:disable-next-line:promise-function-async
     .onCreate((snap, context) =>
         sendMailForNewMessageTr(snap.data())
+            .then(value => {
+                console.log(value);
+
+                return value;
+            })
+            .catch(err => {
+                console.error('functions.onCreate', err);
+
+                return err;
+            })
+    );
+
+/** get full content trigger function */
+export const feedItemsToGetFullContent = functions
+    // .region('europe-west1')
+    .firestore
+    .document('feedItemsToGetFullContent/{feedItemId}')
+    // tslint:disable-next-line:promise-function-async
+    .onCreate((snap, context) =>
+        createFullFeedItemAgain(snap.data() as FeedItemModel)
             .then(value => {
                 console.log(value);
 

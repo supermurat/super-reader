@@ -176,6 +176,22 @@ export class DashboardComponent implements OnInit, ComponentCanDeactivate  {
     }
 
     /**
+     * trigger to get full content of feed item
+     * @param feedItem: FeedItemModel
+     */
+    getFullContentOfFeedItem(feedItem: FeedItemModel): void {
+        this.afs.collection('feedItemsToGetFullContent')
+            .doc(feedItem.id)
+            .set(feedItem, {merge: true})
+            .then(value => {
+                this.alert.success('We will try to get full content. Please wait for a few seconds to click again!');
+            })
+            .catch(reason => {
+                this.alert.error(reason);
+            });
+    }
+
+    /**
      * load full content of feed item
      * @param feedItem: FeedItemModel
      */
@@ -193,7 +209,7 @@ export class DashboardComponent implements OnInit, ComponentCanDeactivate  {
                         this.fixImageSizes();
                     }, 5000);
                 } else {
-                    this.alert.error('There is no full content for this feed item.');
+                    this.getFullContentOfFeedItem(feedItem);
                 }
             });
     }

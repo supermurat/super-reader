@@ -326,7 +326,7 @@ const createFullFeedItem = async (sourceMainDocData: FeedModel, feedItem: FeedIt
                 .then(fullContent => {
                     db.collection('feedItemsFull')
                         .doc(documentID)
-                        .set({fullContent}, {merge: true})
+                        .set({fullContent, date: new Date()}, {merge: true})
                         .then(valueOfFull => {
                             resolve({fullContent});
                         })
@@ -532,3 +532,33 @@ export const clearOldRssFeedItems = async (snap: DocumentSnapshot, jobData: JobM
                 )
         );
 };
+
+/** create full feed item again */
+export const createFullFeedItemAgain = async (feedItem: FeedItemModel): Promise<FeedItemModel> =>
+    new Promise((resolve, reject): void => {
+        db.collection('feeds')
+            .where('isActive', '==', true)
+            .get()
+            .then(async mainDocsSnapshot =>
+                Promise.all(mainDocsSnapshot.docs.map(async mainDoc => {
+                    const mainDocData = mainDoc.data() as FeedModel;
+                    for (const domain of mainDocData.domains) {
+                        if (feedItem.link.indexOf(domain) > -1) {
+                            const documentID = getDocumentID(feedItem);
+                            createFullFeedItem(mainDocData, feedItem, documentID)
+                                .catch(reason => {
+                                    reject(reason);
+                                });
+
+                            return Promise.resolve();
+                        }
+                    }
+
+                    return Promise.reject("Couldn't find feed record for this feed item. Please check for domains.");
+                })))
+            .catch(err => {
+                console.error('createFullFeedItemAgain', err);
+
+                return err;
+            });
+    });

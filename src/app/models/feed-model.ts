@@ -34,4 +34,6 @@ export class FeedModel {
     clearSummaryContentConfig?: ClearFullContentConfigModel;
     /** tag rule regexps */
     tagRules?: Array<MyRegExpModel>;
+    /** domains */
+    domains?: Array<string>;
 }
