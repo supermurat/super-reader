@@ -180,9 +180,13 @@ export class DashboardComponent implements OnInit, ComponentCanDeactivate  {
      * @param feedItem: FeedItemModel
      */
     getFullContentOfFeedItem(feedItem: FeedItemModel): void {
+        // tslint:disable-next-line:no-null-keyword
+        if (!feedItem.link) { feedItem.link = null; }
+        // tslint:disable-next-line:no-null-keyword
+        if (!feedItem.origlink) { feedItem.origlink = null; }
         this.afs.collection('feedItemsToGetFullContent')
             .doc(feedItem.id)
-            .set(feedItem, {merge: true})
+            .set({link: feedItem.link, origlink: feedItem.origlink, title: feedItem.title}, {merge: true})
             .then(value => {
                 this.alert.success('We will try to get full content. Please wait for a few seconds to click again!');
             })

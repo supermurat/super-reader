@@ -505,7 +505,7 @@ export const refreshFeeds = async (snap: DocumentSnapshot, jobData: JobModel): P
 
 /** clear old rss feed items */
 export const clearOldRssFeedItems = async (snap: DocumentSnapshot, jobData: JobModel): Promise<any> => {
-    console.log('clearOldRssFeeds is started');
+    console.log('clearOldRssFeedItems is started');
     let processedDocCount = 0;
     const eraDate = new Date();
     eraDate.setDate(Number(eraDate.getDate()) - Number(30)); // add days
@@ -529,7 +529,7 @@ export const clearOldRssFeedItems = async (snap: DocumentSnapshot, jobData: JobM
                 if (snap) {
                     return snap.ref.set({result: `Count of processed documents: ${processedDocCount}`}, {merge: true})
                         .then(() =>
-                            Promise.resolve(`clearOldRssFeeds is finished. Count of processed documents: ${processedDocCount}`)
+                            Promise.resolve(`clearOldRssFeedItems is finished. Count of processed documents: ${processedDocCount}`)
                         );
                 }
 
@@ -540,7 +540,7 @@ export const clearOldRssFeedItems = async (snap: DocumentSnapshot, jobData: JobM
 
 /** clear feed items */
 export const clearFeedItems = async (snap: DocumentSnapshot, jobData: JobModel): Promise<any> => {
-    console.log('clearOldRssFeeds is started');
+    console.log('clearFeedItems is started');
     let processedDocCount = 0;
     const eraDate = new Date();
     eraDate.setDate(Number(eraDate.getDate()) - Number(jobData.customData.days)); // add days
@@ -564,7 +564,7 @@ export const clearFeedItems = async (snap: DocumentSnapshot, jobData: JobModel):
                 if (snap) {
                     return snap.ref.set({result: `Count of processed documents: ${processedDocCount}`}, {merge: true})
                         .then(() =>
-                            Promise.resolve(`clearOldRssFeeds is finished. Count of processed documents: ${processedDocCount}`)
+                            Promise.resolve(`clearFeedItems is finished. Count of processed documents: ${processedDocCount}`)
                         );
                 }
 
@@ -586,6 +586,14 @@ export const createFullFeedItemAgain = async (feedItem: FeedItemModel): Promise<
                         if (feedItem.link.indexOf(domain) > -1) {
                             const documentID = getDocumentID(feedItem);
                             createFullFeedItem(mainDocData, feedItem, documentID)
+                                .then(value => {
+                                    db.collection('feedItems')
+                                        .doc(documentID)
+                                        .set({title: `${feedItem.title} *`}, {merge: true})
+                                        .catch(reason => {
+                                            reject(reason);
+                                        });
+                                })
                                 .catch(reason => {
                                     reject(reason);
                                 });
